@@ -1,0 +1,322 @@
+<include file="Index:head" />
+<div ng-view="" class="ng-scope"><style class="ng-scope">
+    body {
+        background-color: #e9e9e9;
+        font-size: 14px;
+    }
+
+    .inner .pure-g {
+        padding: 0 10px;
+        line-height: 42px;
+        min-height: 42px;
+    }
+
+    .inner img {
+        vertical-align: middle;
+    }
+
+    .inner .pure-g {
+        background-color: white;
+    }
+
+    .icon-arrow-right {
+        background: transparent url("/img/更多.png") no-repeat right center;
+    }
+
+    .icon-arrow-right .txt {
+        margin-right: 16px;
+        text-align: right;
+        color: #929292;
+    }
+
+    .border-bottom {
+        border-bottom: 1px solid #EBEBEB;
+    }
+
+    .address {
+        color: #929292;
+    }
+
+    .tabbar {
+        color: #E07A1D;
+    }
+
+    .tabbar .inner {
+        line-height: 49px;
+        padding: 0 10px;
+    }
+
+    .tabbar .price {
+        font-size: 22px;
+        font-weight: 600;
+    }
+
+    .tabbar .inner .button {
+        width: 60px;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        background-color: #E07A1D;
+        border: none;
+        border-radius: 4px;
+        display: inline-block;
+        height: 40px;
+        margin-top: 2px;
+        line-height: 40px;
+        padding: 0 10px;
+    }
+
+    .tabbar .inner .button:hover {
+        background-color: #ff644e;
+    }
+
+    a {
+        color: black;
+    }
+
+    .inner .link-address .pure-g {
+        line-height: 42px;
+        min-height: 42px;
+    }
+    .used-youhui {
+        display: block;
+        height: 45px;
+        background: #fff;
+        line-height: 45px;
+        background: url("/img/更多.png") no-repeat center right;
+        background-size: auto 30%;
+        background-color:#fff;
+    }
+    .used-youhui:link,.used-youhui:hover,.used-youhui:visited{
+        background-color: #fff;
+    }
+    .black-line{
+        height: 15px;
+        background: #e9e9e9;
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+</style>
+
+<div class="content content-tabbar-padding ng-scope">
+    <div class="tips2 ng-scope ng-hide" ng-controller="scopeCtrl" ng-show="false">
+        <a href="{:idlname(lmdid(3,'id'))}">
+            <span class="ng-binding ng-scope">
+            {:lmdid(3,'cntitle')}
+			</span>
+        </a>
+    </div>
+    <div class="inner">
+    
+        <a href="#" class="link-address">
+            
+            <div class="pure-g ng-scope" ng-if="!address.name.length">
+                <div class="pure-u-3-24">
+                    <img src="/img/地址.png" width="20" height="20">
+                </div>
+                <div class="pure-u-21-24 icon-arrow-right">
+                    <div class="txt-left">
+                    	<input type="hidden" name="aid" id="orderaid" value="{$aid}" />
+                        <eq name='address.addr2' value=''>未选择地址<else/>{$address.addr2}</eq>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <p></p>
+
+        <div class="pure-g" ng-click="fromwhere()">
+            <div class="pure-u-3-24">
+                <img src="/img/自提点.png" width="20" height="20">
+            </div>
+            <div class="pure-u-21-24 icon-arrow-righ">
+                自提点：{$peisong.z1}
+            </div>
+        </div>
+        <p></p>
+        
+        
+        <div class="pure-g" ng-click="fromwhere()">
+            <div class="pure-u-3-24">
+                <img src="img/自提点.png" width="20" height="20">
+            </div>
+            <div class="pure-u-21-24 icon-arrow-righ">
+                提货日期：
+                <php>
+                $h=date('Hi');
+                if ($h<1430)
+                {
+                	echo date('Y-m-d');
+                }
+                else
+                {
+                	echo date('Y-m-d',time()+24*3600);
+                }
+                </php>
+                
+            </div>
+        </div>
+        <p></p>
+
+
+        <volist name='lists' id='vos'>
+        <php>
+        $pro=M("info")->where("id='".$vos['pid']."' and audit='1'")->find();
+        $money+=$pro['s1']*$vos['num'];
+        </php>
+        <div class="pure-g border-bottom ng-scope">
+            <div class="pure-u-16-24">
+                <span class="ng-binding">{$pro.cntitle}</span>
+                <span class="ng-binding">{$pro.bz3}</span>
+            </div>
+            <div class="pure-u-8-24 text-right">
+                ¥ <span style="display:inline-block;margin-right:16px;" class="ng-binding">
+                {$pro.s1|doubleval}*{$vos.num}
+                </span>
+            </div>
+        </div>
+        </volist>
+
+        
+        <p></p>
+        
+        <div style="background: #fff;padding: 0 10px;clear: both"  class="ng-scope">
+        <php>
+        $nmoney=ceil($money);
+        $myhui=M("user_coupon");
+        $myarr=$myhui->where("uid='$user_id' and state='0' and del='0'")->select();
+        </php>
+        	
+            <php>
+            if (!$myarr)
+            {
+            </php>
+                <span style="float:left">优惠券</span>
+                <span style="float:right;margin-right:13px;color:#999;font-size:12px">
+                没有优惠券
+                </span>
+            <php>
+            }
+            else
+            {
+            $time=time();            
+            $isid=$myhui->where("id='".$yid."' and uid='$user_id' and state='0' and del='0'")->find();
+           // echo $myhui->GetLastSql();
+            if ($isid)
+            {
+           	 $juan=M("youhui")->where("id='".$isid['yid']."' and s2<='$nmoney' and state='0' and s3>'$time'")->find();
+            }
+            $numx=0;
+            if (!$juan)
+            {
+                //根据订单查看是否有可用的优惠劵
+                foreach ($myarr as $ky)
+                {
+                   
+                    $you=M("youhui")->where("id='".$ky['yid']."' and s2<='$nmoney' and state='0' and s3>'$time'")->find();
+                    if ($you)
+                    {
+                    	$numx++;
+                    }
+                }
+            }
+            else
+            {
+            	$numx=1;
+            }
+            </php>
+            
+            <a class="used-youhui">
+                <span style="float: left">优惠券</span>
+                <eq name='numx' value='0'>
+                <span style="float:right;margin-right:13px;color:#999;font-size:12px">
+                没有优惠券可用
+                </span>
+                <else/>
+                <php>
+                if (!$juan)
+                {
+                </php>
+                <span style="float:right;margin-right:13px;color:#999;font-size:12px" class="ng-binding">
+                {$numx}张优惠券可用
+                </span>
+                <php>
+                }
+                else
+                {
+                $money-=$juan['s1'];
+                </php>
+                <input type="hidden" name="yid" value="{$yid}" />
+                <span style="float:right;margin-right:13px;color:#999;font-size:12px;color: #ff644e">
+                -￥<span class="ng-binding">{$juan['s1']}</span>
+                </span>
+                
+                <span style="float:right;margin-right:13px;color:#999;font-size:12px" class="ng-binding">
+                {$juan['z1']}
+                </span>
+                
+                <php>
+                }
+                </php>
+                </eq>
+            </a>
+            <php>
+            }
+            </php>
+            <div class="black-line"></div>
+        </div>
+        
+        
+        <div class="pure-g">
+            <div class="pure-u-1-1">
+                <b>支付方式</b>
+            </div>
+        </div>
+        <div class="pure-g" style="padding-bottom: 10px;">
+            <div class="pure-u-3-24">
+                <img src="/img/微信.png" width="32">
+            </div>
+            <div class="pure-u-15-24">
+                微信支付
+            </div>
+            <div class="pure-u-6-24 text-right">
+                <img src="/img/选择.png" width="24">
+            </div>
+        </div>
+        <php>
+        if ($juan)
+        {
+        </php>
+        <p style="color: #666;padding: 0 10px;font-size: 13px">
+        单笔订单大于<span class="ng-binding">
+        <font id="smoney">{$juan['s2']}</font>.00</span>
+        元，随机发放优惠券。优惠劵可以直接抵用订单金额，单笔订单金额越大优惠券面额越大。
+        </p>
+        <php>
+        }
+        </php> 
+    </div>
+</div>
+<div class="tabbar ng-scope">
+    <div class="inner pure-g">
+        <div class="pure-u-3-5">
+        <a href="#no" onclick="return callpay();" class="button" style="background:#15A05C">重新支付</a>　
+        
+            应付
+            &nbsp;
+            ¥ <span class="price ng-binding">{$money}</span>
+        </div>
+        <eq name='aid' value='0'><else/>
+        <div class="pure-u-2-5 text-right">
+        	<a href="/" id="paymoney" class="button">返回首页</a>
+        </div>
+        </eq>
+    </div>
+</div></div>
+
+<script type="text/javascript">
+callpay();
+</script>
+
+</body>
+</html>

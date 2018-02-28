@@ -1,0 +1,87 @@
+<include file="Public:head" />
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 优惠劵管理</li>
+        <li><a href="?m=youhui">优惠劵管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head">
+            <strong><i class="icon-edit"></i></strong>
+            <small>{$actionType}优惠劵管理</small>
+        </h2>
+<div class="table-responsive">
+
+<style type="text/css">ul,li{ list-style:none; padding:0; margin:0;}.fileup a{ color:#005995; font-size:12px;}.fileup a:hover{ color:#f00;}.fileup li{ float:left; margin:2px;padding:0 4px;border:1px solid #ddd; text-align:center; padding:2px; height:110px; overflow:hidden;}.seoxx{ display:none;}
+.fileup div{ width:110px; overflow:hidden; padding:4px 0 0 0;}.rt{ float:right;}.fileup img{ width:80px; height:80px;}</style>
+<link rel="stylesheet" href="__PUBLIC__/qm/themes/default/default.css" />
+<link rel="stylesheet" href="__PUBLIC__/qm/plugins/code/prettify.css" />
+<script charset="utf-8" src="__PUBLIC__/qm/kindeditor.js"></script>
+<script charset="utf-8" src="__PUBLIC__/qm/lang/zh_CN.js"></script>
+<script charset="utf-8" src="__PUBLIC__/qm/plugins/code/prettify.js"></script>
+
+<form id="ddds" action="?m=youhui&a=save" onsubmit="return save()" class="form-horizontal">
+<input type="hidden" name="id" value="{$id}" />
+<table class="curve_mid" border="0" cellpadding="2" cellspacing="2">
+    <tr>
+      <td width="100" align="right">　优惠劵产品：</td>
+      <td><select class="form-control wat" name="fid" id="fid">
+			<php>
+            $arrs=M("info")->where("CONCAT(',', fidpath, ',') like '%,1,%'")->Field("id,cntitle")->select();
+            </php>
+            <volist name='arrs' id='ky'>
+            	<option value="{$ky.id}">{$ky.cntitle}</option>
+            </volist>
+      	</select>
+		</td>
+    </tr>
+	<tr>
+	<td align="right">　属性：</td>
+	<td>
+     <input name="audit" id="audit" type="checkbox" value="1"<eq name="audit" value='1'>  checked="checked" <else/></eq> />启用 </td>
+
+	</tr>
+      <tr>
+      	<td align="right">　有效时间：</td>
+        <td><input class="form-control w180 Wdate" name="Time" id="Time" value="{$vo.addtime|date='Y-m-d',###}" size="15"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" readonly="readonly"/> 
+        </td>
+    </tr>
+    <tr>
+      <td align="right">　优惠劵名称：</td>
+      <td><input required="required" class="form-control b50" id="attr" name="attr" value="{$vo.attr}" size="80" /> <span class="red">*</span></td>
+    </tr>
+    <tr>
+      <td align="right">　数量：</td>
+      <td><input class="form-control b50" id="num" name="num" value="{$vo.num}" /> </td>
+    </tr>
+
+	<tr>
+      <td align="right">　优惠劵图：</td>
+      <td align="left" valign="top">
+      <input class="form-control b50" id="Img" name="img" value="{$vo['img']}" size="30" /> 
+      </td>
+    </tr>
+ 
+    <tr>
+      <td align="right">　备注：</td>
+      <td><input required="required" class="form-control b30"name="bz" value="{$vo.bz}" size="80" /></td>
+    </tr>
+   
+    <tr class="no">
+      <td colspan="2" align="center">
+        <button id="btn_sub" type="submit" class="btn btn-primary"><i class="icon-ok"></i>保 存</button>　　<button type="button" class="btn btn-default" onClick="location.href='?m=lists&lm={$fid}';"><i class="icon-reply"></i>返 回</button></td>
+    </tr>
+</table>
+</form>
+<style type="text/css">.fileup a{ color:#000; font-size:12px;}.fileup a:hover{ color:#f00;}
+	.fileup div{ width:110px; overflow:hidden; padding:4px 0 0 0;}.rt{ float:right;}.fileup img{ width:80px; height:80px;}</style> 
+<div id="curve_bottom"></div>
+<script type="text/javascript" src="__PUBLIC__/sys/js/lists.js"></script>
+<script type="text/javascript">
+$(window).load(function(){
+
+});
+</script>
+
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+<include file="Public:foot" />

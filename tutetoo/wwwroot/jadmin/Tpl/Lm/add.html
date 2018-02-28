@@ -1,0 +1,240 @@
+<include file="Public:head" />
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 网站栏目</li>
+        <li><a href="?m=lm">栏目管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-edit"></i></strong><small>{$action}栏目</small></h2>
+        
+
+
+
+<form id="ddds" action="?m=lm&a=save" class="form-horizontal">
+<input type="hidden" name="id" value="{$id}" />
+  
+<table class="curve_mid" border="0" cellpadding="2" cellspacing="2">
+<tr class="hide">
+    <td width="123">　上级目录：</td>
+    <td><select id="lm" name="fid" class="form-control" >
+		<option value="0">根目录</option>
+        {$lmoption}
+      </select> <span class="red">*</span>
+	  <script type="text/javascript">
+	  $("#lm option[value={$vo['fid']}").attr("selected","selected");
+	  </script>
+	</td>
+  </tr>
+    <tr<eq name='id' value='0'><else/> style=" display:none"</eq>>
+    <td width="123">　栏目属性：</td>
+    <td>
+    <span style="display:none"><input type="radio" checked="checked" value="1" name="isshow" id="isshow1" /><label for="isshow1">显示</label><input type="radio" name="isshow" value="0" id="isshow0" /><label for="isshow0">隐藏</label></span><input type="checkbox" name="kdel" id="kdel" value="1"<eq name="kdel" value='1'>  checked="checked" <else/></eq> /><label for="kdel">不可删除</label> (保存后不可更改)
+     </td>
+  </tr>
+   <tr class="hides">
+    <td class="red" align="">　展示类型：</td>
+    <td><input type="radio" name="tys" value="1" id="ty1" onclick="$('#urls').hide();" /><label for="ty1">新闻列表</label> 
+    <input type="radio" name="tys" value="2" id="ty2" onclick="$('#urls').hide();" /><label for="ty2">图片列表</label>
+ <input type="radio" name="tys" value="3" id="ty3" onclick="$('#urls').hide();" /><label for="ty3">文章</label> 
+    <input type="radio" name="tys" value="4" id="ty4" onclick="$('#urls').show();" /><label onclick="$('#urls').show();" for="ty4">外链</label> 
+	<script type="text/javascript">$("#ty{$ty}").attr("checked","checked");</script>
+    </td>
+  </tr>       
+   <tr>
+    <td class="red"><div style="width:103px;">　栏目名称：</div></td>
+    <td ><input required="required" class="form-control b30"  id="cntitle" name="cntitle" value="{$vo['cntitle']}" size="35" /> <span class="red">*</span>
+      栏目排序:<input size="10" class="form-control w30_" id="sort" name="sort" value="{$vo['sort']}" /> <span class="red">*</span> （由低 -> 高）</td>
+      </tr>
+  
+   <tr class="hide">
+    <td class="redx">　英文名称：</td>
+    <td><input class="form-control b30" id="Additional" name="Additional" value="{$vo['Additional']}" size="35" /></td>  
+  <php>
+  if ($vo['fid']==1 || $fid==1)
+  {
+  </php>    
+  <tr>
+    <td class="redx">　背景颜色：</td>
+    <td>
+    <input class="form-control b30" id="dtitle" name="dtitle" value="{$vo['dtitle']}" size="35" />
+	<select class="form-control wat" onchange="$('#dtitle').val($(this).val())">
+        <option value="">自动</option>
+         {$getcoloroption}
+        </select>
+    </td>
+  </tr>
+  
+  <tr>
+      <td>　栏目图标：</td>
+      <td>
+      <input class="form-control b30"  type="text" id="url1" name="img" value="{$vo['img']}" size="40" /> <input type="button" id="image1" class="btn btn-primary" value="上传" /> <span class="red">24px*24px</span></td>
+    </tr>
+  </tr>
+  <php>
+  }
+  </php>
+
+
+   <tr class="hides">
+    <td class="reds">　栏 目 图：</td>
+    <td ><input class="form-control b30"  type="text" id="entitle" name="entitle" value="{$vo['entitle']}" size="40" /> <input type="button" class="btn btn-primary" id="zs2" value="上传" />
+    
+    <php>
+    if ($vo['id']==2 || $vo['id']==34 || $vo['id']==36 || $vo['id']==39)
+    {
+    </php>
+    <span class="red">  图片大小：195*176px</span>
+    <php>
+    }
+    if ($vo['id']==35)
+    {
+    </php>
+    <span class="red">  图片大小：195*176px</span>
+    <php>
+    }
+    </php>
+    </td>
+  </tr>
+  <tr id="urls" class="hide">
+    <td id="url" align="left">　外链地址：</td>
+    <td><input class="form-control b50"  id="urls2" name="url" value="{$vo['url']}" size="60" /></td>
+  </tr>
+  
+  <tr>
+    <td>　网站url：</td>
+    <td>路径<input class="form-control b25"  name="urlpath" value="{$vo['urlpath']}" size="60" /> 文件名<input class="form-control b25"  name="weburl" value="{:str_replace($vo['urlpath'],'',$vo['weburl'])}" size="60" />
+    <span class="red">*</span></td>
+  </tr>  
+
+<php>
+if ($fid==1)
+{
+$ad=M("lm_ad")->where("pid='$id'")->find();
+</php>
+
+   <tr>
+    <td class="reds">　首页广告图：</td>
+    <td ><input class="form-control b25"  type="text" id="adimg" name="adimg" value="{$ad['img']}" size="40" /> <input type="button" class="btn btn-primary" value="上传" onclick="oneup('adimg')" />
+     <span class="red">  图片大小：255*597px</span></td>
+  </tr>
+  <tr>
+    <td id="url" align="left">　广告链接：</td>
+    <td><input class="form-control b50"  id="adurl" name="adurl" value="{$ad['url']}" size="60" /></td>
+  </tr>
+<php>
+}
+</php>
+
+<style type="text/css">ul,li{ list-style:none; padding:0; margin:0;}.fileup a{ color:#005995; font-size:12px;}.fileup a:hover{ color:#f00;}.fileup li{ float:left; margin:2px;padding:0 4px;border:1px solid #ddd; text-align:center; padding:2px; height:110px; overflow:hidden;}.seoxx{ display:none;}.fileup div{ width:110px; overflow:hidden; padding:4px 0 0 0;}.rt{ float:right;}.fileup img{ width:80px; height:80px;}.fileup a{ color:#000; font-size:12px;}.fileup a:hover{ color:#f00;}.fileup div{ width:110px; overflow:hidden; padding:4px 0 0 0;}.rt{ float:right;}.fileup img{ width:80px; height:80px;}</style> 
+
+     <tr class="hides">
+        <td align="left">　banner图：</td>
+        <td valign="top" style="padding-top:10px; padding-bottom:10px; background:#fff;">
+        <table border="0" cellpadding="0" style="background:#fff;" cellspacing="3" align="left" width="98%">
+          <tr><td><div><ul class="fileup" id="fileup">
+<php>
+$bz1=$vo['imglist'];
+if($bz1!="" && $bz1!="0")
+{
+$upfiles=$bz1;
+$temp="";
+$sarr=explode(",",$upfiles);
+$num=count($sarr);
+for ($i=0;$i<$num;$i++)
+{
+  if ($sarr[$i]!="")
+  {
+      $temp.='<li><img src="'.$sarr[$i].'" /><div><a href="#" class="rt">删除图片</a><a href="#">修改图片</a></div></li>';
+  }
+}
+echo $temp;
+}
+</php></ul></div></td>
+          </tr>
+          <tr class="hides">
+            <td><input class="btn btn-primary" type="button" id="dolist" value="上传图片" />
+            <input type="hidden" name="imglist" id="imglist" value="{$vo.imglist}" /></td>
+            </tr>
+        </table></td>
+      </tr>
+
+  <tr>
+    <td>　网站标题：</td>
+    <td><input class="form-control b80"  name="title" value="{$vo['title']}" size="60" /></td>
+  </tr>  
+  <tr>
+    <td>　关 键 字：</td>
+    <td><input class="form-control b80"  name="keywords" value="{$vo['keywords']}" size="60" /></td>
+  </tr>
+  <tr>
+    <td>　网站描述：</td>
+    <td>
+      <textarea class="form-control b80" name="description" cols="70" rows="5">{$vo['description']}</textarea>
+	</td>
+  </tr>
+  
+  <tr class="no">
+  <td></td>
+    <td>
+    <button id="btn_sub" type="submit" class="btn btn-primary"><i class="icon-ok"></i>保 存</button>　
+    <button type="button" class="btn btn-default" onclick="location.href='?m=lm&lm={$fid}';"><i class="icon-reply"></i>返 回</button></td>
+    </tr>
+</table>
+</form>
+<link rel="stylesheet" href="__PUBLIC__/qm/themes/default/default.css" />
+		<script src="__PUBLIC__/qm/kindeditor.js"></script>
+		<script src="__PUBLIC__/qm/lang/zh_CN.js"></script>
+		<script>
+			KindEditor.ready(function(K) {
+				var editor = K.editor({
+					allowFileManager : true
+				});
+				K('#image1').click(function() {
+					editor.loadPlugin('image', function() {
+						editor.plugin.imageDialog({
+							imageUrl : K('#url1').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#url1').val(url);
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+				K('#zs2').click(function() {
+					editor.loadPlugin('image', function() {
+						editor.plugin.imageDialog({
+							imageUrl : K('#entitle').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#entitle').val(url);
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+			});
+		</script>
+<script type="text/javascript">
+<eq name='ty' value='4'><else/>$('#urls').hide(0);</eq>
+$(function(){
+	$("#isshow{$vo['isshow']}").attr("checked",true);
+  	$("#ty{$vo['ty']}").attr("checked",true);
+});
+</script>
+<script src="__PUBLIC__/sys/js/lists.js"></script>
+<script type="text/javascript">
+$('.seoxx').toggle();
+$('.seoxx').hide();
+$(window).load(function(){
+
+});
+function savex()
+{
+	var imgs=imgval("fileup");
+	if (imgs!=""){$("#imglist").val(imgs);}
+}
+setInterval('savex()',200);
+</script>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+<include file="Public:foot" />

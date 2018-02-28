@@ -1,0 +1,101 @@
+<php>
+$t_do='?m=comment&a=doact';
+$t_attr='?m=comment&a=attr';
+</php>
+<include file="Public:head" />
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 评论管理</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>评论管理</small></h2>
+<script type="text/javascript">
+function selsearch()
+{
+var desc=$("input[name=desc]:checked").val();
+var order=$("#Order").val();
+$.cookie("comment_Order",order);
+$.cookie("comment_desc",desc);
+
+var time1=$("#time1").val();
+var time2=$("#time2").val();
+$.cookie("c_time1",time1);
+$.cookie("c_time2",time2);
+
+location.href="?m=comment&key="+$("#key").val();
+return false;
+}
+</script>
+
+<table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="6">
+    <form onsubmit="return selsearch()">　
+		
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" style=" width:170px;" class="form-control wat" />
+          
+时间范围<input type="text" style=" width:120px;" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="time1" value="{$time1}"  class="form-control wat" />-<input type="text" style=" width:120px;" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="time2" value="{$time2}"  class="form-control wat" />
+
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="id">按编号</option>
+            <option value="addtime">按时间</option>
+            <option value="z1">姓名</option>
+            <option value="z2">电话</option>
+            <option value="z3">邮箱</option>
+          </select>               
+         
+        <input type="radio" id="BDasc" name="desc" value="asc" onclick="selsearch()" /> <label for="BDasc">升序</label>
+           <input type="radio" id="BDdesc" name="desc" value="desc" onclick="selsearch()" /> <label for="BDdesc">降序</label>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+  <tr class="no">
+  	<th></th>
+    <th>ID</th>    
+    <th align="center"><div style=" min-width:218px; max-width:318px;">活动名称</div></th>
+    <th align="center">评论账号</th>
+    <th align="center"><div style=" min-width:220px; max-width:418px;">评论内容</div></th>
+    <th align="center">提交时间</th>
+  </tr>
+  <tbody>
+		<php>
+        $mtb1=M("info");
+        $mtb2=M("user");
+        </php>
+      <volist name='lists' id='vo'>
+      <php>
+      	$title=$mtb1->where("id='".$vo['pid']."'")->getField("cntitle");
+        $uname=$mtb2->where("user_id='".$vo['uid']."'")->getField("user_name");
+      </php>
+		<tr>
+		  <td><input name="Id" id="ID_{$vo.id}" type="checkbox" value="{$vo.id}" class="checkid" /></td>
+		  <td align="center"><div style="width:30px;">{$vo.id}</div></td>
+		  <td align="center">{$title}<eq name='vo.audit' value='0'><span class="red">[未审核]</span></eq></td>
+		  <td align="center"><div style="width:80px;">{$uname}</div></td>
+          <td align="center">{$vo.content}</td>
+		  <td align="center"><div style="width:130px;">{$vo.addtime|date='Y-m-d H:i:s',###}</div></td>	 
+		</tr>
+    </volist>
+	</tbody>
+    <tr class="no">
+    	<td> </td>
+      <td colspan="5" align="left">
+      <label class="foot-label"><input type="checkbox" name="checkall" value="0"> 全选</label>
+        <button class="btn btn-primary" onclick="shen1()">审核通过</button>
+        <button class="btn btn-primary" onclick="shen2()">审核失败</button>
+        <button class="btn btnd" onclick="delseled()">刪除</button>
+      </td>
+    </tr>
+    <tr class="no">
+    <td colspan="6" align="center" class="page"> {$page}{$selectpg}</td>
+    </tr>
+</table>
+</div></div>
+<include file="Public:foot" />

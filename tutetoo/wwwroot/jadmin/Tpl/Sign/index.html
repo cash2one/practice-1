@@ -1,0 +1,97 @@
+<php>
+$t_do='?m=sign&a=doact';
+$t_attr='?m=sign&a=attr';
+</php>
+<include file="Public:head" />
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 在线报名</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>在线报名管理</small></h2>
+
+<script type="text/javascript">
+
+function selsearch()
+{
+var desc=$("input[name=desc]:checked").val();
+var order=$("#Order").val();
+$.cookie("msg_Order",order);
+$.cookie("msg_desc",desc);
+location.href="?m=msg&key="+$("#key").val();
+return false;
+}
+</script>
+
+<table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="9">
+    <form onsubmit="return selsearch()">　
+		
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" style=" width:170px;" class="form-control wat" />
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="id">按编号</option>
+            <option value="addtime">按时间</option>
+            <option value="z1">姓名</option>
+            <option value="z2">手机</option>
+            <option value="z3">车型</option>
+            <option value="z4">取车时间</option>
+            <option value="z5">取车门店</option>
+          </select>               
+         
+        <input type="radio" id="BDasc" name="desc" value="asc" onclick="selsearch()" /> <label for="BDasc">升序</label>
+           <input type="radio" id="BDdesc" name="desc" value="desc" onclick="selsearch()" /> <label for="BDdesc">降序</label>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+  <tr class="no">
+  	<th></th>
+    <th>ID</th>
+    <th align="center"><div>姓名</div></th>
+    <th align="center"><div style=" min-width:118px;">手机</div></th>
+    <th align="center">车型</th>
+    <th align="center">取车时间</th>
+    <th align="center">门店</th>    
+    <th align="center">提交时间</th>
+    <th align="center">操作</th>
+  </tr>
+  <tbody>
+
+      <volist name='lists' id='vo'>
+     
+		<tr>
+		  <td><input name="Id" id="ID_{$vo.id}" type="checkbox" value="{$vo.id}" class="checkid" /></td>
+		  <td align="center">{$vo.id}</td>
+		  <td align="center">{$vo.z1}<eq name='vo.state' value='0'><span class="red">[未审核]</span></eq></td>
+		  <td align="center">{$vo.z2}</td>
+          <td align="center">{$vo.z3}</td>
+          <td align="center">{$vo.z4}</td>
+          <td align="center">{$vo.z5}</td>
+		  <td align="center">{$vo.addtime}</td>	 
+          <td align="center"><a href="?m=sign&a=view&id={$vo.id}">查看</a></td> 
+		</tr>
+    </volist>
+	</tbody>
+    <tr class="no">
+    	<td> </td>
+      <td colspan="8" align="left">
+      <label class="foot-label"><input type="checkbox" name="checkall" value="0"> 全选</label>
+        <button class="btn btn-primary" onclick="shen1()">审核通过</button>
+        <button class="btn btn-primary" onclick="shen2()">审核失败</button>
+        <button class="btn btnd" onclick="delseled()">刪除</button>
+      </td>
+    </tr>
+    <tr class="no">
+    <td colspan="9" align="center" class="page"> {$page}{$selectpg}</td>
+    </tr>
+</table>
+</div></div>
+<include file="Public:foot" />

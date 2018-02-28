@@ -1,0 +1,143 @@
+<include file="Public:head" />
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+    	<li style="float:right"><b><a href="?m=youhui&a=add">添加优惠劵</a></b></li>
+        <li><i class="icon-coffee"></i> 优惠劵管理</li>
+        <li><a href="?m=youhui">优惠劵管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>优惠劵管理</small></h2>
+        
+<style type="text/css">
+.td div{ position:relative; display:block; /*z-index:999;*/ min-height:20px;}
+.td div img{ height:60px; position:absolute; margin-top:-20px;}
+</style>
+<script type="text/javascript">
+var t_root='__ROOT__';
+var t_app='__APP__ ';
+var t_url='__URL__ ';
+var t_action='__ACTION__';
+var t_do='?m=youhui&a=doact';
+var t_attr='?m=youhui&a=attr';
+
+function selsearch()
+{
+var desc=$("input[name=desc]:checked").val();
+var lm=$("#fid").val();
+var order=$("#Order").val();
+var F=$("input[name=Xflag]:checked");
+var size=F.size();
+var selarr = new Array([size]);
+F.each(function(i){selarr[i]=F.eq(i).val();});
+var flag=selarr.join(); 
+var settop=$("#Ssettop:checked").val();
+var audit=$("#audit:checked").val();
+
+var cid=$("#cid").val();
+var share=$("#share:checked").val();
+	
+if (settop==undefined){settop=""}
+if (audit==undefined){audit=""}
+$.cookie("youhui_Order",order);
+$.cookie("youhui_desc",desc);
+location.href="?m=youhui&key="+$("#key").val()+"&audit="+audit;
+return false;
+}
+</script>
+
+<div class="table-responsive">
+   <table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="8">
+    <form onsubmit="return selsearch()">　
+       
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" class="form-control wat" style=" width:120px;" />
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="id">编号</option>
+            <option value="addtime">时间</option>
+            <option value="s2">有效时间</option>
+            <option value="pid">产品ID</option>
+            <option value="num">生成数量</option>
+            <option value="attr">优惠劵名称</option>            
+            <option value="audit">启用状态</option>
+          </select>
+          <input name="audit" id="audit" type="checkbox" value="1"<eq name="audit" value='1'>  checked="checked" <else/></eq> />显
+         
+        <input type="radio" id="BDasc" name="desc" value="asc" onclick="selsearch()" /> <label for="BDasc">升序</label>
+           <input type="radio" id="BDdesc" name="desc" value="desc" onclick="selsearch()" /> <label for="BDdesc">降序</label>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+          $("#fid").val("{$lm}");
+		  $("#cid").val("{$cid}");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+  <tr class="no">
+  	<th></th>
+    <th><div style="min-width:40px">ID</div></th>
+    <th align="center"><div style=" min-width:170px;">优惠劵名称[产品ID][已使用]</div></th>
+    <th align="center">生成时间</th>
+    <th align="center">有效时间</th>
+    <th align="center">生成数量</th>
+    <th align="center">启用状态</th>
+    <th align="center"><div style=" width:58px;">操作</div></th>
+  </tr>
+  <tbody>
+
+      <volist name='lists' id='vo'>
+     	<php>
+        	$vo['ys']=M("youhui_info")->where("yid='".$vo['id']."' and usetime>'0'")->count("id");
+        </php>
+		<tr>
+		  <td><input name="Id" id="ID_{$vo.id}" class="checkid" type="checkbox" value="{$vo.id}"  /></td>
+		  <td align="center">{$vo.id}</td>
+		  <td class="td"><div style=" color:{$vo.color}">{$vo.attr}[{$vo.pid}][{$vo.ys}]</div></td>
+          <td align="center">{$vo.addtime|date='Y-m-d H:i:s',###}</td>
+		  <td align="center">{$vo.s2|date='Y-m-d',###}</td>
+          <td align="center">{$vo.num}</td>
+		  <td align="center">
+          <eq name='vo.audit' value='0'><span class="red">未启用</span><else/>已启用</eq>
+          </td> 
+		  <td align="center" width="90">
+          <div style="width:90px"><a href="?m=youhui&a=indexs&id={$vo.id}">查看优惠劵</a></div>
+          <!--<div style="width:50px"><a href="?m=youhui&a=add&id={$vo.id}">修改</a></div>-->
+          </td>
+		</tr>
+    </volist>
+	</tbody>
+    <tr class="no">
+    	<td> </td>
+      <td colspan="7" align="left">
+      <label class="foot-label"><input type="checkbox" name="checkall" value="0"> 全选</label>
+        <button class="btn btn-primary" onclick="shen1()">审核通过</button>
+        <button class="btn btn-primary" onclick="shen2()">审核失败</button>
+        <button class="btn btnd" onclick="delseled()">刪除</button>
+      </td>
+    </tr>
+    <tr class="no">
+    <td colspan="8" align="center" class="page"> {$page}{$selectpg}</td>
+    </tr>
+</table>
+</div>
+</div>
+<script type="text/javascript">
+$(".td span").hover(function() {
+	$(".td").addClass("a11");
+	$(this).parent().parent().removeClass("a11");
+    var g=$(this).attr("pic");
+	if (g!="" && g!=undefined)
+	{
+		$(this).append("<img class='tdp' src='"+g+"' />");
+	}
+},function(){$(this).find("img").remove();});
+</script>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+</div></div>
+<include file="Public:foot" />

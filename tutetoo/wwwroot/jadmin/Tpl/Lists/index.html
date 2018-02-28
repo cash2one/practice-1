@@ -1,0 +1,227 @@
+<include file="Public:head" />
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+    	<li style="float:right"><b><a href="?m=lists&a=add&fid={$lm|(int)}">添加文档</a></b></li>
+        <li><i class="icon-coffee"></i> 网站内容</li>
+        <li><a href="?m=lists">内容管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>文档列表</small></h2>
+        
+<style type="text/css">
+.td div{ position:relative; display:block; /*z-index:999;*/ min-height:20px;}
+.td div img{ height:60px; position:absolute; margin-top:-20px;}
+</style>
+<script type="text/javascript">
+var t_root='__ROOT__';
+var t_app='__APP__ ';
+var t_url='__URL__ ';
+var t_action='__ACTION__';
+var t_do='?m=lists&a=doact';
+var t_attr='?m=lists&a=attr';
+
+function selsearch()
+{
+var desc=$("input[name=desc]:checked").val();
+var lm=$("#fid").val();
+var order=$("#Order").val();
+var F=$("input[name=Xflag]:checked");
+var size=F.size();
+var selarr = new Array([size]);
+F.each(function(i){selarr[i]=F.eq(i).val();});
+var flag=selarr.join(); 
+var settop=$("#Ssettop:checked").val();
+var audit=$("#audit:checked").val();
+
+var cid=$("#cid").val();
+var share=$("#share:checked").val();
+	
+if (settop==undefined){settop=""}
+if (audit==undefined){audit=""}
+$.cookie("TINFO_Order",order);
+$.cookie("TINFO_desc",desc);
+location.href="?m=lists&lm="+lm+"&key="+$("#key").val()+"&flag="+flag+"&settop="+settop+"&audit="+audit+"&cid="+cid+"&share="+share;
+return false;
+}
+</script>
+
+<php>
+		$tbq=C('DB_PREFIX');
+		$tb1=$tbq."lm";
+		$tb2=$tbq."info";
+        
+        $id=(int)$_GET['lm'];
+        $lm=$id;
+$sql="select fid,fidpath,(select count(id) from $tb1 where ty!='4' and fid=".$lm.") as lmnum from $tb1 where ty!='4' and id=".$lm."";
+if ($id==0)
+{
+$sql="select fid,fidpath,(select count(id) from $tb1 where ty!='4' and fid=".$lm.") as lmnum from $tb1 where ty!='4'";
+if ($admin['Grade']!=9)
+{
+$sql="select fid,fidpath,(select count(id) from $tb1 where ty!='4' and fid='".$lm."' and id<'5') as lmnum from $tb1 where ty!='4'";
+}
+}
+$r=mysql_query($sql);
+$num=mysql_num_rows($r);
+
+if ($lsrs=mysql_fetch_array($r))
+{
+
+	$lmnum=$lsrs[2];
+	$Tempnav="";
+	$str="";
+	if ($lmnum>0)
+	{
+		$fidpath=$lsrs[1].",".$lm."";
+	}
+	else
+	{
+		$fidpath=$lsrs[1];
+	}
+	$fidarr=explode(",",$fidpath);
+	$nums=count($fidarr);
+    if ($id==0)
+    {
+    	$nums=2;
+    }
+	for ($i=1;$i<$nums;$i++)
+	{
+    $tit=shows("select cntitle from $tb1 where ty!=4 and id=".$fidarr[$i]."");
+    if ($tit=='')
+    {
+    	$tit='全部文档';
+    }
+	$Tempnav.="<table class='curve_mid' style='line-height:150%;' border='0' cellpadding='0' cellspacing='0'><tr><td>　<strong><a href='?m=lists&lm=".$fidarr[$i]."'>".$tit."</a></strong>：";
+		$cql="select id,cntitle from $tb1 where ty!=4 and fid=".$fidarr[$i]." order by `sort` asc";
+        if ($admin['Grade']!=9 && $fidarr[$i]==0)
+        {
+        $cql="select id,cntitle from $tb1 where ty!=4 and fid=".$fidarr[$i]." and id<'5' order by `sort` asc";
+        }
+        
+		$cr=mysql_query($cql);	
+		while ($lrs=mysql_fetch_array($cr))
+		{
+			$Tempnav.="<a href='?m=lists&lm=".$lrs[0]."'>";
+			if ($lm==$lrs[0])
+			{
+				$Tempnav.="<span class=red>".$lrs[1]."</span>";
+			}
+			else
+			{
+				$Tempnav.=$lrs[1];
+			}
+			$Tempnav.="</a>";
+			$Tempnav.=" | ";
+		}
+	$Tempnav.="</td></tr></table>";
+	}
+}
+echo $Tempnav;
+</php>
+<div class="table-responsive">
+   <table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="8">
+    <form onsubmit="return selsearch()">　
+		<select id="fid" class="form-control wat" onchange="selsearch()" style="max-width:180px;">
+        <option value="0">全部分类</option>
+        {$lmoption}
+        </select>        
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" class="form-control wat" style=" width:120px;" />
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="id">编号</option>
+            <option value="addtime">时间</option>
+            <option value="Sort">排序</option>
+            <option value="hit">浏览</option>
+            <option value="cntitle">标题</option>
+            <option value="s6">报名人数</option>
+          </select>
+          <span style="display:none">
+          <input name="audit" id="audit" type="checkbox" value="1"<eq name="audit" value='1'>  checked="checked" <else/></eq> />显
+          <input name="Ssettop" id="Ssettop" type="checkbox" value="1"<eq name="settop" value='1'>  checked="checked" <else/></eq> />顶</span>
+		{$getflagoption}        
+         
+        <input type="radio" id="BDasc" name="desc" value="asc" onclick="selsearch()" /> <label for="BDasc">升序</label>
+           <input type="radio" id="BDdesc" name="desc" value="desc" onclick="selsearch()" /> <label for="BDdesc">降序</label>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+          $("#fid").val("{$lm}");
+		  $("#cid").val("{$cid}");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+  <tr class="no">
+  	<th></th>
+    <th><div style="min-width:40px">ID</div></th>
+    <th align="center"><div style=" min-width:170px;">文档标题</div></th>
+    <th align="center">栏目</th>
+    <th align="center">发布时间</th>
+    <th align="center">浏览量</th>
+    <th align="center">排序</th>
+    <th align="center"><div style=" width:58px;">操作</div></th>
+  </tr>
+  <tbody>
+
+      <volist name='lists' id='vo'>
+     
+		<tr>
+		  <td><input name="Id" id="ID_{$vo.id}" class="checkid" type="checkbox" value="{$vo.id}"  /></td>
+		  <td align="center">{$vo.id}</td>
+		  <td class="td"><div style=" color:{$vo.color}">{$vo.cntitle}{$vo.id|issimg=###}{$vo.id|mflag=###}<eq name='vo.s6' value='0'><else/><span class="red">[{$vo.s6}]</span></eq></div></td>
+		  <td align="center" width="130">
+          <div style="width:130px"><a href="?m=lists&lm={$vo.fid}">{:info_ty(0,$vo['fid'],'cntitle')}</a></div>
+          </td>
+		  <td align="center" width="130"><div style="width:130px">{$vo.addtime}</div></td>
+		  <td align="center">
+           <input name="hit" value="{$vo.hit}" class="input16 center" style="width:60px;" onFocus="str=this.value;" />
+           </td>
+		  <td align="center">
+		  <input name="Sort" value="{$vo.sort}" class="input16 center" style="width:60px;" onFocus="str=this.value;" />
+		  </td>	  
+		  <td align="center" width="50">
+          <div style="width:50px"><a href="?m=lists&a=add&id={$vo.id}">修改</a></div>
+          </td>
+		</tr>
+    </volist>
+	</tbody>
+    <tr class="no">
+    	<td> </td>
+      <td colspan="7" align="left">
+      <label class="foot-label"><input type="checkbox" name="checkall" value="0"> 全选</label>
+      <button class="btn btn-primary" onclick="selsort2()">更新浏览量</button>
+      	<button class="btn btn-primary" onclick="selsort()">更新排序</button>
+        <button class="btn btn-primary" onclick="dsort('s5')">刷新</button>
+
+        <button class="btn btn-primary" onclick="shen1()">审核通过</button>
+        <button class="btn btn-primary" onclick="shen2()">审核失败</button>
+      	<button class="btn btn-primary" onclick="movedoc()">移动</button>
+        <button class="btn btnd" onclick="delseled()">刪除</button>
+      </td>
+    </tr>
+    <tr class="no">
+    <td colspan="8" align="center" class="page"> {$page}{$selectpg}</td>
+    </tr>
+</table>
+</div>
+</div>
+<script type="text/javascript">
+$(".td span").hover(function() {
+	$(".td").addClass("a11");
+	$(this).parent().parent().removeClass("a11");
+    var g=$(this).attr("pic");
+	if (g!="" && g!=undefined)
+	{
+		$(this).append("<img class='tdp' src='"+g+"' />");
+	}
+},function(){$(this).find("img").remove();});
+</script>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+</div></div>
+<include file="Public:foot" />

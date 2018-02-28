@@ -1,0 +1,175 @@
+<php>
+$t_do='?m=user&a=doact';
+$t_attr='?m=user&a=attr';
+</php>
+<include file="Public:head" />
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+    	<li style="float:right"><b><a href="?m=user">会员中心</a></b></li>
+        <li><i class="icon-coffee"></i> 会员管理</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>会员管理</small></h2>
+<script>    
+function sendmail()
+{
+	var T=$("input[name=Id]:checked");
+	var size=T.size();
+	var selarr = new Array([size]);
+	T.each(function(i){
+		selarr[i]=T.eq(i).val();
+	});
+	var idstr=selarr.join();
+	window.loading("程序加载中...");
+	$.ajax({url: "?m=user&a=attr&ty=3&idstr="+escape(idstr),cache: false,success:function(html)
+	{
+		window.showalert(html,0,2);
+	}}); 
+}
+
+function selsearch()
+{
+var desc=$("input[name=desc]:checked").val();
+var order=$("#Order").val();
+var audit=$("#audit:checked").val();	
+if (audit==undefined){audit=""}
+var time1=$("#time1").val();
+var time2=$("#time2").val();
+$.cookie("u_time1",time1);
+$.cookie("u_time2",time2);
+var add1=$("#add1").val();
+var add2=$("#add2").val();
+var add3=$("#add3").val();
+$.cookie("u_add1",add1);
+$.cookie("u_add2",add2);
+$.cookie("u_add3",add3);
+$.cookie("user_Order",order);
+$.cookie("user_desc",desc);
+
+var classx=$("#classx").val();
+$.cookie("class",classx);
+var sty=$("#sosoty").val();
+var key2=$("#key2").val();
+var key=$("#key").val();
+var u="?m=user&key="+encodeURIComponent(key)+"&audit="+audit;
+if (sty!="" && sty!='0' && key2!='')
+{
+var u="?m=user&audit="+audit+"&state="+audit+"&sty="+sty+"&key2="+encodeURIComponent(key2)+"&key="+encodeURIComponent(key);
+}
+
+location.href=u;
+return false;
+}
+</script>
+<table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="8">
+    <form onsubmit="return selsearch()" style=" padding:8px 0 0 0">　模糊关键字:&nbsp;
+          <input id="key" value="{$keys}" class="form-control wat" style=" width:120px;" />
+          时间范围<input type="text" style=" width:120px;" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="time1" value="{$time1}"  class="form-control wat" />-<input type="text" style=" width:120px;" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="time2" value="{$time2}"  class="form-control wat" />
+          <select id="classx" onchange="selsearch()" class="form-control wat">
+            <option value="0">会员级别</option>
+      <php>
+      $carr=M('class')->order('id asc')->select(); 
+      </php>
+      <volist name='carr' id='ky'>
+      <option value="{$ky.id}" <if condition="$class eq $ky['id']">selected="selected"</if>>
+      {$ky.classname}
+      </option>
+      </volist>
+          </select>
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="user_id">按编号</option>
+            <option value="time">按时间</option>            
+            <option value="nc">按昵称</option>
+            <option value="truename">真实姓名</option>
+            <option value="birthday">生日</option>
+            <option value="user_name">用户名</option>
+            <option value="tel">手机号</option>            
+            <option value="state">按状态</option>
+            <option value="class">按级别</option>
+          </select>
+          
+          <input id="audit" type="checkbox" value="1"<eq name="state" value='1'>  checked="checked" <else/></eq> />审核
+                 
+        <input type="radio" id="BDasc" value="asc" onclick="selsearch()" />
+         <label for="BDasc">升序</label>
+       <input type="radio" id="BDdesc" value="desc" onclick="selsearch()" />
+        <label for="BDdesc">降序</label>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+		  $("#sosoty").val("{$sty}");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />     
+              
+
+           </form>
+       </td>
+  </tr>
+  <tr class="no">
+  	<th></th>
+    <th>ID</th>
+    <th align="center">[用户名]手机号</th>
+    <th align="center">真实姓名</th>
+    <th align="center">昵称</th>
+    <th align="center">生日</th>
+    
+    
+    <th align="center">注册时间</th>
+    <th align="center" width="60"><div style=" width:58px;">操作</div></th>
+  </tr>
+  <tbody>
+
+
+
+      <volist name='lists' id='vo'>
+		<tr>
+		  <td><input name="Id" id="ID_{$vo.user_id}" type="checkbox" value="{$vo.user_id}" class="checkid"  /></td>
+          <td align="center">{$vo.user_id}</td>
+          <td align="center">
+          <span class="red">
+          <php>
+          echo M("class")->where("id='".$vo['class']."'")->getField("classname");
+          </php>
+          </span>
+          <if condition="$vo['user_name']!=''">[{$vo.user_name}]</if>
+          　{$vo.tel}
+          </td>
+		  <td align="center">
+          {$vo.truename}<eq name="vo.state" value="1"><else/><span class="red">未审核</span></eq>
+          </td>
+          <td align="center">{$vo.nc}</td>
+          
+          <td align="center">{$vo.birthday}</td>
+          
+              
+          <td align="center">{$vo.time|date='Y-m-d H:i:s',###}</td>
+		  <td align="center">
+          <a href="?m=user&a=add&id={$vo.user_id}">资料</a></td>
+		</tr>
+    </volist>
+	</tbody>
+    <tr class="no">
+    	<td> </td>
+      <td colspan="7" align="left">
+      <label class="foot-label"><input type="checkbox" name="checkall" value="0"> 全选</label>
+        <button class="btn btn-primary" onclick="shen1()">审核通过</button>        
+        <button class="btn btn-primary" onclick="shen2()">审核失败</button>
+        <button class="btn btn-primary" onclick="sendmail()">发送消息</button>
+        
+        <eq name="admin.id" value="1">
+        <a class="btn btnd btn-primary" href="?m=user&a=export" target="_blank">导出</a>
+        </eq>
+        <eq name="admin.id" value="99991">
+        <button class="btn btnd" onclick="delseled()">删除</button>
+        </eq>
+      </td>
+    </tr>
+    <tr class="no">
+    <td colspan="8" align="center" class="page"> {$page}{$selectpg}</td>
+    </tr>
+</table>
+</div></div>
+<include file="Public:foot" />

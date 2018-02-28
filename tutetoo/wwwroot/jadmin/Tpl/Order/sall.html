@@ -1,0 +1,97 @@
+<php>
+$t_do='?m=order&a=doact';
+$t_attr='?m=order&a=attr';
+</php>
+<include file="Public:head" />
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+    	<li style="float:right"><b><a href="?m=order">订单中心</a></b></li>
+        <li><i class="icon-coffee"></i> 订单备货管理</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>订单备货管理</small></h2>
+<script type="text/javascript">
+function selsearch()
+{
+	var desc=$("input[name=desc]:checked").val();
+	var order=$("#Order").val();
+	$.cookie("orderx_Order",order);
+	$.cookie("orderx_desc",desc);
+	var t1=$("#time1").val();
+	var t2=$("#time2").val();
+	$.cookie("orderx_time1",t1);
+	$.cookie("orderx_time2",t2);
+	var key=$("#key").val();
+	var x2=$("#x2").val();
+
+	var u="?m=order&a=sall&&key="+encodeURIComponent(key)+"&x2="+encodeURIComponent(x2);
+	location.href=u;
+	return false;
+}
+</script>
+
+<table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="8">
+    <form onSubmit="return selsearch()">　
+
+          <span>	
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" style="width:105px" class="form-control wat" /> 
+          日期<input type="text" class="form-control wat" value="{$time1}" style="width:135px" id="time1" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />--<input style="width:135px" value="{$time2}" type="text" class="form-control wat" id="time2" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" /> </span>
+                    
+  <input type="radio" id="BDasc" name="desc" value="asc" onClick="selsearch()" /> <label for="BDasc">升序</label>
+   <input type="radio" id="BDdesc" name="desc" value="desc" onClick="selsearch()" /> <label for="BDdesc">降序</label>
+  <script type="text/javascript">
+  $("#Order").val("{$order}");
+  $("#BD{$desc}").attr("checked","checked");
+  </script>
+   <input class="btn btn-primary" type="submit" value="搜索" />
+
+           </form>
+       </td>
+  </tr>
+  
+  <tr class="no">
+  	<th width="83">产品编号</th>
+    <th width="280">产品名称</th>
+    <th width="150">产品图片</th>
+	<th width="135">订单笔数</th> 
+	<th width="92">数量</th> 
+    <th width="78" colspan="2">总金额</th>
+  </tr>
+  <tbody>
+      <volist name='lists' id='vo'>
+  <tr>
+    <td>{$vo.pid}
+    <php>
+    $vos=M("order_goods")->where("pid='".$vo['pid']."'")->find();
+    </php></td>
+    <td align="center">{$vos.cntitle}</td>
+    <td align="center"><img src="{$vos.pic}" style=" height:60px" /></td> 
+    <td align="center">{$vo.bi}</td>
+	<td align="center">{$vo.xiaoliang}</td>
+	<td align="center" colspan="2">{$vo.pro_allmoney}</td>
+    </td>
+  </tr>
+  
+    </volist>
+	</tbody>
+    
+     
+<tr class="no">
+    	<td> </td>
+      <td colspan="10" align="left">
+        <a class="btn btn-primary" target="_blank" href="?m=order&a=print2&key={$keys}" title="打印">打印</a>
+        <a class="btn btn-primary" target="_blank" href="?m=order&a=export2" title="导出订单">导出订单</a>        
+      </td>
+    </tr>
+    <tr class="no">
+    <td colspan="10" align="center" class="page">产品种类：{$count}
+    订购总金额：{$zmoney}  订购数量：{$znum}
+     {$page}{$selectpg}</td>
+    </tr>
+</table>	
+</div></div>
+<include file="Public:foot" />

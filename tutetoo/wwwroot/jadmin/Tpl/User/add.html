@@ -1,0 +1,104 @@
+<php>
+$t_do='?m=user&a=doact';
+$t_attr='?m=user&a=attr';
+</php>
+<include file="Public:head" />
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+    	<li style="float:right"><b><a href="?m=user">会员中心</a></b></li>
+        <li><i class="icon-coffee"></i> 会员管理</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>{$actionType}会员信息</small></h2>
+        
+ 
+<form id="ddds" action="?m=user&a=save" onsubmit="return save()" method="post" class="form-horizontal">
+<input type="hidden" name="id" value="{$id}" />
+<table class="curve_mid" border="0" cellpadding="2" cellspacing="2">
+
+	<tr>
+	<td align="right">　会员账号：</td>
+	<td> {$vo.user_name}
+     </td>
+    </tr>
+	<tr>
+	<td align="right">　手机号：</td>
+	<td> {$vo.tel}
+     </td>
+    </tr>    
+      <tr>
+      	<td align="right">　注册时间：</td>
+        <td>{$vo.time|date='Y-m-d H:i:s',###}</td>
+    </tr>
+      <tr>
+      <td align="right">　昵称：</td>
+      <td>{$vo.nc} </td>
+    </tr>
+    
+	<tr>
+	<td align="right">　姓名：</td>
+	<td> {$vo.truename} 
+     </td>
+    </tr>
+      <tr>
+      	<td align="right">　生日：</td>
+        <td>{$vo.birthday}</td>
+    </tr>
+      <tr>
+      <td align="right">　邮箱：</td>
+      <td>{$vo.email} </td>
+    </tr>
+      <tr>
+      <td align="right">　地址：</td>
+      <td>{$vo.address} {$vo.now_address}</td>
+    </tr>  
+    
+<!--    <tr class="hides">
+      	<td align="right">　重置密码：</td>
+        <td colspan="3"><input name="drg5" id="drg5" value="" type="password" size="15" /> <span class="red">密码长度5-18 字母数字组合</span>
+        </td>
+    </tr>
+      <tr>
+      <td align="right">　会员级别：</td>
+      <td><select name="class">
+      <php>
+      $carr=M('class')->order('id asc')->select(); 
+      </php>
+      <volist name='carr' id='ky'>
+      <option value="{$ky.id}" <if condition="$vo['class'] eq $ky['id']">selected="selected"</if>>
+      {$ky.classname}
+      </option>
+      </volist>
+      </select>
+      </td>
+    </tr> -->
+    <tr class="no">
+    	<td></td>
+      <td>
+<button id="btn_sub" type="submitx" class="btn btn-primary"><i class="icon-ok"></i>保 存</button>　　
+       <button type="button" class="btn btn-default" onClick="history.go(-1);"><i class="icon-reply"></i>返 回</button>
+        </td>
+    </tr>
+</table>
+</form>
+<style type="text/css">.fileup a{ color:#000; font-size:12px;}.fileup a:hover{ color:#f00;}
+	.fileup div{ width:110px; overflow:hidden; padding:4px 0 0 0;}.rt{ float:right;}.fileup img{ width:80px; height:80px;}</style> 
+<div id="curve_bottom"></div>
+<script type="text/javascript" src="__PUBLIC__/sys/js/lists.js"></script>
+<script type="text/javascript">
+$('.seoxx').toggle();
+$(window).load(function(){
+
+});
+function save()
+{
+var pwd=$("#drg5").val();
+if (pwd!="" &&　isRegisterUserName(pwd)==false){alert("密码格式错误");return false;}
+}
+</script>
+</div></div>
+<script type="text/javascript" src="__PUBLIC__/sys/js/lists.js"></script>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+<include file="Public:foot" />

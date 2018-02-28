@@ -1,0 +1,46 @@
+<include file="Public:head" />
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<link rel="stylesheet" href="__PUBLIC__/qm/themes/default/default.css" />
+<link rel="stylesheet" href="__PUBLIC__/qm/plugins/code/prettify.css" />
+<script charset="utf-8" src="__PUBLIC__/qm/kindeditor.js"></script>
+<script charset="utf-8" src="__PUBLIC__/qm/lang/zh_CN.js"></script>
+<script charset="utf-8" src="__PUBLIC__/qm/plugins/code/prettify.js"></script>
+<div style=" display:none">
+<textarea name="content" class="form-control" id="content" style="height:0;visibility:hidden;">{$vo.content|stripslashes}</textarea>
+	<script type="text/javascript">
+		KindEditor.ready(function(K) {
+			K2=K;
+			var editor1 = K.create('textarea[name="content"]', {
+				cssPath : '__PUBLIC__/qm/plugins/code/prettify.css',
+				uploadJson : '__PUBLIC__/qm/php/upload_json.php',
+				fileManagerJson : '__PUBLIC__/qm/php/file_manager_json.php',
+				allowFileManager : true,
+				filterMode : false,
+				afterBlur: function () { this.sync();},
+				afterCreate : function() {}
+			});
+		});
+</script>
+</div>
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 网站配置</li>
+        <li>网站信息</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-edit"></i></strong><small>编辑</small></h2>
+        <form action="?m=system&a=save" class="form-horizontal form-edit" method="post">
+          {$systemoption}
+        <div class="form-group">
+          <label for="inputStatus" class="col-md-2 control-label"> </label>
+          <div class="col-md-4">
+            <button type="submit" class="btn btn-primary" id="btn_sub"><i class="icon-ok"></i> 保存</button>
+          </div>
+        </div>
+        </form> 
+        <script src="__PUBLIC__/sys/js/lists.js"></script>
+        <script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+        <script src="__PUBLIC__/validform/js/validform.js"></script>
+    </div>
+</div>
+
+<include file="Public:foot" />

@@ -1,0 +1,201 @@
+<php>
+$t_do='?m=order&a=doact';
+$t_attr='?m=order&a=attr';
+</php>
+<include file="Public:head" />
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+    	<li style="float:right"><b><a href="?m=order">订单中心</a></b></li>
+        <li><i class="icon-coffee"></i> 订单管理</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>订单管理</small></h2>
+<script type="text/javascript">
+function selsearch()
+{
+	var desc=$("input[name=desc]:checked").val();
+	var order=$("#Order").val();
+	$.cookie("order_Order",order);
+	$.cookie("order_desc",desc);
+	var t1=$("#time1").val();
+	var t2=$("#time2").val();
+	$.cookie("order_time1",t1);
+	$.cookie("order_time2",t2);
+	var key=$("#key").val();
+	var x2=$("#x2").val();
+	var pty=$("#x0").val();
+	var x3=$("#x3").val();
+	$.cookie("order_x3",x3);
+	var u="?m=order&key="+encodeURIComponent(key)+"&x2="+encodeURIComponent(x2)+"&pty="+pty;
+	location.href=u;
+	return false;
+}
+</script>
+
+<table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="9">
+    <form onSubmit="return selsearch()">　
+  <select id="x0" onChange="selsearch()" class="form-control wat">
+  <option value="0">支付</option>
+    <option value="1" <if condition="$x0 eq '1'">selected="selected"</if>>支付宝</option>
+    <option value="2" <if condition="$x0 eq '2'">selected="selected"</if>>微信</option>
+    <option value="9" <if condition="$x0 eq '9'">selected="selected"</if>>优惠劵兑换</option>
+  </select>
+  
+  <select id="x2" onChange="selsearch()" class="form-control wat">
+  <option value="99">订单状态</option>    
+    <option value='0' <if condition="$x2 eq '0'">selected="selected"</if>>未发货</option>
+    <option value='1' <if condition="$x2 eq '1'">selected="selected"</if>>已发货</option>
+    <option value='2' <if condition="$x2 eq '2'">selected="selected"</if>>已确认收货</option>
+    <option value='3' <if condition="$x2 eq '3'">selected="selected"</if>>订单完成</option>
+    <option value='91' <if condition="$x2 eq '91'">selected="selected"</if>>已申请退货</option>
+    <option value='92' <if condition="$x2 eq '92'">selected="selected"</if>>退货处理中</option>                        
+    <option value='93' <if condition="$x2 eq '93'">selected="selected"</if>>退货成功</option>
+    <option value='94' <if condition="$x2 eq '94'">selected="selected"</if>>退货失败</option>
+    <option value='95' <if condition="$x2 eq '95'">selected="selected"</if>>订单关闭</option>
+  </select>
+  
+  <select id="x3" onChange="selsearch()" class="form-control wat">
+  <option value="99">付款状态</option>    
+    <option value='0' <if condition="$x3 eq '0'">selected="selected"</if>>未付款</option>
+    <option value='1' <if condition="$x3 eq '1'">selected="selected"</if>>已付款</option>
+  </select>
+          <span>	
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" style="width:85px" class="form-control wat" /> 
+          日期<input type="text" class="form-control wat" value="{$time1}" style="width:100px" id="time1" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />--<input value="{$time2}" type="text" class="form-control wat" style="width:100px"  id="time2" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})" /> </span>
+           
+排序:
+          <select id="Order" onChange="selsearch()" class="form-control wat">
+            <option value="id">编号</option>        
+            <option value="uid">会员id</option>
+			<option value="addtime">下单日期</option>
+            <option value="ftime">发货时间</option>
+            <option value="zt">订单状态</option>
+            <option value="paymoney">支付金额/积分</option>
+            <option value="num">购买数量</option>
+            <option value="pty">支付方式</option>
+			<option value="paytime">付款状态</option>
+            <option value="view">查看状态</option>
+          </select>          
+  <input type="radio" id="BDasc" name="desc" value="asc" onClick="selsearch()" /> <label for="BDasc">升序</label>
+   <input type="radio" id="BDdesc" name="desc" value="desc" onClick="selsearch()" /> <label for="BDdesc">降序</label>
+  <script type="text/javascript">
+  $("#Order").val("{$order}");
+  $("#BD{$desc}").attr("checked","checked");
+/*  $("#x2").val("{$x2}");
+  $("#x3").val("{$x3}");*/
+  $("#x0").val("{$pty}");
+  </script>
+   <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+    <style>.form-control { padding: 6px 6px;}
+  .pty_0{ color:#0c9; color:#6C6;}
+	.pty_1{ color:#999; color: #0C6;}
+	.pty_2{ color:#666;color: #0C3;}
+	.pty_3{ color:#333;color: #0C0;}
+	.pty_91{ color:#b00;}
+	.pty_92{color:#c00;}
+	.pty_93{color:#d00;}
+	.pty_94{ color:#f00;}
+	.pty_95{ color:#e00;}
+	.lv{ color:#090;}
+    </style>
+  <tr class="no">
+  	<th width="203">订单编号</th>
+	<th width="135">订单时间 / 发货时间</th> 
+	<th width="62">金额/积分</th>
+    <th width="65">数量</th>
+    <th width="225">收货地址</th>
+    <th width="128">收货人</th>
+    <th width="128" colspan="2">收货电话</th>
+    <th width="78">操作</th>
+  </tr>
+  <tbody>
+      <volist name='lists' id='vo'>
+     <php>
+     $zt=$vo['zt'];
+     $bz2s=strlen($vo['bz2']);
+     $zds=0;
+     if ($zt==1 && $bz2s>20)
+     {
+     $zds=1;
+     }
+     </php>
+  <tr>
+    <td>
+	<eq name='vo.pty' value='9'><span class="red">[兑]</span></eq>
+    {$vo.orderid}
+    <php>
+    $vos=M("user")->where("user_id='".$vo['uid']."'")->find();
+    $cntitle=M("order_goods")->where("orderid='".$vo['orderid']."'")->getField("cntitle");
+    </php>
+    <eq name='vo.zt' value='0'><span class="pty_{$vo.zt}">未发货</span></eq>
+    <eq name='vo.zt' value='1'><span class="pty_{$vo.zt}">已发货</span></eq>
+    <eq name='vo.zt' value='2'><span class="pty_{$vo.zt}">确认收货</span></eq>
+    <eq name='vo.zt' value='3'><span class="pty_{$vo.zt}">订单完成</span></eq>
+    <eq name='vo.zt' value='91'><span class="pty_{$vo.zt}">已申请退货</span></eq>
+    <eq name='vo.zt' value='92'><span class="pty_{$vo.zt}">退货处理中</span></eq>                        
+    <eq name='vo.zt' value='93'><span class="pty_{$vo.zt}">退货成功</span></eq>
+    <eq name='vo.zt' value='94'><span class="pty_{$vo.zt}">退货失败</span></eq> 
+    <eq name='vo.zt' value='95'><span class="pty_{$vo.zt}">订单关闭</span></eq> 
+	<p>
+    <eq name='vo.oty' value='1'>
+    <span style="color:#f00;">[积分]</span>
+    </eq> 
+    <eq name='vo.paytime' value='0'>
+    <span style="color:#f00;">[未付款]</span>
+    <else/>
+    <span style="color:#EB4C0F;">[已付款]</span>
+    </eq>    
+	<eq name='vo.pty' value='1'><span style="color:#EB4C0F;">[支付宝]</span></eq>
+    <eq name='vo.pty' value='2'><span style="color:#45C018;">[微信]</span></eq>
+    </p>
+
+
+    </td>
+
+    <td align="center">
+    {$vo.addtime|date='Y-m-d H:i:s',###}
+    <eq name='vo.ftime' value='0'><else/>
+    <p class="lv">发货时间{$vo.ftime|date='Y-m-d',###}</p>
+    </eq>
+    </td>
+    <td align="center">{$vo.paymoney|doubleval}</td>
+    <td align="center">{$vo.num}</td>
+    <td align="center">{$vo.sh_address}</td>
+	<td align="center">
+    {$vo.sh_name}
+    <eq name='vo.uid' value='0'><else/><a style="color:#27A9E3" href="?m=user&a=add&id={$vo.uid}">[查看资料]</a></eq>
+    </td>
+	<td align="center" colspan="2">
+    {$vo.sh_tel}
+    </td>
+    <td align="center">   
+<a href="?m=order&a=add&id={$vo.id}" <eq name="vo.view" value="0">class="red"</eq>><eq name="vo.view" value="0">(未)</eq>查看</a>
+    </td>
+  </tr>
+  
+    </volist>
+	</tbody>
+    
+     
+<tr class="no">
+    	<td> </td>
+      <td colspan="8" align="left">      
+        <a class="btn btn-primary" target="_blank" href="?m=order&a=export" title="导出订单">导出订单</a>        
+      </td>
+    </tr>
+    <tr class="no">
+    <td colspan="9" align="center" class="page">累计：<span class="red">{$count}</span>
+    总金额：<span class="red">{$zmoney}</span>
+     产品数量：<span class="red">{$znum}</span>
+     {$page}{$selectpg}</td>
+    </tr>
+</table>	
+</div></div>
+<include file="Public:foot" />

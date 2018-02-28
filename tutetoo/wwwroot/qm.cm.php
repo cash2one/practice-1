@@ -1,0 +1,9 @@
+<?php
+define("ThinkPHP_PATH","jiang/");
+define("APP_NAME","jadmin");
+define("APP_PATH","jadmin/");
+define('WIFIROOT',str_replace("\\",'/',dirname(__FILE__)));
+define('APP_DEBUG',true);
+session_start();
+$_SESSION['yy']=0;
+require_once(ThinkPHP_PATH."ThinkPHP.php");

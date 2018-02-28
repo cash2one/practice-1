@@ -1,0 +1,169 @@
+<php>
+$t_do='?m=order&a=doact';
+$t_attr='?m=order&a=attr';
+</php>
+<include file="Public:head" />
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+    	<li style="float:right"><b><a href="?m=order">订单中心</a></b></li>
+        <li><i class="icon-coffee"></i> 订单详情</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-edit"></i></strong><small>{$actionType}详情</small></h2>
+<form action="?m=order&a=save" class="form-horizontal">
+<input type="hidden" name="id" value="{$vo.id}" />
+
+<table class="table table-hover table-bordered curve_mid">
+	<tbody>
+    <tr class="no">
+    <td colspan="6" align="left" style=" font-size:14px; background:#ddd; font-weight:600; text-align:left">
+    <span style="float:right; color:#36A803; padding-right:15px;">
+    <php>
+    if ($vo['yhj']>0)
+    {
+    	$yid=M("youhui_info")->where("id='".$vo['yhj']."'")->getField("yid");
+        $attr=M("youhui")->where("id='".$yid."'")->getField("attr");
+        if ($attr!='')
+        {
+        echo '优惠劵：'.$attr;
+    	}
+    }
+    </php>
+    </span>
+    <span style=" font-size:13px; font-weight:100; color:#f00;">(订单编号：{$vo.orderid})</span>  
+    提交时间:{$vo.addtime|date='Y-m-d H:i:s',###}
+    </td>
+    </tr>
+
+    <tr class="orderqk">  
+      <td width="100">产品缩略图</td>
+      <td width="300">产品名称</td>
+      <td>数量</td>
+      <td><eq name='vo.oty' value='0'>单价<else/>积分</eq></td>
+      <td>运费</td> 
+      <td>金额</td>     
+    </tr>
+ 
+<php>
+$i=0;
+$barray=M("order_goods")->where("orderid='".$vo['orderid']."'")->select();
+foreach($barray as $pro) 
+{ 
+</php>
+    <tr class="orderlist orderqk">
+      <td width="100"><img src="{$pro.pic}" height="60" width="60" /></td>
+      <td>{$pro.cntitle}</td>     
+      <td>{$pro.num}</td>       
+      <td>{$pro.price}</td>
+      <td>{$pro.yf}</td>
+      <td>{$pro.money}</td>
+    </tr>
+<php>
+	$allnum+=$pro['num'];
+    $allmoney+=$pro['money'];
+}
+</php>
+<tr>
+
+<td class="" colspan="6" align="center">
+　总数量：<span class="red">{$allnum}</span>
+　产品<eq name='vo.oty' value='1'>积分<else/>金额</eq>：<span class="red">{$allmoney}</span>
+　运费：<span class="red">{$vo.sh_yunfei}</span>
+　应付<eq name='vo.oty' value='1'>积分<else/>金额</eq>：<span class="red">{$vo.paymoney}</span>
+</td></tr>
+    <tr id="useradd">
+      <td width="108" align="left" colspan="6" style=" font-size:14px; text-align:left; background:#ddd"><strong>收货人信息</strong></td>
+    </tr>
+    <php>
+    $vos=M("user")->where("user_id='".$vo['uid']."'")->find();
+    $cntitle=M("order_goods")->where("orderid='".$vo['orderid']."'")->getField("cntitle");
+    </php> 
+    <tr>
+      <td width="108" align="right">数量</td>
+      <td colspan="5" style="text-align:left">
+       {$vo.num}
+      </td>
+    </tr> 
+    <tr>
+      <td width="108" align="right">收货人</td>
+      <td colspan="5" style="text-align:left">{$vo.sh_name} </td>
+    </tr>    
+    <tr>
+      <td width="108" align="right">联系方式</td>
+      <td colspan="5" style="text-align:left">{$vo.sh_tel}  </td>
+    </tr>
+    <tr>
+      <td width="108" align="right">收货地址</td>
+      <td colspan="5" style="text-align:left">{$vo.sh_address}  </td>
+    </tr>
+    <tr>
+      <td width="108" align="right" class="red">运费支付方式</td>
+      <td colspan="5" style="text-align:left">
+      	<eq name='vo.wtype' value='1'>运费一起支付</eq>
+        <eq name='vo.wtype' value='2'>运费货到支付</eq>
+      </td>
+    </tr>
+	<eq name='vo.isbirthday' value='1'>
+    <tr>
+      <td width="108" align="right" class="red">生日当天下单</td>
+      <td colspan="5" style="text-align:left">
+	  <b class="red">该会员是生日当天下单</b>
+	  </td>
+    </tr>
+    </eq>
+        
+    <tr>
+      <td width="108" align="right">订单备注</td>
+      <td colspan="5" style="text-align:left">
+	  {$vo.sh_bz}
+	  </td>
+    </tr>
+    
+    <tr>
+      <td width="108" align="right">管理员备注</td>
+      <td colspan="5" style="text-align:left">
+	  <textarea class="form-control wat" style=" width:90%; height:30px;" id="bz2" name="bz2">{$vo.gbz}</textarea>
+	  </td>
+    </tr>
+    
+    <tr>
+      <td align="right">　物流信息：</td>
+      <td style="text-align:left" colspan="9">
+      <input class="form-control b50" id="sh_kuaidi" name="sh_kuaidi" value="{$vo.sh_kuaidi}" size="80" />
+      </td>
+    </tr>
+    
+    <tr class="hides">
+      <td width="108" align="right">订单状态</td>
+      <td colspan="9" style="text-align:left">
+	  <select name="zt" id="zt" class="form-control wat">
+    <option value='0' <eq name='vo.zt' value='0'>selected="selected"</eq>>未发货</option>
+    <option value='1' <eq name='vo.zt' value='1'>selected="selected"</eq>>已发货</option>
+    <option value='2' <eq name='vo.zt' value='2'>selected="selected"</eq>>已确认收货</option>
+    <option value='3' <eq name='vo.zt' value='3'>selected="selected"</eq>>订单完成</option>
+    <option value='91' <eq name='vo.zt' value='91'>selected="selected"</eq>>已申请退货</option>
+    <option value='92' <eq name='vo.zt' value='92'>selected="selected"</eq>>退货处理中</option>
+    <option value='93' <eq name='vo.zt' value='93'>selected="selected"</eq>>退货成功</option>
+    <option value='94' <eq name='vo.zt' value='94'>selected="selected"</eq>>退货失败</option>
+    <option value='95' <eq name='vo.zt' value='95'>selected="selected"</eq>>订单关闭</option>
+      </select>
+	  </td>
+    </tr>
+      
+    <tr class="no">
+      <td colspan="9" align="center">
+            <button id="btn_sub" type="submit" class="btn btn-primary"><i class="icon-ok"></i>保 存</button>　　
+            <button type="button" class="btn btn-default" onClick="location.href='?m=order';">
+            <i class="icon-reply"></i>返 回
+            </button>
+      </td>
+    </tr>
+</table>
+</form>
+
+</div>
+</div>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+<include file="Public:foot" />

@@ -1,0 +1,42 @@
+  </div>
+</div>
+<ul class="scroll-bar hide">
+  <li><a href="javascript:;" onclick="toggleFaq();"><i class="icon-question-sign"></i></a></li>
+  <li><a href="javascript:;" id="top"><i class="icon-circle-arrow-up"></i></a></li>
+</ul>
+<div id="Faq" class="hide">
+  <h2><strong>客服热线：028-8444 1617</strong>  
+  	<a href="javascript:;" onclick="hideFaq()"><i class="icon-remove-circle"></i></a>
+  </h2>
+  <div class="content">
+<!--    <ol>
+        <li></li>
+    </ol>-->
+  </div>
+</div>
+<script src="__PUBLIC__/icheck/js/icheck.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/common/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/js/common.js"></script>
+<script>
+//显示 隐藏菜单
+var cook1=$.cookie("sidebar");
+var obj=$("#sidebar").next(".main");
+var obj2=$("#sidebar");
+var obj3=$("#main-menu-toggle");
+function jshow(){obj3.attr("title","点击显示菜单");obj2.addClass("sidebar-hide");obj.attr("class","col-sm-12 col-md-12 main");}
+function jhide(){obj3.attr("title","点击隐藏菜单");obj2.removeClass("sidebar-hide");obj.attr("class","col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main");}
+if (cook1=="sidebar-hide"){jshow()}else{jhide()}
+$("#main-menu-toggle").click(function()
+{
+	if (cook1!="sidebar-hide")
+	{
+		$.cookie("sidebar","sidebar-hide");cook1="sidebar-hide";jshow()
+	}
+	else
+	{
+		$.cookie("sidebar","");cook1="";jhide()	
+	}
+});
+</script>
+</body>
+</html>

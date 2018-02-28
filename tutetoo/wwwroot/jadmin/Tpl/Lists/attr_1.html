@@ -1,0 +1,63 @@
+<h3 class="boxtitle">运费设置</h3>
+<div style=" height:200px; overflow:auto; overflow-x:hidden;">
+<table width="400" cellpadding="0" cellspacing="5">
+<tr>
+	<td width="100">地区：</td>
+    <td width="260">运费：</td>
+</tr>
+<php>
+$cs=(int)$_GET['cs'];
+$id=(int)$_GET['id'];
+$val=M("info")->where("id='$id'")->getField("z5");
+$arrv=explode(',',$val);
+$arr=M("region")->where("pid='1'")->order('sort asc')->select();
+</php>
+<volist name='arr' id='vo'>
+<php>
+//获取当前的运费 如果没有记录则为当前默认的运费
+$yf=$arrv[$i-1];
+if ($yf=='')
+{
+	$yf=$cs;
+}
+</php>
+<tr>
+	<td>{$vo.name}</td>
+    <td><input name="money" class="form-control wat" onkeyup="value=value.replace(/[^0-9_]/g,'')" style="width:70%" value="{$yf}" size="40" /></td>
+</tr>
+</volist>
+</table>
+</div>
+<script type="text/javascript">
+$("#lightBox .lightBoxSubmit").prepend("<input type='submit' value='保存' />");
+$("#lightBoxForm").submit(saveattr);
+
+function saveattr()
+{
+	var F=$("input[name=money]");
+	var size=F.size();
+	var selarr = new Array([size]);
+	F.each(function(i){
+		selarr[i]=F.eq(i).val();
+	});
+	var money=selarr.join();
+	loading("数据处理中...");
+	$.ajax({
+	   type: "POST",
+	   url: "?m=lists&a=doact",
+	   data: "action=Xsave&id={$id}&money="+escape(money),
+	   success: function(msg){
+		   msg='设置成功';
+			showalert(msg,0,1,1,function(msg){
+				$("#z5").val(money);
+			});
+		   }
+	}); 
+
+	return false;
+}
+</script>
+<script src="__PUBLIC__/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/icheck/js/icheck.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/common/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/js/common.js"></script>

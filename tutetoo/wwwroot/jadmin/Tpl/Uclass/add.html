@@ -1,0 +1,32 @@
+<include file="Public:head" />
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 会员等级</li>
+        <li><a href="?m=uclass">会员等级</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-edit"></i></strong><small>{$action}会员等级</small></h2>
+        
+
+<form id="ddds" action="?m=uclass&a=save" class="form-horizontal">
+<input type="hidden" name="id" value="{$id}" />  
+<table class="curve_mid" border="0" cellpadding="2" cellspacing="2">
+   <tr>
+    <td class="red"><div style="width:103px;">　等级名称：</div></td>
+    <td ><input required="required" class="form-control b30"  id="cntitle" name="cntitle" value="{$vo['classname']}" size="35" /> <span class="red">*</span></td>
+    </tr>  
+   <tr class="hidec">
+    <td class="redx">　升级积分：</td>
+    <td><input required="required" class="form-control b30" id="s1" name="s1" value="{$vo['s1']}" size="35" /></td>  
+  </tr>  
+  <tr class="no">
+  <td></td>
+    <td>
+    <button id="btn_sub" type="submit" class="btn btn-primary"><i class="icon-ok"></i>保 存</button>　
+    <button type="button" class="btn btn-default" onclick="location.href='?m=uclass&lm={$fid}';"><i class="icon-reply"></i>返 回</button></td>
+    </tr>
+</table>
+</form>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+<include file="Public:foot" />

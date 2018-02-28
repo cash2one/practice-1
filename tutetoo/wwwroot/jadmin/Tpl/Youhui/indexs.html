@@ -1,0 +1,88 @@
+<include file="Public:head" />
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+    	<li style="float:right"><b><a onclick="history.go(-1)">返回</a></b></li>
+        <li><i class="icon-coffee"></i> 优惠劵管理</li>
+        <li><a href="?m=youhui">优惠劵管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>优惠劵管理</small></h2>
+        
+<style type="text/css">
+.td div{ position:relative; display:block; /*z-index:999;*/ min-height:20px;}
+.td div img{ height:60px; position:absolute; margin-top:-20px;}
+</style>
+<script type="text/javascript">
+var t_root='__ROOT__';
+var t_app='__APP__ ';
+var t_url='__URL__ ';
+var t_action='__ACTION__';
+var t_do='?m=youhui&a=doact';
+var t_attr='?m=youhui&a=attr';
+
+function selsearch()
+{
+var desc=$("input[name=desc]:checked").val();
+var lm=$("#fid").val();
+var order=$("#Order").val();
+var F=$("input[name=Xflag]:checked");
+var size=F.size();
+var selarr = new Array([size]);
+F.each(function(i){selarr[i]=F.eq(i).val();});
+var flag=selarr.join(); 
+var settop=$("#Ssettop:checked").val();
+var audit=$("#audit:checked").val();
+	
+if (settop==undefined){settop=""}
+if (audit==undefined){audit=""}
+$.cookie("youhui_Order",order);
+$.cookie("youhui_desc",desc);
+location.href="?m=youhui&key="+$("#key").val()+"&audit="+audit;
+return false;
+}
+</script>
+
+<div class="table-responsive">
+   <table class="table table-hover table-bordered curve_mid">
+
+  <tr class="no">
+  	<th></th>
+    <th><div style="min-width:40px">ID</div></th>
+    <th align="center"><div style=" min-width:170px;">优惠劵名称[产品ID]</div></th>
+    <th align="center">生成时间</th>
+    <th align="center">有效时间</th>
+    <th align="center">优惠劵编码</th>
+    <th align="center" colspan="2">使用状态</th>
+  </tr>
+  <tbody>
+
+      <volist name='lists' id='vo'>
+     	<php>
+        $vos=M("youhui")->where("id='".$vo['yid']."'")->find();
+        </php>
+		<tr>
+		  <td><!--<input name="Id" id="ID_{$vo.id}" class="checkid" type="checkbox" value="{$vo.id}"  />--></td>
+		  <td align="center">{$vo.id}</td>
+		  <td class="td"><div style=" color:{$vo.color}">{$vos.attr}[{$vo.pid}]</div></td>
+          <td align="center">{$vo.addtime|date='Y-m-d H:i:s',###}</td>
+		  <td align="center">{$vos.s2|date='Y-m-d',###}</td>
+          <td align="center">{$vo.attr}</td>
+		  <td align="center" colspan="2">
+          <eq name='vo.usetime' value='0'>未使用<else/><span class="red">已使用</span>
+          <a href="?m=order&yid={$vo.id}">查看订单</a>
+          </eq>
+          </td>
+		</tr>
+    </volist>
+	</tbody>
+    <tr class="no">
+    <td colspan="8" align="center" class="page"> {$page}{$selectpg}</td>
+    </tr>
+</table>
+</div>
+</div>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+</div></div>
+<include file="Public:foot" />

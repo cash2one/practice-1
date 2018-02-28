@@ -1,0 +1,51 @@
+<include file="Public:head" />
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+    	<!--<li style="float:right"><b><a href="?m=uclass&a=add&fid={$id}">添加</a></b></li>-->
+        <li><i class="icon-coffee"></i> 会员等级</li>
+        <li>会员等级</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>会员等级</small></h2>
+        
+<form action="?m=uclass&a=doact&" class="form-horizontal form-edit">
+<input type="hidden" id="idstr" name="idstr" value="">
+<input type="hidden" id="sortstr" name="sortstr" value="">
+<input type="hidden" name="action" value="sort">
+<table class="curve_mid" border="0" cellpadding="2" cellspacing="2">
+<tr class="no" align="center">
+    <th style="text-align:left">　级别名称</th>
+    <th style="width:60px;">升级积分</th>
+</tr>
+<tbody>{$lmlist}</tbody>
+<tr class="no" align="center">
+    <th></th>
+    <th style="width:60px;">
+    <button onclick="return save()" type="submit" class="btn btn-primary" id="btn_sub">保存</button>
+    </th>
+</tr>
+</table>
+</form>        
+    </div>
+</div>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+<script type="text/javascript">var t_do='?m=uclass&a=doact';</script>
+<script type="text/javascript">
+function save()
+{
+	var size=$("input[name=sid]").size();
+	var selarr = new Array([size]);
+	var selsortarr=new Array([size]);
+	$("input[name=sid]").each(function(i){
+		selarr[i]=$("input[name=sid]").eq(i).val();
+		selsortarr[i]=$("input[name=sort]").eq(i).val();
+	});
+	var idstr=selarr.join();
+	var sorts=selsortarr.join();
+	$("#idstr").val(idstr);
+	$("#sortstr").val(sorts);
+}
+</script>
+<include file="Public:foot" />
