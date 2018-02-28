@@ -1,0 +1,45 @@
+{__NOLAYOUT__}<h3 class="boxtitle">{$action}</h3>
+<table width="400" cellpadding="0" cellspacing="5">
+<tr>
+	<td width="60">服务名称：</td>
+    <td>{$vos['cntitle']}</td>
+</tr>
+
+<tr>
+	<td width="60">预约人次：</td>
+    <td><input id="num" class="form-control wat" value="{$vo.num}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" /></td>
+</tr>
+<tr>
+	<td width="60">预约备注：</td>
+    <td><input id="bz" class="form-control wat" value="{$vo.bz}" /></td>
+</tr>
+</table>
+<script type="text/javascript">
+$("#lightBox .lightBoxSubmit").prepend("<input type='submit' value='保存' />");
+$("#lightBoxForm").submit(saveattr);
+function saveattr()
+{
+	var num=$("#num").val();
+	var bz=$("#bz").val();	
+	num=parseInt(num);
+	if(num=="" || num==null){alert("预约人次必填");$("#num").focus(); return false;}
+	if (num>{$vos.snum}){alert("预约人次不能大于{$vos.snum}");}	
+	loading("数据处理中...");
+	$.ajax({
+	   type: "POST",
+	   url: "{$mname}/doact",
+	   data: "action=Xsave&id={$vo.id}&pid={$vos.pid}&gid={$vos.id}&num="+escape(num)+"&bz="+escape(bz),
+	   success: function(msg){
+			showalert(msg,0,1,3,function(msg){window.location.reload();
+			});
+		   }
+	});
+	return false;
+}
+</script>
+<script src="__PUBLIC__/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+<script src="__PUBLIC__/sys/icheck/js/icheck.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/sys/common/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/sys/js/common.js"></script>

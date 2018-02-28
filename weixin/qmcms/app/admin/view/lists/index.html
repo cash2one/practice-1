@@ -1,0 +1,148 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+    	<li style="float:right"><b><a href="{$mname}/add.qm?fid={$lm|(int)}">添加文档</a></b></li>
+        <li><i class="icon-coffee"></i> 网站内容</li>
+        <li><a href="{$mname}">内容管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>文档列表</small></h2>
+<style type="text/css">
+.td div{ position:relative; display:block;/* height:20px; */height: auto;}
+.td div img{ height:60px; position:absolute; margin-top:-20px;}
+</style>
+<script type="text/javascript">
+function selsearch()
+{
+var desc=$("input[name=desc]:checked").val();
+var lm=$("#fid").val();
+var order=$("#Order").val();
+var F=$("input[name=Xflag]:checked");
+var size=F.size();
+var selarr = new Array([size]);
+F.each(function(i){selarr[i]=F.eq(i).val();});
+var flag=selarr.join(); 
+var settop=$("#Ssettop:checked").val();
+var audit=$("#audit:checked").val();
+if (settop==undefined){settop=""}
+if (audit==undefined){audit=""}
+$.cookie("list_order",order);
+$.cookie("list_desc",desc);
+location.href="{$mname}.qm?lm="+lm+"&key="+$("#key").val()+"&flag="+flag+"&settop="+settop+"&audit="+audit;
+return false;
+}
+</script>
+{php}$id=$lm;{/php}
+{include file="lists:cat2" /}
+<div class="table-responsive">
+   <table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="8">
+    <form onsubmit="return selsearch()">　
+		<select id="fid" class="form-control wat" onchange="selsearch()" style="max-width:180px;">
+        <option value="0">全部分类</option>
+        {$lmoption}
+        </select>        
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" class="form-control wat" style=" width:120px;" />
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="id">编号</option>
+            <option value="addtime">时间</option>
+            <option value="Sort">排序</option>
+            <option value="hit">浏览</option>
+            <option value="cntitle">标题</option>
+            <option value="settop_time">置顶</option>
+          </select>
+          <span style="display:none">
+          <input name="audit" id="audit" type="checkbox" value="1"{eq name="audit" value='1'}  checked="checked" {else/}{/eq} />显
+          <input name="Ssettop" id="Ssettop" type="checkbox" value="1"{eq name="settop" value='1'}  checked="checked" {else/}{/eq} />顶</span>
+		{$getflagoption}        
+         
+        <input type="radio" id="BDasc" name="desc" value="asc" onclick="selsearch()" /> <label for="BDasc">升序</label>
+           <input type="radio" id="BDdesc" name="desc" value="desc" onclick="selsearch()" /> <label for="BDdesc">降序</label>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+          $("#fid").val("{$lm}");
+		      $("#cid").val("{$cid}");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+  <tr class="no">
+  	<th></th>
+    <th>ID</th>
+    <th align="center"><div style=" min-width:170px;">文档标题</div></th>
+    <th align="center">栏目</th>
+    <th align="center">发布时间</th>
+    <th align="center">浏览量</th>
+    <th align="center">排序</th>
+    <th align="center"><div style=" width:58px;">操作</div></th>
+  </tr>
+  <tbody>
+
+    {volist name='list' id='vo'}
+		<tr>
+		  <td><input name="Id" id="ID_{$vo.id}" class="checkid" type="checkbox" value="{$vo.id}"  /></td>
+		  <td width="60" align="center">{$vo.id}</td>
+		  <td class="td text-left">
+      <div>
+      <span style=" color:{$vo.color}">{$vo.cntitle}</span>
+      {$vo.id|issimg=###}{$vo.id|mflag=###}
+      </div>
+      </td>
+		  <td align="center"><a href="{$mname}?lm={$vo.fid}">{:info_ty(0,$vo['fid'],'cntitle')}</a></td>
+		  <td align="center">{$vo.addtime}</td>
+		  <td align="center">
+           <input name="hit" value="{$vo.hit}" class="input16 center" style="width:60px;" onFocus="str=this.value;" />
+      </td>
+		  <td align="center">
+		  <input name="Sort" value="{$vo.sort}" class="input16 center" style="width:60px;" onFocus="str=this.value;" />
+		  </td>	  
+		  <td align="center">          
+        <a href="#no" onclick="selattr('{$vo.id}')">属性</a> 
+        <a href="{$mname}/add.qm?id={$vo.id}">修改</a></td>
+		</tr>
+    {/volist}
+	</tbody>
+    <tr class="no">
+    	<td> </td>
+      <td colspan="7" align="left">
+      <label class="foot-label"><input type="checkbox" name="checkall" value="0"> 全选</label>
+      {php}
+      $qx1=qmcheck('edit',2); 
+      $qx2=qmcheck('del',2);
+      {/php}
+      {eq name='qx1' value='1'}
+      <button class="btn btn-primary" onclick="selsort2()">更新浏览量</button>
+      	<button class="btn btn-primary" onclick="selsort()">更新排序</button>
+        <button class="btn btn-primary" onclick="shen1()">审核通过</button>
+        <button class="btn btn-primary" onclick="shen2()">审核失败</button>
+      	<button class="btn btn-primary" onclick="movedoc()">移动</button>{/eq}
+        {eq name='qx2' value='1'}
+        <button class="btn btnd" onclick="delseled()">刪除</button>
+        {/eq}
+      </td>
+    </tr>
+    <tr class="no">
+    <td colspan="8" align="center" class="page"> {$page}{$selectpg}</td>
+    </tr>
+</table>
+</div>
+</div>
+<script type="text/javascript">
+$(".td span").hover(function() {
+	$(".td").addClass("a11");
+	$(this).parent().parent().removeClass("a11");
+    var g=$(this).attr("pic");
+	if (g!="" && g!=undefined)
+	{
+		$(this).append("<img class='tdp' src='"+g+"' />");
+	}
+},function(){$(this).find("img").remove();});
+</script>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+</div></div>

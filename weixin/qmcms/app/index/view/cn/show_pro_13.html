@@ -1,0 +1,33 @@
+	<div class="all_center_box">
+		<div class="fwfl_box2 wf100">
+			{if condition="$arc['img'] neq ''"}
+			<div class="box1 wf100"><img src="{$arc.img}" alt="{$arc.cntitle}"></div>
+			{/if}
+			<div class="box2 wf100">
+				<div class="w90">
+					<h4 class="text-center">{$arc.cntitle}</h4>
+					{$arc.z1}
+				</div>
+			</div>
+			<div class="box3 wf100"><div class="w90"><span>适用人群</span></div></div>
+			<div class="box2 wf100">
+				<div class="w90">
+				{$arc.bz1}
+				</div>
+			</div>
+			<div class="box3 wf100"><div class="w90"><span>服务价格</span></div></div>
+			<div class="box4 wf100"><div class="w90"><img src="/Comm/images/ico_4.png" alt="服务价格"><span>￥{$arc.s1}/次</span></div></div>
+			<div class="box3 wf100"><div class="w90"><span>服务时长</span></div></div>
+			<div class="box4 wf100"><div class="w90"><img src="/Comm/images/ico_5.png" alt="服务时长"><span>约{$arc.s3}分钟</span></div></div>
+			<div class="box3 wf100"><div class="w90"><span>客服热线</span></div></div>
+			<div class="box4 wf100"><div class="w90"><img src="/Comm/images/ico_6.png" alt="客服热线"><a href="tel:{$arc.bz3}">{$arc.bz3}</a></div></div>
+			<div class="box5 wf100" style="padding-bottom: 80px"><div class="w90"><input type="button" class="btn btn-block qbuy" toid="{$arc.id}" gourl='1' value="立即购买"></div></div>
+
+		</div>
+	</div>	
+
+
+<font class="qhide hits"></font>
+<script>
+    $('.hits').empty().load('/hit/?id={$arc.id}');
+</script>

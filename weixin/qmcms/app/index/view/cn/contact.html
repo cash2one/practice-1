@@ -1,0 +1,116 @@
+	<div class="all_center_box">
+		<div class="contact_box wf100">
+			<div class="map_box wf100" id="allmap"></div>
+<style type="text/css">
+*{
+    margin:0px;
+    padding:0px;
+}
+body, button, input, select, textarea {
+    font: 12px/16px Verdana, Helvetica, Arial, sans-serif;
+}
+#allmap{
+	width:100%;
+	min-height:267px;
+}
+.mapsimg{ displayx: none; }
+.mapk{ width: 300px;  }
+.mapk img{width: 100%;}
+
+</style>
+{php}
+	$marr=arclist($fid,999,'id,cntitle,img,bz1,bz2,bz3');
+	$urls2='';
+{/php}
+
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+<script>
+function init() {
+    var center = new qq.maps.LatLng(30.657420,104.065840);
+    var map = new qq.maps.Map(document.getElementById("allmap"), {
+        center: center,
+        zoom: 13
+    });
+    var infoWin = new qq.maps.InfoWindow({
+        map: map
+    });
+    var latlngs = [
+    	{volist name='marr' id='vo'}
+    	{php}
+    		$jwdarr=explode(',',$vo['bz3']);
+    		$jwd=$jwdarr[0].','.$jwdarr[1];
+    		$jwd2=$jwdarr[1].','.$jwdarr[0];
+    		$urls[]='coord:'.$jwd2.';title:'.$vo['cntitle'].';addr:'.$vo['bz6'];
+    		$urls2='000';
+    	{/php}
+    	new qq.maps.LatLng({$jwd}){if condition="$i neq count($marr)"},{/if}    	
+        {/volist}
+    ];
+    var info = new Array();
+    var titles = new Array();
+	{volist name='marr' id='vo'}
+	{php}$k=$i-1;{/php}
+    	{php}
+    		$jwdarr=explode(',',$vo['bz3']);
+    		$jwd=$jwdarr[0].','.$jwdarr[1];
+    		$jwd2=$jwdarr[1].','.$jwdarr[0];
+    		$urls[]='coord:'.$jwd.';title:'.$vo['cntitle'].';addr:'.$vo['bz1'];
+    		$urls2='000';
+    	{/php}
+	info[{$k}]="<div class='mapk'><p style='font-size:12px;lineheight:1.8em;'><!--<img src='{$vo.img}' width='300' height='200' class='mapsimg' />--><b>{$vo.cntitle}</b></br>地址：{$vo.bz1}</br> 电话：{$vo.bz2}<br/><a href='http://map.qq.com/m/mqq/nav/eword={$vo.cntitle}&epointx={$jwdarr[1]}&epointy={$jwdarr[0]}?referer=myapp'>去这里</a></br></p></div>";
+	titles[{$k}]="{$vo.cntitle}";
+    {/volist}
+
+
+    for(var i = 0;i < latlngs.length; i++) {
+        (function(n){
+            var marker = new qq.maps.Marker({
+                position: latlngs[n],
+                map: map
+            });
+			var label = new qq.maps.Label({
+                position: latlngs[n],
+                map: map,
+                content: titles[n]
+            });
+            var anchor = new qq.maps.Point(0, 39),
+                size = new qq.maps.Size(42, 68),
+                origin = new qq.maps.Point(0, 0),
+                icon = new qq.maps.MarkerImage("http://open.map.qq.com/apifiles/2/4/81/theme/default/imgs/marker.png",size,origin,anchor);
+            marker.setIcon(icon);				
+            qq.maps.event.addListener(marker, 'click', function() {
+            	var content=info[n];
+            	var titles2=titles[n];
+                infoWin.open();                
+                infoWin.setContent(content);
+                infoWin.setPosition(latlngs[n]);             
+            });			
+        })(i);
+    }
+}
+</script>
+<script>
+$(window).load(function(){
+	init();	
+	console.log('init');
+});
+</script>
+
+
+			
+			<div class="box1 wf100">
+				<ul>
+					{volist name='marr' id='vo'}
+			    	{php}
+			    		$jwdarr=explode(',',$vo['bz3']);
+			    	{/php}
+					<li>
+						<p><a style="float: right;color:#F16385;" href="http://map.qq.com/m/mqq/nav/eword={$vo.cntitle}&epointx={$jwdarr[1]}&epointy={$jwdarr[0]}?referer=myapp">我要去这里</a>{$vo.cntitle}</p>
+						<p>公司地址：{$vo.bz1}</p>
+						<p><a href="tel:{$vo.bz2}">热线电话：{$vo.bz2}</a></p>
+					</li>
+					{/volist}
+				</ul>
+			</div>
+		</div>
+	</div>		

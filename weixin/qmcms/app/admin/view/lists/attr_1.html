@@ -1,0 +1,59 @@
+{__NOLAYOUT__}<h3 class="boxtitle">快速属性编辑</h3>
+<table width="400" cellpadding="0" cellspacing="5">
+<tr>
+	<td width="60">属性：</td>
+    <td><input name="audit" id="audit" type="checkbox" value="1"{eq name="vo.audit" value='1'}  checked="checked" {else/}{/eq} />显示 {$getflagoption} 
+	<input name="Ssettop" id="Ssettop" type="checkbox" value="1"{eq name="vo.settop" value='1'}  checked="checked" {else/}{/eq} />置顶</td>
+</tr>
+<tr>
+	<td width="60">文档标题：</td>
+    <td><input id="Xcntitle" class="form-control wat" value="{$vo['cntitle']}" size="40" /></td>
+</tr>
+<tr class="hide">
+	<td width="60">标题颜色：</td>
+    <td><input id="Xcolor" class="form-control wat" value="{$vo['color']}" size="10" /> <select class="form-control wat" onchange="$('#Xcolor').val($(this).val())">
+        <option value="">自动</option>
+         {$getcoloroption}
+        </select></td>
+</tr>
+<tr>
+	<td width="60">发布时间：</td>
+    <td><input id="Xaddtime" class="form-control wat" value="{$vo['addtime']}" /></td>
+</tr>
+</table>
+<script type="text/javascript">
+$("#lightBox .lightBoxSubmit").prepend("<input type='submit' value='保存' />");
+$("#lightBoxForm").submit(saveattr);
+
+function saveattr()
+{
+	var F=$("input[name=Xflag]:checked");
+	var size=F.size();var selarr = new Array([size]);
+	F.each(function(i){selarr[i]=F.eq(i).val();});
+	var flag=selarr.join(); 
+	var cntitle=$("#Xcntitle").val();
+	var color=$("#Xcolor").val();
+	var addtime=$("#Xaddtime").val();
+	var settop=$("#Ssettop:checked").val();
+	var audit=$("#audit:checked").val();
+	if(cntitle=="" || cntitle==null){alert("标题必填");$("#cntitle").focus(); return false;}
+	if(addtime=="" || addtime==null){alert("发布时间必填");$("#addtime").focus(); return false;}	
+	loading("数据处理中...");
+	$.ajax({
+	   type: "POST",
+	   url: "{$mname}/doact",
+	   data: "action=Xsave&id={$vo.id}&flag="+escape(flag)+"&Time="+escape(addtime)+"&color="+escape(color)+"&cntitle="+escape(cntitle)+"&settop="+settop+"&audit="+audit,
+	   success: function(msg){
+			showalert(msg,0,1,3,function(msg){window.location.reload();
+			});
+		   }
+	});
+	return false;
+}
+</script>
+<script src="__PUBLIC__/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+<script src="__PUBLIC__/sys/icheck/js/icheck.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/sys/common/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/sys/js/common.js"></script>

@@ -1,0 +1,29 @@
+	<div class="all_center_box">
+		<div class="tdjs_box wf100">
+			<ul>
+				{volist name='lists' id='vo'}		
+				{php}
+				if ($vo['img']=='')
+				{
+					$vo['img']=$mrimg;
+				}
+				{/php}
+				<li>
+					<div class="imgs wf100">
+						<img src="{$vo.img}" alt="{$vo.cntitle}">
+						<div class="box1">{if condition="$i lt 10"}0{/if}{$i}<em></em></div>
+						<div class="box2">
+							<p>&#9679; 姓名：{$vo.cntitle}</p>
+							<p>&#9679; 职位：{$vo.tag}</p>
+							<p>&#9679; 从业经验：{$vo.bz1}</p>
+						</div>
+					</div>
+					<div class="info_box wf100">
+						<span>擅长类目：{$vo.bz2}</span>
+						<span>所得成就：{$vo.bz3}</span>
+					</div>
+				</li>
+				{/volist}
+			</ul>
+		</div>
+	</div>

@@ -1,0 +1,141 @@
+	<div class="all_center_box">
+		<div class="gwc_box wf100">
+			<div class="mrys_box wf100">
+				<div class="box1 wf100">
+					<div class="w90">
+						<img src="/Comm/images/ico_7.png" alt="消息">
+						<div class="pull-left">
+							<div class="bd">
+								<ul>
+								{php}
+								$arr=arclist(21,5);
+								{/php}
+								{volist name='arr' id='vo'}
+								<li><a href="{$vo.id|idlname}">{$vo.cntitle}</a></li>
+								{/volist}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="gwc_list_box wf100">
+				<ul>
+					{php}
+					$mtb=M('info');
+					$allmoney=0;
+					$allnum=0;
+					{/php}
+					{volist name='list' id='ky'}
+					{php}
+					$vo=$mtb->where("id='".$ky['pid']."'")->field('id,cntitle,img,s1,s3,s5,tag')->find();
+					$allmoney+=$vo['s1']*$ky['num'];
+					$allnum+=$ky['num'];
+					{/php}
+					<li class="loopli" toid="{$ky.pid}" jg="{$vo.s1|doubleval}">
+						<div class="checkbox"><label><input type="checkbox" class="pid" name="pid[]" checked></label></div>
+						<div class="imgs"><a href="{$vo.id|idlname}"><img src="{$vo.img}" alt="{$vo.cntitle}"></a></div>
+						<div class="info_box">
+							<h4>{$vo.cntitle}</h4>
+							<h5>
+								{$vo.tag}<br>
+								准备时长：{$vo.s5}min<br>
+								服务时长：{$vo.s3}min
+							</h5>
+							<div class="fl">￥{$vo.s1}/次</div>
+							<div class="fr">
+								<div class="sl">x<i id="num_{$ky.pid}">{$ky.num}</i></div>
+								<div class="jj">
+									<span class="jia">+</span>
+									<span class="jian">-</span>
+								</div>
+							</div>
+						</div>
+					</li>
+					{/volist}
+					
+				</ul>
+			</div>
+			<div class="gwc_cz_box wf100">
+				<div class="checkbox"><label><input class="all" checked type="checkbox">全选</label></div>
+				<div class="pull-right">
+					<span>合计：￥<i id="allmoney">{$allmoney}</i></span>
+					<a href="/user/cart" class="btn_pay">去结算（<i id='allnum'>{$allnum}</i>）</a>
+				</div>
+			</div>
+		</div>
+	</div>		
+
+
+<script type="text/javascript">
+var maxs=999;
+function docount()
+{
+	var allmoney=0;var allnum=0;
+	$(".loopli").each(function(index, element) {
+		var sk=$(this).find(".pid:checked").length;
+		if (sk>0)
+		{		
+			var obj=$(this);
+			var id=$(this).attr("toid");		
+			var price=obj.attr("jg");
+			var num=$("#num_"+id).text();
+			var tmoney=0;
+			num=parseInt(num);
+			tmoney=price*10000;
+			tmoney=parseInt(tmoney*num);
+			tmoney=tmoney/10000;				
+			allmoney+=tmoney*10000;
+			allnum+=num;
+		}		
+    });
+	$("#allmoney").text(allmoney/10000);
+	$("#allnum").text(allnum);
+	getck();
+}
+
+function getck()
+{ 
+	k=0;var valArr = new Array; 
+    $(".pid:checked").each(function(i){ valArr[i] = $(this).val(); k++; }); 
+	var vals = valArr.join(',');
+	$.ajax({
+		type:"POST",dataType:"json",url:"/user/updatebuy2",data:'id='+vals,
+		success:function(msg){console.log(msg);}
+	});
+}
+ 
+$(".all").click(function(){   
+	var sk=$(".all:checked").length; 
+    if(sk>0){$(".pid").prop("checked", true);}else{$(".pid").prop("checked", false); }   
+	docount(); 
+});
+
+$(".pid").click(function(){docount();});
+$(".btn_pay").click(function(){
+	var k = parseInt($('#allnum').text());
+	if (k==0){layer.msg('购买产品不能为空');return false;}
+});
+
+function jian(id){
+	var objs=$('#num_'+id);
+	var i=parseInt(objs.text());
+	if(i>=1){i--;}else{i=0;}					
+	if(i>=maxs){objs.text(maxs);}
+	objs.text(i);qcmd_(id,i);docount();
+}
+
+function jia(id){
+	var objs=$('#num_'+id);var i=parseInt(objs.text());
+	i++;if(i>=maxs){objs.text(maxs);}
+	objs.text(i);qcmd_(id,i);docount();		
+}
+
+$(".loopli").each(function(index, element){
+	var obja=$(this).find('span.jia');
+	var objb=$(this).find('span.jian');
+	var id=$(this).attr('toid');
+	obja.click(function(){jia(id);});
+	objb.click(function(){jian(id);});
+})
+</script>

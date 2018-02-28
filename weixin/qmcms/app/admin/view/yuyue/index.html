@@ -1,0 +1,110 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li class="pull-right"><a href="#no" onClick="history.go(-1)">返回</a></li>
+        <li><i class="icon-coffee"></i> 预约申请管理</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>预约申请管理</small></h2>
+
+<script type="text/javascript">
+function selsearch()
+{
+var desc=$("input[name=desc]:checked").val();
+var order=$("#Order").val();
+$.cookie("yy_order",order);
+$.cookie("yy_desc",desc);
+var time1=$("#time1").val();
+var time2=$("#time2").val();
+$.cookie("yy_time1",time1);
+$.cookie("yy_time2",time2);
+location.href="?key="+$("#key").val();
+return false;
+}
+</script>
+
+<table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="12">
+    <form onsubmit="return selsearch()">　		
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" style=" width:170px;" class="form-control wat" />
+          预约日期<input type="text" style=" width:120px;" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="time1" value="{$time1}"  class="form-control wat" />-<input type="text" style=" width:120px;" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="time2" value="{$time2}"  class="form-control wat" />
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="id">按编号</option>
+            <option value="addtime">提交时间</option>
+            <option value="yytime">预约时间</option>
+            <option value="truename">姓名</option>
+            <option value="phone">手机号</option>
+            <option value="cntitle">预约名称</option>
+            <option value="yy_teacher_name">预约技师</option>
+            <option value="num">预约人数</option>        
+          </select>      
+        <input type="radio" id="BDasc" name="desc" value="asc" onclick="selsearch()" /> <label for="BDasc">升序</label>
+           <input type="radio" id="BDdesc" name="desc" value="desc" onclick="selsearch()" /> <label for="BDdesc">降序</label>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+  <tr class="no">
+  	<th></th>
+    <th>ID</th>
+    <th align="center">姓名</th>
+    <th align="center">手机</th>
+    <th align="center">预约名称</th>
+    <th align="center">预约人数</th>
+    <th align="center">预约技师</th>
+    <th align="center">服务时间</th>
+    <th align="center">预约时间</th>
+    <th align="center">提交时间</th>
+    <th align="center">操作</th>
+  </tr>
+  <tbody>
+    {volist name='lists' id='vo'}
+		<tr>
+		  <td><input name="Id" id="ID_{$vo.id}" type="checkbox" value="{$vo.id}" class="checkid" /></td>
+		  <td align="center">{$vo.id}</td>
+		  <td align="center">{$vo.truename}[{$vo.uid}]
+
+        <span class="red">[{eq name='vo.orderid' value=''}预约技师{else/}预约服务{/eq}]</span>
+
+        {eq name='vo.audit' value='1'}<span class="red">[已到店消费]</span>{/eq}
+        {eq name='vo.audit' value='-1'}<span class="red">[预约取消]</span>{/eq}
+      </td>
+		  <td align="center">{$vo.phone}</td>
+      <td align="center">{$vo.cntitle}</td>
+      <td align="center">{$vo.num}</td>
+      <td align="center">{$vo.yy_teacher_name}</td>
+      <td align="center">{php}echo $vo['timeint']/2;{/php}小时</td>
+      <td align="center">{$vo.yytime|date='Y-m-d H:i',###}</td> 
+		  <td align="center">{$vo.time|date='Y-m-d H:i',###}</td>	 
+      <td align="center"><a href="{$mname}/view.qm?id={$vo.id}">查看</a></td> 
+		</tr>
+    {/volist}
+	</tbody>
+    <tr class="no">
+    	<td> </td>
+      <td colspan="11" align="left">
+      <label class="foot-label"><input type="checkbox" name="checkall" value="0"> 全选</label>
+      <?php
+      $qx1=qmcheck('edit',2); 
+      $qx2=qmcheck('del',2);
+      ?>
+      <eq name='qx1' value='1'>
+        <button class="btn btn-primary" onclick="shen1()">到店消费</button>
+        <button class="btn btn-primary" onclick="shen2()">预约取消</button></eq>
+        <eq name='qx2' value='1'>
+        <button class="btn btnd" onclick="delseled()">刪除</button>
+        </eq>
+      </td>
+    </tr>
+    <tr class="no">
+    <td colspan="12" align="center" class="page"> {$page}{$selectpg}</td>
+    </tr>
+</table>
+</div></div>

@@ -1,0 +1,40 @@
+	<div class="all_center_box">
+		<div class="my_yy_box wf100">
+			<div class="top_box wf100">
+				<form action="" method="get">
+					<input type="search" name="k" class="form-control" placeholder="搜索预约项目">
+				</form>
+			</div>
+			<div class="home_box4 wf100" id="home_box5">
+				<div class="bd">
+					<ul>
+						{php}
+							$mtb2=M('order_goods');
+							$mtb1=M('info');
+						{/php}
+						{volist name='list' id='vo'}
+						{php}
+							$vo1=$mtb1->where("id='".$vo['pid']."'")->field('cntitle,img,tag,s3,s5')->find();
+							$vo2=$mtb2->where("orderid='".$vo['orderid']."' and pid='".$vo['pid']."'")->find();
+						{/php}
+						<li class="pull-left">
+							<em>{if condition="$i lt 10"}0{/if}{$i}</em>
+							<img  src="{$vo1.img}" alt="{$vo1.cntitle}">
+							<div class="info_box">
+								<h4>{$vo1.cntitle}</h4>
+								<h5>{$vo1.tag}</h5>
+								<p>准备时长：{$vo1.s5}min<br>服务时长：{$vo1.s3}min</p>
+								<div>
+									<p>预约时间：{$vo.yytime|date='Y-m-d H:i',###} {eq name='vo.audit' value='1'}<span class="red">[已服务]</span>{/eq}</p>
+									<p>预约技师：{$vo.yy_teacher_name}</p>
+								</div>
+							</div>
+						</li>
+						{/volist}
+					</ul>
+				</div>
+				<div class="hd"><ul></ul></div>
+			</div>
+		</div>
+		
+	</div>

@@ -1,0 +1,342 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 系统主页</li>
+    </ol>
+    <div class="wrap">
+
+
+<div class="row" style="opacity: 1;">
+<div class="col-lg-12">
+    <div class="row">
+        <div class="col-lg-12">
+<?php
+    $mtb1=M('lm');
+    $mtb2=M('info');
+    $mtb3=M('admin');
+    $mtb4=M('log');
+    $times=strtotime(date('Y-m-d'));
+    $times1=$times-7*24*3600;
+    $where1="time>'$times1' and del='0'";
+    $where2="time>'$times' and del='0'";
+    $s1=$mtb1->where("del='0'")->count();
+    $s2=$mtb2->where("del='0'")->count();
+    $s3=$mtb3->where("del='0'")->count();
+    $s4=$mtb4->where("del='0'")->count();
+    $s5=$mtb4->where($where1)->count();
+    $s6=$mtb4->where($where2)->count();
+?>                    
+<div class="row">
+    <div class="col-lg-12">
+    <div class="row" style="margin-top:15px;">
+        <div class="col-lg-3 col-sm-6 col-xs-12">
+            <div class="main-box infographic-box colored emerald-bg"> <i class="icon icon-calendar"></i>
+                <span class="headline">当前时间</span>
+                <span class="value" id="qmtime"></span>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-xs-12">
+            <div class="main-box infographic-box colored green-bg"> <i class="icon icon-sitemap"></i>
+                <span class="headline">栏目总数</span>
+                <span class="value">{$s1}</span>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-6 col-xs-12">
+            <div class="main-box infographic-box colored purple-bg">
+                <i class="icon icon-th"></i>
+                <span class="headline">内容总数</span>
+                <span class="value">{$s2}</span>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-6 col-xs-12">
+            <div class="main-box infographic-box colored red-bg"> <i class="icon icon-user"></i>
+                <span class="headline">累计访问统计：{$s4}</span>
+                <span class="value" style="font-size: 14px;">7日访问：{$s5}</span>
+                <span class="value" style="font-size: 14px;">今日访问：{$s6}</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{php}
+    /*本周*/
+    $xqj=(int)date('w');
+    if ($xqj==0)
+    {
+        $xqj=7;
+    }
+    $week1=date('Y-m-d',time()-($xqj-1)*24*3600);
+    $week1time=strtotime($week1);
+    $week2time= $week1time+7*24*3600;
+    /*本月*/
+    $month=(int)date('m');
+    $month1=date('Y-m-01');
+    $month2=date('Y-m-d');
+    $ym=date('Y-m-');
+    $m2=date('d');
+    $mtbs=M('log');
+    for ($m=1;$m<=$m2;$m++)
+    {
+        $data1[]=$m;
+        /*统计当天的访问量*/
+        $nowdate=$ym.$m;
+        $where="date='$nowdate'";
+        $val=$mtbs->where($where)->count();
+        $vdata1[]=$val;
+    }
+    $str1='['.implode(',',$data1).']';
+    $val1='['.implode(',',$vdata1).']';
+
+    for ($m=1;$m<=$xqj;$m++)
+    {
+        $time=$week1time+($m-1)*24*3600;
+        $data2[]=$m;
+        /*统计当天的访问量*/
+        $nowdate=date('Y-m-d',$time);
+        $where="date='$nowdate'";
+        $val=$mtbs->where($where)->count();
+        $vdata2[]=$val;
+    }
+    $str2='['.implode(',',$data2).']';
+    $val2='['.implode(',',$vdata2).']';
+
+{/php}
+<div class="col-lg-12">
+    <div id="mains" style="width: 90%; margin:0 auto;height:200px;"></div>
+    <p style="text-align: center;">
+        <a href="#no" id='months'>本月访问统计</a>
+        <a href="#no" id="weeks">本周访问统计</a>
+    </p> 
+<script src="/Comm/js/echarts.js"></script>
+<script>
+var myChart = echarts.init(document.getElementById('mains'));
+option = {
+    title: {
+        text: '本月统计折线图'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        //data:['访问统计']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: {$str1}
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name:'访问统计',
+            type:'line',
+            stack: '总量',
+            itemStyle :
+            {  
+                normal : {  
+                    color:'#03A9F4', 
+                    lineStyle:{  
+                        color:'#03A9F4'  
+                    }  
+                }  
+            },  
+            data:{$val1}
+        }
+    ]
+};
+option2 = {
+    title: {
+        text: '本周统计折线图'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        //data:['访问统计']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['周一','周二','周三','周四','周五','周六','周日']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name:'访问统计',
+            type:'line',
+            stack: '总量',
+            itemStyle :
+            {  
+                normal : { 
+                    color:'#03A9F4', 
+                    lineStyle:{  
+                        color:'#03A9F4'  
+                    }  
+                }  
+            }, 
+            data:{$val2}
+        }
+    ]
+};
+myChart.setOption(option);
+
+myChart.on('click', function (params) {
+    var name=params;
+    console.log(params);
+});
+function change2()
+{
+    myChart.showLoading();
+    myChart.hideLoading();
+    myChart.setOption(option);   
+}
+function change1()
+{
+    myChart.showLoading();
+    myChart.hideLoading();
+    myChart.setOption(option2);   
+}
+$('#weeks').click(function(){
+    change1();
+});
+$('#months').click(function(){
+    change2();
+});
+</script>
+
+
+
+</div>
+
+<div class="col-lg-6">
+    <div class="main-box clearfix">
+        <header class="main-box-header clearfix">
+            <h2>全美开发团队</h2>
+        </header>
+        <div class="main-box-body clearfix">
+            <table class="table">
+                <tbody><tr>
+                    <th>总策划</th>
+                    <td>柏老师</td>
+                </tr>
+                <tr>
+                    <th>产品设计及研发团队</th>
+                    <td>何老师</td>
+                </tr>
+                <tr>
+                    <th>界面及用户体验团队</th>
+                    <td>BootStrap 团队</td>
+                </tr>
+                <tr>
+                    <th>官方网址</th>
+                    <td><a href="http://www.quanmeicm.net" target="_blank">www.quanmeicm.net</a></td>
+                </tr>
+                <tr>
+                    <th>售后反馈</th>
+                    <td><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=370832937&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:370832937:51" alt="技术交流" title="技术交流"></a></td>
+                </tr>
+                <tr>
+                    <th>BUG反馈</th>
+                    <td><a href="http://wpa.qq.com/msgrd?v=3&uin=370832937&site=qq&menu=yes" target="_blank">全美程序猿</a></td>
+                </tr>
+            </tbody></table>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-lg-6">
+    <div class="main-box clearfix">
+        <header class="main-box-header clearfix">
+            <h2>系统信息</h2>
+        </header>
+        <div class="main-box-body clearfix">
+            <table class="table">
+                <?php
+                   $v=phpversion();
+                   $v2arr=\think\Db::query("select VERSION()");
+                   $v2=$v2arr[0]['VERSION()'];
+                   $max=ini_get("upload_max_filesize");
+                   $v3=$_SERVER;
+                   $v=$v3['SERVER_SOFTWARE'];
+                   $v4=PHP_OS;
+                ?>
+                <tbody><tr>
+                    <th>核心版本</th>
+                    <td>QMCMS V2017</td>
+                </tr>
+                <tr>
+                    <th>服务器操作系统</th>
+                    <td>{$v4}</td>
+                </tr>
+                <tr>
+                    <th>运行环境</th>
+                    <td>{$v}</td>
+                </tr>
+                <tr>
+                    <th>MYSQL版本</th>
+                    <td>{$v2}</td>
+                </tr>
+                <tr>
+                    <th>上传限制</th>
+                    <td>{$max}</td>
+                </tr>
+                <tr>
+                    <th>系统版权所有</th>
+                    <td>
+                        <a href="http://www.quanmeicm.net/" target="_blank">成都全美网络</a>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+    </div>
+</div></div>
+<script type="text/javascript">   
+    function systemTime()  
+    {  
+        var dateTime=new Date();var hh=dateTime.getHours();var mm=dateTime.getMinutes();var ss=dateTime.getSeconds(); 
+        mm=extra(mm);ss=extra(ss);
+        document.getElementById("qmtime").innerHTML=hh+":"+mm+":"+ss;   
+        setTimeout("systemTime()",1000);  
+    }   
+    function extra(x){if(x < 10){return "0" + x;}  else{ return x;}  }  
+    systemTime();
+</script>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+    </div>
+</div>

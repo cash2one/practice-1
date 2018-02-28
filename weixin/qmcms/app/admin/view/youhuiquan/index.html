@@ -1,0 +1,115 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+    	<li style="float:right"><b><a href="{$mname}/add.qm">添加优惠券</a></b></li>
+        <li><i class="icon-coffee"></i> 优惠券管理</li>
+        <li><a href="{$mname}">优惠券管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>优惠券管理</small></h2>
+<style type="text/css">
+.td div{ position:relative; display:block;/* height:20px; */height: auto;}
+.td div img{ height:60px; position:absolute; margin-top:-20px;}
+</style>
+<script type="text/javascript">
+function selsearch()
+{
+var desc=$("input[name=desc]:checked").val();
+var order=$("#Order").val();
+var audit=$("#audit:checked").val();
+if (audit==undefined){audit=""}
+$.cookie("yh_order",order);
+$.cookie("yh_desc",desc);
+location.href="{$mname}.qm?key="+$("#key").val()+"&audit="+audit;
+return false;
+}
+</script>
+{php}$id=$lm;{/php}
+<div class="table-responsive">
+   <table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="10">
+    <form onsubmit="return selsearch()">　    
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" class="form-control wat" style=" width:120px;" />
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="id">编号</option>
+            <option value="time">时间</option>
+            <option value="time_start">开始日期</option>
+            <option value="time_end">截止日期</option>
+            <option value="cntitle">优惠券名称</option>
+            <option value="maxmoney">消费满金额</option>
+            <option value="dkmoney">抵扣金额</option>
+            <option value="s1">领取次数</option>
+            <option value="s2">使用次数</option>
+          </select>
+
+          <input name="audit" id="audit" type="checkbox" value="1"{eq name="audit" value='1'}  checked="checked" {else/}{/eq} />启用
+         
+        <input type="radio" id="BDasc" name="desc" value="asc" onclick="selsearch()" /> <label for="BDasc">升序</label>
+           <input type="radio" id="BDdesc" name="desc" value="desc" onclick="selsearch()" /> <label for="BDdesc">降序</label>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+  <tr class="no">
+  	<th></th>
+    <th>ID</th>
+    <th align="center"><div style=" min-width:170px;">优惠券名称</div></th>
+    <th align="center">消费满金额</th>
+    <th align="center">抵扣金额</th>
+    <th align="center">开始日期</th>
+    <th align="center">截止日期</th>
+    <th align="center">领取次数</th>
+    <th align="center">使用次数</th>
+    <th align="center"><div style=" width:58px;">操作</div></th>
+  </tr>
+  <tbody>
+
+    {volist name='list' id='vo'}
+		<tr>
+		  <td><input name="Id" id="ID_{$vo.id}" class="checkid" type="checkbox" value="{$vo.id}"  /></td>
+		  <td width="60" align="center">{$vo.id}</td>
+		  <td class="td text-left">{$vo.cntitle}{eq name='vo.audit' value='0'}<span class="red">[未审核]</span>{/eq}</td>
+		  <td align="center">{$vo.maxmoney}</td>
+		  <td align="center">{$vo.dkmoney}</td>
+		  <td align="center">{$vo.time_start|date='Y-m-d',###}</td>
+		  <td align="center">{$vo.time_end|date='Y-m-d',###}</td>	  
+      <td align="center">{$vo.s1}</td>
+      <td align="center">{$vo.s2}</td>
+		  <td align="center">          
+        <a href="{$mname}/add.qm?id={$vo.id}">查看</a></td>
+		</tr>
+    {/volist}
+	</tbody>
+    <tr class="no">
+    	<td> </td>
+      <td colspan="9" align="left">
+      <label class="foot-label"><input type="checkbox" name="checkall" value="0"> 全选</label>
+      {php}
+      $qx1=qmcheck('edit',2); 
+      $qx2=qmcheck('del',2);
+      {/php}
+      {eq name='qx1' value='1'}
+        <button class="btn btn-primary" onclick="shen1()">审核通过</button>
+        <button class="btn btn-primary" onclick="shen2()">审核失败</button>{/eq}
+        {eq name='qx2' value='1'}
+        <button class="btn btnd" onclick="delseled()">刪除</button>
+        {/eq}
+      </td>
+    </tr>
+    <tr class="no">
+    <td colspan="10" align="center" class="page"> {$page}{$selectpg}</td>
+    </tr>
+</table>
+</div>
+</div>
+
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+</div></div>

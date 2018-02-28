@@ -1,0 +1,20 @@
+	<div class="all_center_box">
+		<div class="fwfl_box wf100">
+			<div class="w90">
+				<div class="top_box wf100">
+					<form action="{:htmlname(13)}" method="get">
+						<input type="search" name="k" required class="form-control" placeholder="关键字查找您需要的服务">
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="hyzx_box wf100">
+			<div class="lower_box wf100">
+				<ul>
+					{volist name='lists' id='vo'}
+					<li><a href="{$vo.id|idlname}"><div class="fl">{if condition="$i lt 10"}0{/if}{$i}、{$vo.cntitle}</div><i></i></a></li>
+					{/volist}
+				</ul>
+			</div>
+		</div>		
+	</div>

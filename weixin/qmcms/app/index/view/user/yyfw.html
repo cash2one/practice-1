@@ -1,0 +1,173 @@
+	<div class="all_center_box">
+		<div class="fwyy_box wf100">
+			{php}
+			$arc=M('info')->where("id='$id'")->find();
+			{/php}
+			<div class="box4 wf100">
+				<span>{$arc.cntitle}</span>
+				<p>{$arc.z1|nl2br}</p>
+			</div>
+			<div class="box5 wf100">
+				<div class="nr wf100">
+					门店地址：{:lmdid(8,'bz1')}
+					<a href="{:htmlname(8)}" target="_blank">(查看地图)</a>
+				</div>
+				<div class="nr wf100">
+					联系电话：<a href="tel:{:lmdid(8,'bz2')}">{:lmdid(8,'bz2')}</a>
+				</div>				
+<!-- 				{if condition="($arc['bz6'] neq '') && $arc['bz6'] neq '0'"}
+<div class="nr wf100">
+服务技师：
+{php}
+//$jsarr=explode(',',$arc['bz6']);
+$arr2=M('info')->where("id in (".$arc['bz6'].")")->field('id,cntitle')->select();
+{/php}
+{volist name='arr2' id='vo2'}
+{$vo2.cntitle} 
+{/volist}
+{:info_ty($arc['s3'],0,'cntitle')}
+</div>
+{/if} -->
+
+				
+			</div>
+			<div class="box5 wf100">
+				<!-- <div class="nr wf100">客服人员：{$arc.bz4}</div> -->
+				<div class="nr wf100">客服热线：<a href="tel:{$arc.bz3}">{$arc.bz3}</a></div>
+			</div>
+			
+			{if condition="$arc['z3'] neq ''"}
+			<div class="box5 wf100">
+				<div class="nr wf100">案例展示</div>
+				<div class="box7 wf100" id="alzs">
+					<div class="bd">
+						{php}
+						$picarr=explode(',',$arc['z3']);
+						{/php}
+						{volist name='picarr' id='ky'}
+						{php}
+						$mod=$i%3;
+						if ($mod==1)
+						{
+							echo '<ul>';
+						}
+						{/php}
+						<li><img src="{$ky}" alt="案例{$i}"></li>
+						{php}
+						if ($mod==0)
+						{
+							echo '</ul>';
+						}
+						{/php}
+						{/volist}
+						{php}
+						if ($mod!=0)
+						{
+							echo '</ul>';
+						}
+						{/php}
+					</div>
+					<div class="hd"><ul></ul></div>
+				</div>
+				<script>
+				TouchSlide({slideCell:"#alzs",titCell:".hd ul",effect:"leftLoop",autoPage:true,autoPlay:true,interTime:5000,delayTime:1000});
+				</script>
+			</div>
+			{/if}
+			<style>
+			.xdsoft_datetimepicker .xdsoft_datepicker.active+.xdsoft_timepicker{ display: none; }
+			</style>
+			<link rel="stylesheet" type="text/css" href="/Comm/css/jquery.datetimepicker.css" />
+			<script type="text/javascript" src="/Comm/js/jquery.datetimepicker.js"></script>
+			<script type="text/javascript">
+			var today = new Date();	
+			var time=today.getFullYear()+"-"+(today.getMonth()+1)+"-"+today.getDate();
+			$(function(){
+				$('.time').datetimepicker({
+					format:"Y-m-d",
+					timepicker:true,
+					lang:'ch'
+				});							
+				$('.time').val(time);
+			})
+			</script>
+			<form method="post" action="/user/yy1save" class="form-horizontal">
+			<input type="hidden" name="id" value="{$yyid}">
+			<div class="box5 wf100">
+
+				<div class="nr wf100">
+					服务项目：{$arc.cntitle}
+				</div>
+				<div class="nr wf100">
+					选择服务技师：
+					<select name="fwjs" nm='服务技师' datatype="*1-8">
+						<option value=''>选择服务技师</option>
+						{volist name='arr2' id='vo2'}
+						<option value='{$vo2.id} '>{$vo2.cntitle} </option>						
+						{/volist}
+					</select>
+				</div>
+			</div>
+			<div class="box5 wf100">
+				<div class="nr wf100">选择预约日期：<input name="yytime" readonly type="text" class="text time"></div>
+			</div>
+
+			{php}
+			$arrs=explode(',',$sysfig['cfg_f8']);
+            for ($f=16;$f<=40;$f++)
+            {
+                $selected='';
+                $v=(int)($f/2);
+                $mod=$f%2;
+                $vs2=$v;
+                $selected='';
+                if (in_array($f,$arrs))
+                {
+                    $selected=' selected';
+                
+                if ($vs2<10)
+                {
+                    $vs2='0'.$vs2;
+                }
+                if ($mod==0)
+                {
+                    $v3=$v;
+                    if ($v3<10)
+                    {
+                        $v3='0'.$v3;
+                    }
+                    $v2=$vs2.':00到'.$v3.':30';
+                }
+                else
+                {
+                    $v3=$v+1;
+                    if ($v3<10)
+                    {
+                        $v3='0'.$v3;
+                    }
+                    $v2=$vs2.':30到'.$v3.':00';
+                }
+                $option.="<option value='".$f."'$selected>".$v2."</option>";
+                }
+            }
+			{/php}
+			<div class="box5 wf100">
+				<div class="nr wf100">选择预约时间段：
+					<select name="xtime" required>
+						<option value=''>请选择预约时间段</option>
+						{$option}
+					</select>
+				</div>
+			</div>
+			<div class="box6 wf100">
+				<input type="submit" class="btns active" value="确认预约">
+				<!-- <a class="btns cancel">取消预约</a> -->
+			</div>
+			</form>
+			<script type="text/javascript">
+				$("a.cancel").click(function(){
+					$('.time').val(time);
+				});
+			</script>
+		</div>
+	</div>		

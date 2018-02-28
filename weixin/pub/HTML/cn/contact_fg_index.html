@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="format-detection" content="telephone=no"/>
+<meta name="author" content="www.quanmeicm.net">
+<title>联系我们_美丽莎皮肤管理中心</title>
+<meta name="keywords" content="联系我们" />
+<meta name="description" content="联系我们" />
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/Comm/css/bootstrap.css">
+<link href="/Comm/css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/Comm/js/jquery.min.js"></script>
+<script type="text/javascript" src="/Comm/js/bootstrap.js"></script>
+<script type="text/javascript" src="/Comm/js/jquery.SuperSlide.2.1.1.js"></script>
+<script type="text/javascript" src="/Comm/js/TouchSlide.1.1.js"></script>
+<script type="text/javascript" src="/pub/layer/layer.js"></script>
+<script type="text/javascript" src="/Comm/js/index.js"></script>
+</head>
+<body>
+
+	<div class="head_box">
+		<a href="tel:028-86259635">
+			<img src="/Comm/images/ico_17.png" class="phone" alt=""><font>028-86259635</font>
+		</a>
+		<img src="/Comm/images/ico_19.png" class="head_btn" onClick="$('.head_menu').fadeIn();" alt=""></i>
+	</div>
+	<div class="head_menu">
+		<div class="box_info">
+			<div class="fp-tableCell">
+				<span onClick="$('.head_menu').fadeOut();"><img src="/Comm/images/ico_18.png" alt=""></span>
+				<div class="wf100">
+					<a href="/">美丽商城</a>
+					<a href="/fwfl/">服务分类</a>
+					<a href="/mlyy/">美丽预约</a>
+					<a href="/mlbd/">美丽宝典</a>
+					<a href="/about/">关于我们</a>
+					<a href="/team/">团队介绍</a>
+					<a href="/contact/">联系我们</a>
+					<a href="/user/index">会员中心</a>
+				</div>
+			</div>
+		</div>
+	</div>
+		<script>
+	var logstr='2d07zjQvK4Vi4/U5GV3FPiNoArWYpw24KSxApqD2g+GlIfMU0QquMYD8gvxM+WiY3ilBiMn347sQoBJSIWwP2vpayn3Cgirspg';
+	var from_url='http://mls.keqxz.com/whome/user/get_winfo?code=001ThC7x1e5Mwa0YBi9x1AEu7x1ThC7M&state=STATE';
+	</script>
+		<div class="all_center_box">
+		<div class="contact_box wf100">
+			<div class="map_box wf100" id="allmap"></div>
+<style type="text/css">
+*{
+    margin:0px;
+    padding:0px;
+}
+body, button, input, select, textarea {
+    font: 12px/16px Verdana, Helvetica, Arial, sans-serif;
+}
+#allmap{
+	width:100%;
+	min-height:267px;
+}
+.mapsimg{ displayx: none; }
+.mapk{ width: 300px;  }
+.mapk img{width: 100%;}
+
+</style>
+
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+<script>
+function init() {
+    var center = new qq.maps.LatLng(30.657420,104.065840);
+    var map = new qq.maps.Map(document.getElementById("allmap"), {
+        center: center,
+        zoom: 13
+    });
+    var infoWin = new qq.maps.InfoWindow({
+        map: map
+    });
+    var latlngs = [
+    	    	new qq.maps.LatLng(30.626280,104.158577)    ];
+    var info = new Array();
+    var titles = new Array();
+		info[0]="<div class='mapk'><p style='font-size:12px;lineheight:1.8em;'><!--<img src='' width='300' height='200' class='mapsimg' />--><b>公司总部</b></br>地址：四川省成都市成华区和韵路286号附一</br> 电话：028-86259635<br/><a href='http://map.qq.com/m/mqq/nav/eword=公司总部&epointx=104.158577&epointy=30.626280?referer=myapp'>去这里</a></br></p></div>";
+	titles[0]="公司总部";
+    
+
+    for(var i = 0;i < latlngs.length; i++) {
+        (function(n){
+            var marker = new qq.maps.Marker({
+                position: latlngs[n],
+                map: map
+            });
+			var label = new qq.maps.Label({
+                position: latlngs[n],
+                map: map,
+                content: titles[n]
+            });
+            var anchor = new qq.maps.Point(0, 39),
+                size = new qq.maps.Size(42, 68),
+                origin = new qq.maps.Point(0, 0),
+                icon = new qq.maps.MarkerImage("http://open.map.qq.com/apifiles/2/4/81/theme/default/imgs/marker.png",size,origin,anchor);
+            marker.setIcon(icon);				
+            qq.maps.event.addListener(marker, 'click', function() {
+            	var content=info[n];
+            	var titles2=titles[n];
+                infoWin.open();                
+                infoWin.setContent(content);
+                infoWin.setPosition(latlngs[n]);             
+            });			
+        })(i);
+    }
+}
+</script>
+<script>
+$(window).load(function(){
+	init();	
+	console.log('init');
+});
+</script>
+
+
+			
+			<div class="box1 wf100">
+				<ul>
+										<li>
+						<p><a style="float: right;color:#F16385;" href="http://map.qq.com/m/mqq/nav/eword=公司总部&epointx=104.158577&epointy=30.626280?referer=myapp">我要去这里</a>公司总部</p>
+						<p>公司地址：四川省成都市成华区和韵路286号附一</p>
+						<p><a href="tel:028-86259635">热线电话：028-86259635</a></p>
+					</li>
+									</ul>
+			</div>
+		</div>
+	</div>		
+
+	<script type="text/javascript" src="/Comm/js/qmcm.js"></script>
+	<div class="foot_menu">
+		<a href="/"><i><img src="/Comm/images/me_1.png" alt="美丽商城"></i><p>美丽商城</p></a>
+		<a href="/fwfl/"><i><img src="/Comm/images/me_2.png" alt="服务分类"></i><p>服务分类</p></a>
+		<a href="/mlyy/"><i><img src="/Comm/images/me_3.png" alt="美丽预约"></i><p>美丽预约</p></a>
+		<a href="/user/buy"><i><img src="/Comm/images/me_4.png" alt="购物车"></i><p>购物车</p></a>
+		<a href="/user/index"><i><img src="/Comm/images/me_5.png" alt="会员中心"></i><p>会员中心</p></a>
+	</div>	
+</body></html><link rel="stylesheet" href="/pub/validform/css/validform.css"><script src="/pub/validform/js/validform_v5.3.2.js"></script><script src="/pub/validform/js/validform.js"></script><script>$(".form-horizontal input,.form-horizontal select").focus(function(){var obj=$(this);if (obj.hasClass("Validform_error")){var v=obj.val();var msg=obj.attr('msg');var msg2=obj.attr('nm');if (msg2!=''){msg=msg2+'格式错误';msg2="请输入"+msg2;}obj.removeClass('Validform_error'); if (v==''){layer.msg(msg2,{time:3000});}else{layer.msg(msg,{time:3000});}}});</script> 

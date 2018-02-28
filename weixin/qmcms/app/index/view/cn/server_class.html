@@ -1,0 +1,28 @@
+	
+	<div class="all_center_box">
+		<div class="fwfl_box wf100">
+			<div class="w90">
+				<div class="top_box wf100">
+					<form action="{:htmlname(13)}" method="get">
+						<input type="search" name="k" required class="form-control" placeholder="关键字查找您需要的服务">
+					</form>
+				</div>
+				<div class="lower_box wf100">
+					<ul>
+						{php}
+						$arr=lmlist($blm,99);
+						{/php}
+						{volist name='arr' id='vo'}
+						<li>
+							<div class="imgs wf100"><a href="{$vo.id|htmlname}"><img src="{$vo.Additional}" alt="{$vo.cntitle}"></a></div>
+							<div class="info_box wf100">
+								<span>{$vo.cntitle}</span>
+								<p>{$vo.dtitle}</p>
+							</div>
+						</li>
+						{/volist}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>		

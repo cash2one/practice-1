@@ -1,0 +1,119 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li class="pull-right"><a href="#no" onClick="history.go(-1)">返回</a></li>
+        <li><i class="icon-coffee"></i> <a href="{$mname}">订单管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-edit"></i></strong><small>{$actionType}订单管理</small></h2>
+<form action="{$mname}/save.qm" onsubmit="return save()" class="form-horizontal">
+<input type="hidden" name="id" value="{$vo.id}" /><br>
+<input type="hidden" name="from" value="{$from}" />
+<table class="table table-hover table-bordered curve_mid">
+
+  <tbody>
+    <tr class="no">
+    <td colspan="8" align="left" style=" font-size:14px; background:#ddd; font-weight:600; text-align:left">
+    <span style=" font-size:13px; font-weight:100; color:#f00;">订单编号：{$vo.orderid})</span> 
+    订单金额：{$vo.money} 　
+    优惠金额：{$vo.yh_money}　
+    抵扣积分：{$vo.payjf}　
+    支付金额：{$vo.paymoney}　
+    提交时间:{$vo.time|date='Y-m-d H:i:s',###}</td>
+    </tr>
+    <tr class="orderqk">  
+      <td width="100">产品缩略图</td>
+      <td width="300">产品名称</td>
+      <td>预约次数</td>
+      <td>剩余次数</td>
+      <td>单价</td>
+      <td>金额</td>
+      <td>今日预约状态</td> 
+      <td>预约操作</td>   
+    </tr>
+ 
+{php}
+$date=date('Y-m-d');
+$time1=strtotime($date);
+$time2=$time1+24*3600;
+$mtb3=M('order_yuyue');
+$i=0;
+$barray=M("order_goods")->where("orderid='".$vo['orderid']."'")->select();
+foreach($barray as $pro) 
+{ 
+{/php}
+    <tr class="orderlist orderqk">
+      <td width="100"><img src="{$pro.img}" height="40" width="40" /></td>
+      <td>{$pro.cntitle}</td>     
+      <td>{$pro.num}</td>
+      <td>{$pro.snum}</td>       
+      <td>{$pro.price}</td>
+      <td>{php}echo $pro['price']*$pro['num'];{/php}</td>
+      <td>
+      {php}
+      $pid=$pro['pid'];
+      $vos=$mtb3->where("orderid='".$vo['orderid']."' and pid='$pid' and (yytime>'$time1' and yytime<'$time2')")->order('id desc')->find();
+      {/php}
+      {if condition="$vos"}
+        {eq name='vos.audit' value='1'}
+        <span class="red">已预约 已服务</span>  
+        {else/}
+        <span class="red">已预约 未服务</span>
+        {/eq}
+      {else/}
+      <span class="red">未预约</span>
+      {/if}
+      </td>
+      <td>
+      {if condition="$vos"}
+        {eq name='vos.audit' value='0'}
+        <a href="#no" onclick="selattr('{$pro.id}')">设置预约已完成</a>
+        {/eq}
+      {else/}
+        <a href="#no" onclick="selattr('{$pro.id}')">添加此服务预约</a>
+      {/if}
+      
+      </td>
+    </tr>
+{php}
+  $allnum+=$pro['num'];
+  $allmoney+=$pro['money'];
+}
+{/php}
+</tbody></table>
+
+<table class="table table-hover table-bordered curve_mid">
+
+  <tr>
+    <td align="right" width="10%">　预约次数：</td>
+    <td width="90%" style="text-align:left">{$vo.num}</td>
+  </tr>
+  <tr>
+    <td align="right" width="10%">　剩余次数：</td>
+    <td width="90%" style="text-align:left">{$vo.snum}</td>
+  </tr>
+  <tr>
+    <td align="right" width="10%">　客户姓名：</td>
+    <td width="90%" style="text-align:left">{$vo.truename} [TEL:{$vo.phone}]</td>
+  </tr>
+   <tr>
+    <td align="right" width="10%">　提交时间：</td>
+    <td width="90%" style="text-align:left">{$vo.time|date='Y-m-d H:i',###}</td>
+  </tr>
+   
+
+  <tr>
+    <td align="right" width="10%">　订单备注：</td>
+    <td width="90%" style="text-align:left">{$vo.bz}</td>
+  </tr>
+  
+  <tr class="no">
+    <td colspan="2" align="center">
+    <button id="btn_sub" type="submit" class="btn btn-primary hide"><i class="icon-ok"></i>保 存</button>　　
+     <button type="button" class="btn btn-default" onClick="history.go(-1);"><i class="icon-reply"></i>返 回</button></td>
+  </tr>
+</table>
+</form>
+</div></div>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>

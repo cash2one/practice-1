@@ -1,0 +1,101 @@
+
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+    	<li style="float:right"><b><a href="{$mname}/add.qm?pid={$pid|(int)}">添加投票信息</a></b></li>
+        <li><i class="icon-coffee"></i> 投票信息管理</li>
+        <li><a href="{$modname}/lists.qm?lm=8">返回投票管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>投票信息管理</small></h2>
+        
+<style type="text/css">
+.td div{ position:relative; display:block; /*z-index:999;*/ height:20px;}
+.td div img{ height:60px; position:absolute; margin-top:-20px;}
+</style>
+<script type="text/javascript">
+function selsearch()
+{
+  var desc=$("input[name=desc]:checked").val();
+  var order=$("#Order").val();
+  $.cookie("add_order",order);
+  $.cookie("add_desc",desc);
+  location.href="{$mname}?pid={$pid}&key="+$("#key").val();
+  return false;
+}
+</script>
+
+
+<div class="table-responsive">
+  <table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="8">
+    <form onsubmit="return selsearch()">　
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" class="form-control wat" style=" width:120px;" />
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="id">编号</option>
+            <option value="time">时间</option>
+            <option value="sort">排序</option>
+            <option value="cntitle">标题</option>
+            <option value="s1">投票数</option>
+          </select>          
+         
+        <input type="radio" id="BDasc" name="desc" value="asc" onclick="selsearch()" /> <label for="BDasc">升序</label>
+           <input type="radio" id="BDdesc" name="desc" value="desc" onclick="selsearch()" /> <label for="BDdesc">降序</label>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+  <tr class="no">
+  	<th></th>
+    <th>ID</th>
+    <th align="center"><div style=" min-width:170px;">投票信息名称</div></th>
+    <th align="center">投票数</th>
+    <th align="center">投票主题</th>
+    <th align="center">发布时间</th>
+    <th align="center">排序</th>
+    <th align="center"><div style=" width:58px;">操作</div></th>
+  </tr>
+  <tbody>
+    {volist name='lists' id='vo'}
+		<tr>
+		  <td><input name="Id" id="ID_{$vo.id}" class="checkid" type="checkbox" value="{$vo.id}"  /></td>
+		  <td width="60" align="center">{$vo.id}</td>
+		  <td class="td">{$vo.cntitle}{eq name='vo.audit' value='0'}<span class="red">[未审核]</span>{/eq}</td>
+      <td class="td">{$vo.s1}</td>
+		  <td align="center">{:info_ty($vo['pid'],0,'cntitle')}</a></td>
+		  <td align="center">{$vo.time|date='Y-m-d H:i',###}</td>
+		  <td align="center">
+		  <input name="Sort" value="{$vo.sort}" class="input16 center" style="width:60px;" onFocus="str=this.value;" />
+		  </td>	  
+		  <td align="center">
+        <a href="{$mname}/add.qm?id={$vo.id}">修改</a></td>
+		</tr>
+    {/volist}
+	</tbody>
+    <tr class="no">
+    	<td> </td>
+      <td colspan="7" align="left">
+      <label class="foot-label"><input type="checkbox" name="checkall" value="0"> 全选</label>
+      	<button class="btn btn-primary" onclick="selsort()">更新排序</button>
+        <button class="btn btn-primary" onclick="shen1()">审核通过</button>
+        <button class="btn btn-primary" onclick="shen2()">审核失败</button>
+        <button class="btn btnd" onclick="delseled()">刪除</button>
+      </td>
+    </tr>
+    <tr class="no">
+    <td colspan="8" align="center" class="page"> {$page}{$selectpg}</td>
+    </tr>
+</table>
+</div>
+</div>
+
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+</div></div>

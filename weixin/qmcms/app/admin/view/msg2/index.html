@@ -1,0 +1,87 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 志愿者报名管理</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>志愿者报名管理</small></h2>
+
+<script type="text/javascript">
+function selsearch()
+{
+var desc=$("input[name=desc]:checked").val();
+var order=$("#Order").val();
+$.cookie("msg2_order",order);
+$.cookie("msg2_desc",desc);
+location.href="?key="+$("#key").val();
+return false;
+}
+</script>
+
+<table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="8">
+    <form onsubmit="return selsearch()">　		
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" style=" width:170px;" class="form-control wat" />
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="id">按编号</option>
+            <option value="addtime">按时间</option>
+            <option value="z1">姓名</option>
+            <option value="z2">电话</option>
+            <option value="z4">招募名称</option>
+          </select>      
+        <input type="radio" id="BDasc" name="desc" value="asc" onclick="selsearch()" /> <label for="BDasc">升序</label>
+           <input type="radio" id="BDdesc" name="desc" value="desc" onclick="selsearch()" /> <label for="BDdesc">降序</label>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+  <tr class="no">
+  	<th></th>
+    <th>ID</th>
+    <th align="center">姓名</th>
+    <th align="center">手机</th>
+    <th align="center">招募名称</th>
+    <th align="center">提交时间</th>
+    <th align="center">操作</th>
+  </tr>
+  <tbody>
+    {volist name='lists' id='vo'}
+		<tr>
+		  <td><input name="Id" id="ID_{$vo.id}" type="checkbox" value="{$vo.id}" class="checkid" /></td>
+		  <td align="center">{$vo.id}</td>
+		  <td align="center">{$vo.z1}{eq name='vo.state' value='0'}<span class="red">[未审核]</span>{/eq}</td>
+		  <td align="center">{$vo.z2}</td>
+      <td align="center">{$vo.z4}[id={$vo.z3}]</td>
+		  <td align="center">{$vo.addtime}</td>	 
+      <td align="center"><a href="{$mname}/view.qm?id={$vo.id}">查看</a></td> 
+		</tr>
+    {/volist}
+	</tbody>
+    <tr class="no">
+    	<td> </td>
+      <td colspan="7" align="left">
+      <label class="foot-label"><input type="checkbox" name="checkall" value="0"> 全选</label>
+      <?php
+      $qx1=qmcheck('edit',2); 
+      $qx2=qmcheck('del',2);
+      ?>
+      <eq name='qx1' value='1'>
+        <button class="btn btn-primary" onclick="shen1()">审核通过</button>
+        <button class="btn btn-primary" onclick="shen2()">审核失败</button></eq>
+        <eq name='qx2' value='1'>
+        <button class="btn btnd" onclick="delseled()">刪除</button>
+        </eq>
+      </td>
+    </tr>
+    <tr class="no">
+    <td colspan="8" align="center" class="page"> {$page}{$selectpg}</td>
+    </tr>
+</table>
+</div></div>

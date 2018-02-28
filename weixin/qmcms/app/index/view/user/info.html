@@ -1,0 +1,25 @@
+	<div class="all_center_box">
+		<div class="my_zl_box wf100">
+			<div class="top_box wf100">
+				<h5><span>编辑资料</span></h5>
+				<ul>
+					<li><div class="fl">姓名</div><div class="fr">{$user.truename}</div></li>
+					<li><div class="fl">电话</div><div class="fr">{$user.phone}</div></li>
+					<li><div class="fl">生日</div><div class="fr">{$user.birthday}</div></li>
+					<li><div class="fl">住址</div><div class="fr">{$user.address}</div></li>
+				</ul>
+			</div>
+			<form action="/user/saveinfo" class="form-horizontal" method="post">
+			<div class="lower_box wf100">
+				<input type="text" name="truename" datatype="*2-18" nm='姓名' class="form-control" value="{$user.truename}">
+
+				<input type="text" class="form-control" placeholder="手机号" {if condition="$user['phone'] neq ''"}readonly="readonly"{/if} datatype="m" nm='手机号' value="{$user.phone}" name="phone">
+				<input class="form-control time" placeholder="生日" type="date" name="birthday" value="{$user.birthday}">
+				<input type="text" nm='地址' name="address" datatype="*0-28" value="{$user.address}" class="form-control" placeholder="地址">
+				<input type="submit" class="btn btn-block fl" value="确认修改">
+				<input type="button" class="btn btn-block fr" value="取消">
+			</div>
+			</form>
+		</div>		
+	</div>
+	<style>form,html{ width: 100%; overflow-x: hidden; }</style>

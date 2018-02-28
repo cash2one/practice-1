@@ -1,0 +1,17 @@
+	<div class="all_center_box">
+		<div class="fwfl_box2 wf100">			
+			<div class="box2 wf100">
+				<div class="w90">
+					<h4 class="text-center">{$arc.cntitle}</h4>
+					{$arc.content}
+				</div>
+			</div>
+		</div>
+	</div>		
+
+
+
+<font class="hits qhide">{$arc.hit}</font>
+<script>
+    $('.hits').empty().load('/hit/?id={$arc.id}');
+</script>

@@ -1,0 +1,66 @@
+	<div class="all_center_box">
+		<div class="fwyy_box wf100">
+			<div class="box1 wf100">
+				<a href="{:htmlname(23)}" {if condition="$fid eq 23"}class="active"{/if}>服务预约</a>
+				<a href="{:htmlname(24)}" {if condition="$fid eq 24"}class="active"{/if}>技师预约</a>
+				<a href="{:htmlname(25)}">预约记录</a>
+			</div>
+			<form action="{:htmlname($fid)}" method="get">
+			<div class="box2 wf100"><input name="k" type="search" class="text" placeholder="搜索技师名称"></div>
+			</form>
+			<div class="box3 wf100">
+				<ul>
+					{php}
+					/*首先获取可预约的服务项目 根据服务项目获取所有的服务技师*/
+					$where1="uid='$user_id' and ty='1' and snum>'0' and del='0' and paytime>'0'";
+					$arr=M('order_goods')->where($where1)->field('pid')->order('id desc')->select();
+					foreach($arr as $ky)
+					{
+						$pids[]=$ky['pid'];
+					}
+					$idstr='0';
+					if ($arr)
+					{
+						$idstr=implode(',',$pids);
+					}
+					$sql="id in($idstr) and audit='1' and del='0' and (bz6!='' and bz6!='0')";
+					$arr=M('info')->where($sql)->field('bz6')->select();
+					$idstr='0';
+					foreach($arr as $ky)
+					{
+						$idstr.=','.$ky['bz6'];
+					}
+					$idsarr=explode(',',$idstr);
+					$idsarr=array_unique($idsarr);
+					$idstr=implode(',',$idsarr);
+
+					if ($keys=='')
+					{
+						$where="id in($idstr) and concat (',',fidpath,',') like '%,2,%' and audit='1' and audit2='1' and del='0'";
+						$list=M('info')->where($where)->field('id,cntitle,img,bz2')->order('sort asc')->select();
+					}
+					else
+					{
+						$where="id in($idstr) and concat (',',fidpath,',') like '%,2,%' and cntitle like '%$keys%' and audit='1' and audit2='1' and del='0'";
+						$list=M('info')->where($where)->field('id,cntitle,img,bz2')->order('sort asc')->select();
+					}
+					$mtb3=M('order_yuyue');
+					{/php}
+					{volist name='list' id='vo'}
+					<li>
+						<div class="imgs wf100">
+							<img src="{$vo.img}" alt="{$vo.cntitle}">							
+							<div class="name">{$vo.cntitle}</div>
+						</div>
+						<div class="info_box wf100">
+							<span>擅长项目：{$vo.bz2}</span>
+							<a href="{$vo.id|idlname}">申请预约</a>
+						</div>
+					</li>
+					{/volist}
+				</ul>
+			</div>
+			
+		
+		</div>
+	</div>		

@@ -1,0 +1,25 @@
+{switch name='mbtpl'}
+{case value='user/'}
+{include file="user:head" /}
+	{php}
+	$from=@$_SERVER["HTTP_REFERER"];
+	{/php}
+	<script>
+	var logstr='{$log_jm_wrnd}';
+	var from_url='{$from}';
+	</script>
+	{__CONTENT__}
+	{include file="cn:foot" /}
+{/case}
+{default/}
+{include file="cn:head" /}
+	{php}
+	$from=@$_SERVER["HTTP_REFERER"];
+	{/php}
+	<script>
+	var logstr='{$log_jm_wrnd}';
+	var from_url='{$from}';
+	</script>
+	{__CONTENT__}
+	{include file="cn:foot" /}
+{/switch}

@@ -1,0 +1,80 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li class="pull-right"><a href="#no" onClick="history.go(-1)">返回</a></li>
+        <li><i class="icon-coffee"></i> <a href="{$mname}">订单管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-edit"></i></strong><small>添加订单信息</small></h2>
+<form action="{$mname}/addsave.qm" onsubmit="return save()" class="form-horizontal">
+<input type="hidden" name="uid" value="{$arc.user_id}" /><br>
+<input type="hidden" name="from" value="{$from}" />
+<table class="table table-hover table-bordered curve_mid">
+
+  <tbody>
+    <tr class="no">
+    <td colspan="8" align="left" style=" font-size:14px; background:#ddd; font-weight:600; text-align:left">
+    <tr class="orderqk">  
+      <td width="100">产品缩略图</td>
+      <td width="300">产品名称</td>
+      <td>预约次数</td>
+      <td>剩余次数</td>
+      <td>单价</td>
+      <td>金额</td>
+    </tr>
+ 
+{php}
+$date=date('Y-m-d');
+$time1=strtotime($date);
+$time2=$time1+24*3600;
+$mtb3=M('order_yuyue');
+$i=0;
+$barray=arclist(13,699,'id,cntitle,img,s1,s2');
+foreach($barray as $pro) 
+{ 
+{/php}
+    <tr class="orderlist orderqk">
+      <td width="100"><img src="{$pro.img}" height="40" width="40" /></td>
+      <td>{$pro.cntitle}<input type="hidden" name="proid[]" class="form-control wat" value='{$pro.id}'></td>     
+      <td><input type="text" name="num[]" class="form-control wat" value='0'></td>
+      <td><input type="text" name="snum[]" class="form-control wat" value='0'></td>       
+      <td><input type="text" name="price[]" class="form-control wat" value='{$pro.s1}'></td>
+      <td><input type="text" name="money[]" class="form-control wat" value='0'></td>
+    </tr>
+{php}
+  $allnum+=$pro['num'];
+  $allmoney+=$pro['money'];
+  $time=time();
+}
+{/php}
+</tbody></table>
+
+<table class="table table-hover table-bordered curve_mid">
+
+  <tr>
+    <td align="right" width="10%">　客户姓名：</td>
+    <td width="90%" style="text-align:left">{$arc.truename} [TEL:{$arc.phone}]</td>
+  </tr>
+   <tr>
+    <td align="right" width="10%">　提交时间：</td>
+    <td width="90%" style="text-align:left">{$time|date='Y-m-d H:i',###}</td>
+  </tr>
+   
+
+  <tr>
+    <td align="right" width="10%">　订单备注：</td>
+    <td width="90%" style="text-align:left">
+      <textarea name="bz" style="width: 80%" class="form-control"></textarea>
+    </td>
+  </tr>
+  
+  <tr class="no">
+    <td colspan="2" align="center">
+    <button id="btn_sub" type="submit" class="btn btn-primary"><i class="icon-ok"></i>保 存</button>　　
+     <button type="button" class="btn btn-default" onClick="history.go(-1);"><i class="icon-reply"></i>返 回</button></td>
+  </tr>
+</table>
+</form>
+</div></div>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>

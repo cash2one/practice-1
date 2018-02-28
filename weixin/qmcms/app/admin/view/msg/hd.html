@@ -1,0 +1,122 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 活动报名管理</li>
+        <li><a href="{$mname}">活动报名管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>活动信息管理</small></h2>
+<style type="text/css">
+.td div{ position:relative; display:block;/* height:20px; */height: auto;}
+.td div img{ height:60px; position:absolute; margin-top:-20px;}
+</style>
+<script type="text/javascript">
+function selsearch()
+{
+  var desc=$("input[name=desc]:checked").val();
+  var lm=$("#fid").val();
+  var order=$("#Order").val();
+  $.cookie("hd_order",order);
+  $.cookie("hd_desc",desc);
+  location.href="{$mname}/hd.qm?lm="+lm+"&key="+$("#key").val();
+  return false;
+}
+</script>
+<div class="table-responsive">
+   <table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="9">
+    <form onsubmit="return selsearch()">　
+		<select id="fid" class="form-control wat" onchange="selsearch()" style="max-width:180px;">
+        <option value="0">全部分类</option>
+        {$lmoption}
+        </select>        
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" class="form-control wat" style=" width:120px;" />
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="g.id">编号</option>
+            <option value="g.addtime">时间</option>
+            <option value="g.Sort">排序</option>
+            <option value="g.hit">浏览</option>
+            <option value="g.cntitle">标题</option>
+            <option value="g.settop_time">置顶</option>
+            <option value="g.s1">报名人数</option>
+            <option value="B.time3">活动开始时间</option>
+            <option value="B.time4">活动结束时间</option>
+          </select>   
+         
+        <input type="radio" id="BDasc" name="desc" value="asc" onclick="selsearch()" /> <label for="BDasc">升序</label>
+           <input type="radio" id="BDdesc" name="desc" value="desc" onclick="selsearch()" /> <label for="BDdesc">降序</label>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+          $("#fid").val("{$lm}");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+  <tr class="no">
+  	<th></th>
+    <th>ID</th>
+    <th align="center"><div style=" min-width:170px;">活动名称</div></th>
+    <th align="center">栏目</th>
+    <th align="center">活动时间</th>
+    <th align="center">报名人数</th>
+    <th align="center">已报名</th>
+    <th align="center">实际已报名</th>
+    <th align="center"><div style=" width:58px;">操作</div></th>
+  </tr>
+  <tbody>
+    {php}
+    $mtb=M('msg');
+    $mtb2=M('active_time');
+    {/php}
+    {volist name='list' id='vo'}
+    {php}
+    $vo['id']=$mtb2->where("id='".$vo['id']."'")->value('pid');
+    $vos=$mtb2->where("pid='".$vo['id']."'")->find();
+    $count=(int)$mtb->where("z3='".$vo['id']."' and del='0'")->count();
+    {/php}
+		<tr>
+		  <td></td>
+		  <td width="60" align="center">{$vo.id}</td>
+		  <td class="td text-left">
+      <div><span>{$vo.cntitle}</span>
+      {$vo.id|issimg=###}
+      {eq name='blm' value='1'}
+      <a href="#no" onclick="$(this).next('p').toggle();return false;">查看活动二维码</a>
+      <p style="display:none;">活动二维码地址 [http://{$webhost}/whome/index/showactive?hid=a2365{$id}]</p>
+      {/eq}
+      </div>
+      </td>
+		  <td align="center"><a href="{$mname}/hd.qm?lm={$vo.fid}">{:info_ty(0,$vo['fid'],'cntitle')}</a></td>
+		  <td align="center">{$vos.time3|date='Y-m-d H:i',###}到{$vos.time4|date='Y-m-d H:i',###}</td>
+		  <td align="center">{$vo.s1}</td>
+		  <td align="center">{$vo.s2}</td>
+      <td align="center">{$count}</td>	  
+		  <td align="center"><a href="{$mname}?pid={$vo.id}">查看报名信息</a></td>
+		</tr>
+    {/volist}
+	</tbody>
+    <tr class="no">
+    <td colspan="9" align="center" class="page"> {$page}{$selectpg}</td>
+    </tr>
+</table>
+</div>
+</div>
+<script type="text/javascript">
+$(".td span").hover(function() {
+	$(".td").addClass("a11");
+	$(this).parent().parent().removeClass("a11");
+    var g=$(this).attr("pic");
+	if (g!="" && g!=undefined)
+	{
+		$(this).append("<img class='tdp' src='"+g+"' />");
+	}
+},function(){$(this).find("img").remove();});
+</script>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
+</div></div>

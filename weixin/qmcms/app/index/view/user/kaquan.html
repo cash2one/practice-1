@@ -1,0 +1,154 @@
+	<div class="all_center_box">
+
+		<div class="fwyy_box wf100">
+			<div class="box1 wf100">
+				<a href="/user/kaquan" {eq name='ty' value='0'}class="active"{/eq}>已领取</a>
+				<a href="/user/kaquan?ty=1" {eq name='ty' value='1'}class="active"{/eq}>未领取</a>
+				<a href="/user/kaquan?ty=2" {eq name='ty' value='2'}class="active"{/eq}>已失效{if condition="$s2 gt 0"}<i>{$s2}</i>{/if}</a>
+			</div>
+		</div>
+		<div class="my_yhq_box wf100">
+			<div class="top_box wf100">
+				<ul>
+					<!--未领取或过期显示关注和推广赠送的优惠券-->
+					{switch name='ty'}
+					{case value='1'}
+					{php}
+	                $mtb=M('user_yh');
+	                $where1="uid='$user_id' and ty='1' and del='0'";
+	                $where2="uid='$user_id' and ty='2' and del='0'";
+	                $vo1=$mtb->where($where1)->field('id')->find();
+					$vo2=$mtb->where($where2)->field('id')->find();
+					{/php}
+					{if condition="!$vo1"}
+					<li>
+						<a href="#no" class="yh" toid="1">
+						<img src="/Comm/images/nbg_1.png" alt="">
+						<div class="pull-right">
+							<h5>￥<i>50</i></h5>
+							<p>满599元可使用(关注优惠券)</p>
+							<p>有效时间：一年</p>
+						</div>
+						<div class="zt">立即领取</div>
+						</a>
+					</li>
+					{/if}
+					{if condition="!$vo2"}
+					<li>
+						<a href="#no" class="yh" toid="2">
+						<img src="/Comm/images/nbg_1.png" alt="">
+						<div class="pull-right">
+							<h5>￥<i>30</i></h5>
+							<p>满399元可使用（推广优惠券）</p>
+							<p>有效时间：一年</p>
+						</div>
+						<div class="zt">立即领取</div>
+						</a>
+					</li>
+					{/if}
+					{/case}
+					{/switch}
+
+					{volist name='list' id='vo'}
+					{switch name='ty'}
+					{case value='0'}
+					<li>
+						<a {eq name='vo.usetime' value='0'}href="{:htmlname(9)}"{/if}>
+						<img src="/Comm/images/bg_4.png" alt="优惠券">
+						<div class="pull-right">
+							<h5>￥<i>{$vo.money}</i></h5>
+							<p>满{$vo.usemoney}元可使用
+							{if condition="$vo['ty'] eq 1"}(关注优惠券){/if}
+							{if condition="$vo['ty'] eq 2"}(推广优惠券){/if}
+							</p>							
+							{if condition="$vo['usetime'] gt 0"}
+							<p>使用时间：{:date('Y-m-d',$vo['usetime'])}</p>
+							{else/}
+							<p>有效时间：{:date('Y-m-d',$vo['time'])}~{:date('Y-m-d',$vo['endtime'])}</p>
+							{/if}
+						</div>
+						<div class="zt">{eq name='vo.usetime' value='0'}未使用{else/}已使用{/eq}</div>
+						</a>
+					</li>
+					{/case}
+					{case value='1'}
+					<li>
+						<a href="#no" class="yh" ty='3' toid="{$vo.id}">
+						<img src="/Comm/images/nbg_1.png" alt="">
+						<div class="pull-right">
+							<h5>￥<i>{$vo.dkmoney}</i></h5>
+							<p>满{$vo.maxmoney}元可使用</p>
+							<p>有效时间：{:date('Y-m-d',$vo['time_start'])}~{:date('Y-m-d',$vo['time_end'])}</p>
+						</div>
+						<div class="zt">立即领取</div>
+						</a>
+					</li>
+					{/case}
+					{case value='2'}
+					<li>
+						<a>
+						<img src="/Comm/images/nbg_2.png" alt="">
+						<div class="pull-right">
+							<h5>￥<i>{$vo.money}</i></h5>
+							<p>满{$vo.usemoney}元可使用</p>							
+							<p>有效时间：{:date('Y-m-d',$vo['time'])}~{:date('Y-m-d',$vo['endtime'])}</p>
+						</div>
+						<div class="zt">已失效</div>
+						</a>
+					</li>
+					{/case}
+					{/switch}
+					{/volist}<!-- 
+					
+					
+					<li>
+						<a href="">
+						<img src="/Comm/images/nbg_1.png" alt="">
+						<div class="pull-right">
+							<h5>￥<i>30</i></h5>
+							<p>满399元可使用</p>
+							<p>有效时间：2017.08.02~2017.08.23</p>
+						</div>
+						<div class="zt">未领取</div>
+						</a>
+					</li>
+					<li>
+						<a href="">
+						<img src="/Comm/images/nbg_2.png" alt="">
+						<div class="pull-right">
+							<h5>￥<i>30</i></h5>
+							<p>满399元可使用</p>
+							<p>有效时间：2017.08.02~2017.08.23</p>
+						</div>
+						<div class="zt">已失效</div>
+						</a>
+					</li>
+					<li>
+						<a href="">
+						<img src="/Comm/images/bg_4.png" alt="">
+						<div class="pull-right">
+							<h5>￥<i>30</i><span>未使用</span></h5>
+							<p>满399元可使用</p>
+							<p>有效时间：2017.08.02~2017.08.23</p>
+						</div>
+						<div class="zt">立即使用</div>
+						</a>
+					</li> -->
+				</ul>
+			</div>
+			<div class="lower_box wf100">
+				<h5>怎样获取更多优惠券？</h5>
+				<ul>
+					<li>1、关注成为新会员，可领取一张50元优惠券</li>
+					<li>2、推送给5个朋友关注成为新会员可以领取一张30元优惠券</li>
+				</ul>
+				<div class="info_box wf100">
+					优惠券使用说明：<br>
+					在商城购买服务，满599可以使用一张50元的优惠券，满399可以使用一张30元的优惠券；优惠券不可叠加使用。
+				</div>
+			</div>
+		</div>
+
+		
+	</div>
+					

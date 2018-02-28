@@ -1,0 +1,34 @@
+	<style>
+		.jfmx_box .top_box{ margin-top: 2%;}
+		.jfmx_box .top_box a{ width: 49%; float: left; font-size: 18px; text-align: center; line-height: 45px; background: #fff;}
+		.jfmx_box .top_box a:nth-child(2n){ float: right;}
+		.jfmx_box .top_box a.active{ color: #f16385; box-shadow: 0 0 5px rgba(0,0,0,0.3);}
+		.jfmx_box .hyzx_box .lower_box{ margin-top: 2%;}
+		.jfmx_box .hyzx_box .lower_box .fr i{ width: auto; float: none; background: none; color: #f16385;}
+		.jfmx_box .hyzx_box .lower_box .fr i.lv{ color: #6BD318; }
+	</style>
+	<div class="all_center_box">
+		<div class="jfmx_box wf100">
+			<div class="top_box wf100">
+				<a href="/user/jfinfo?ty=1" {eq name='ty' value='1'}class="active"{/eq}>积分来源</a>
+				<a href="/user/jfinfo?ty=2" {eq name='ty' value='2'}class="active"{/eq}>积分消耗</a>
+			</div>
+			<div class="hyzx_box wf100">
+				<div class="lower_box wf100">
+					<ul>
+						{volist name='list' id='vo'}
+						<li>
+							<div class="fl">订单{$vo.orderid}</div>
+							{eq name='vo.ty' value='1'}
+							<div class="fr">获得<i class='lv'>{$vo.num}</i>积分</div>
+							{else/}
+							<div class="fr">抵扣<i>{$vo.num}</i>积分</div>
+							{/eq}
+						</li>
+						{/volist}
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+	</div>		

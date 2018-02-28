@@ -1,0 +1,450 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 访问统计管理</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head">
+          <strong><i class="icon-list"></i></strong><small>访问统计管理</small>
+        </h2>
+
+<script type="text/javascript">
+function selsearch()
+{
+var desc=$("input[name=desc]:checked").val();
+var order=$("#Order").val();
+var time1=$("#time1").val();
+var time2=$("#time2").val();
+$.cookie("log_order",order);
+$.cookie("log_desc",desc);
+$.cookie("log_time1",time1);
+$.cookie("log_time2",time2);
+location.href="?key="+$("#key").val();
+return false;
+}
+</script>
+
+<table class="table table-hover table-bordered curve_mid" style="margin-bottom: 0">
+  <tr>
+    <td>
+    <form onsubmit="return selsearch()">　		
+         <span style="display: none;">关键字:&nbsp;
+          <input id="key" value="{$keys}" style=" width:170px;" class="form-control wat" /></span>
+          时间范围<input type="text" style=" width:120px;" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="time1" value="{$time1}"  class="form-control wat" />-<input type="text" style=" width:120px;" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="time2" value="{$time2}"  class="form-control wat" />
+          <span style="display: none;">
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="id">按编号</option>
+            <option value="time">按时间</option>
+            <option value="url">访问网址</option>
+            <option value="ip">访问IP</option>
+          </select>      
+        <input type="radio" id="BDasc" name="desc" value="asc" onclick="selsearch()" /> <label for="BDasc">升序</label>
+           <input type="radio" id="BDdesc" name="desc" value="desc" onclick="selsearch()" /> <label for="BDdesc">降序</label>
+         </span>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+</table>
+
+<script src="/Comm/js/echarts.js"></script>
+{php}
+    $t1=$time1;
+    $ts1=$time1;
+    $t2=$time2;
+    $ts2=$time2;
+    if ($ts1=='')
+    {
+        $t1='2017-11-01';
+    }
+    if ($ts2=='')
+    {
+        $t2=date('Y-m-d');
+    }
+    $sql="del='0'"; 
+    $mtbs=M('log');
+    $ftime1=strtotime($t1);
+    $ftime2=strtotime($t2);
+    $fmax=strtotime(date('Y-m-d'));
+    if ($ftime2>$fmax)
+    {
+        $ftime2=$fmax;
+    }
+    $cytime=($ftime2-$ftime1);
+    $cydays=ceil($cytime/(3600*24));
+    echo "<!--$ts1 #$ts2#$t2 $cydays-->";
+
+if (($ts1=='' && $ts2=='') || $cydays<2)
+{
+    /*本周*/
+    $xqj=(int)date('w');
+    if ($xqj==0)
+    {
+        $xqj=7;
+    }
+    $week1=date('Y-m-d',time()-($xqj-1)*24*3600);
+    $week1time=strtotime($week1);
+    $week2time= $week1time+7*24*3600;
+    /*本月*/
+    $month=(int)date('m');
+    $month1=date('Y-m-01');
+    $month2=date('Y-m-d');
+    $ym=date('Y-m-');
+    $m2=date('d');
+    
+    for ($m=1;$m<=$m2;$m++)
+    {
+        $data1[]=$m;
+        /*统计当天的访问量*/
+        $nowdate=$ym.$m;
+        $where="date='$nowdate'";
+        $val=$mtbs->where($where)->count();
+        $vdata1[]=$val;
+    }
+    $str1='['.implode(',',$data1).']';
+    $val1='['.implode(',',$vdata1).']';
+
+    for ($m=1;$m<=$xqj;$m++)
+    {
+        $time=$week1time+($m-1)*24*3600;
+        $data2[]=$m;
+        /*统计当天的访问量*/
+        $nowdate=date('Y-m-d',$time);
+        $where="date='$nowdate'";
+        $val=$mtbs->where($where)->count();
+        $vdata2[]=$val;
+    }
+    $str2='['.implode(',',$data2).']';
+    $val2='['.implode(',',$vdata2).']';
+
+{/php}
+<div class="col-lg-12">
+    <div id="mains" style="width: 90%; margin:0 auto;height:200px;"></div>
+    <p style="text-align: center;">
+        <a href="#no" id='months'>本月访问统计</a>
+        <a href="#no" id="weeks">本周访问统计</a>
+    </p> 
+<script>
+var myChart = echarts.init(document.getElementById('mains'));
+option = {
+    title: {
+        text: '本月统计折线图'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        //data:['访问统计']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: {$str1}
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name:'访问统计',
+            type:'line',
+            stack: '总量',
+            itemStyle :
+            {  
+                normal : {  
+                    color:'#03A9F4', 
+                    lineStyle:{  
+                        color:'#03A9F4'  
+                    }  
+                }  
+            },  
+            data:{$val1}
+        }
+    ]
+};
+option2 = {
+    title: {
+        text: '本周统计折线图'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        //data:['访问统计']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['周一','周二','周三','周四','周五','周六','周日']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name:'访问统计',
+            type:'line',
+            stack: '总量',
+            itemStyle :
+            {  
+                normal : { 
+                    color:'#03A9F4', 
+                    lineStyle:{  
+                        color:'#03A9F4'  
+                    }  
+                }  
+            }, 
+            data:{$val2}
+        }
+    ]
+};
+myChart.setOption(option);
+
+myChart.on('click', function (params) {
+    var name=params;
+    console.log(params);
+});
+function change2()
+{
+    myChart.showLoading();
+    myChart.hideLoading();
+    myChart.setOption(option);   
+}
+function change1()
+{
+    myChart.showLoading();
+    myChart.hideLoading();
+    myChart.setOption(option2);   
+}
+$('#weeks').click(function(){
+    change1();
+});
+$('#months').click(function(){
+    change2();
+});
+</script>
+</div>
+{php}
+}
+else
+{
+   $typesx=0;
+   if ($cydays>31)
+   {
+        /*根据月份进行统计*/
+        $typesx=1;
+        /*计算差异的月份*/
+        $date1=date('Y-m-1',strtotime($t1));
+        $date2=date('Y-m-2',strtotime($t2));
+        if (strtotime($date1) > strtotime($date2)) { 
+          $ymd = $date2; 
+          $date2 = $date1; 
+          $date1 = $ymd; 
+        } 
+        list($y1, $m1, $d1) = explode('-', $date1); 
+        list($y2, $m2, $d2) = explode('-', $date2); 
+        $y = $m = $d = $_m = 0; 
+        $cymonth = ($y2 - $y1) * 12 + $m2 - $m1;
+        $cymonth++;
+        echo "<!--$cymonth-->";
+        for ($m=1;$m<=$cymonth;$m++)
+        {            
+            /*统计当月的访问量*/
+            $nowdate=date('Y-m',strtotime('+'.($m-1).' month',$ftime1));
+            $nowdate2=date('y-m',strtotime('+'.($m-1).' month',$ftime1));
+            $data1[]="'$nowdate2'";
+            $days_=date('t',$nowdate);
+
+            $nowdate1=$nowdate.'-1';
+            $nowdaten=$nowdate.'-'.$days_;
+            if ($m==1)
+            {
+              $nowdate1=$t1;
+            }
+            if ($m==$cymonth)
+            {
+              $nowdaten=$t2;
+            }
+            $where="date BETWEEN '$nowdate1' AND '$nowdaten'";
+            $val=$mtbs->where($where)->count();
+            $vdata1[]=$val;
+        }
+        $str1='['.implode(',',$data1).']';
+        $val1='['.implode(',',$vdata1).']';
+   }
+   else
+   {
+        /*根据天数进行统计*/
+        for ($m=1;$m<=$cydays;$m++)
+        {
+            /*统计当天的访问量*/
+            $nowdate=date('Y-m-d',$ftime1+($m-1)*24*3600);
+            $nowdate2=date('m-d',$ftime1+($m-1)*24*3600);
+            $data1[]="'$nowdate2'";
+            $where="date='$nowdate'";
+            $val=$mtbs->where($where)->count();
+            $vdata1[]=$val;
+        }
+      $str1='['.implode(',',$data1).']';
+      $val1='['.implode(',',$vdata1).']';
+   }
+
+{/php}
+
+
+{eq name='typesx' value='0'}
+
+<div class="col-lg-12">
+    <div id="mains" style="width: 90%; margin:0 auto;height:200px;"></div>
+</div>
+<script>
+var myChart = echarts.init(document.getElementById('mains'));
+option = {
+    title: {
+        text: '{$t1}至{$t2}访问统计'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        //data:['访问统计']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: {$str1}
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name:'访问统计',
+            type:'line',
+            stack: '总量',
+            itemStyle :
+            {  
+                normal : {  
+                    color:'#03A9F4', 
+                    lineStyle:{  
+                        color:'#03A9F4'  
+                    }  
+                }  
+            },  
+            data:{$val1}
+        }
+    ]
+};
+myChart.setOption(option);
+</script>
+</div>
+
+{/eq}
+
+
+{eq name='typesx' value='1'}
+
+
+{/eq}
+
+<div class="col-lg-12">
+    <div id="mains" style="width: 90%; margin:0 auto;height:200px;"></div>
+</div>
+<script>
+var myChart = echarts.init(document.getElementById('mains'));
+option = {
+    title: {
+        text: '{$t1}至{$t2}访问统计'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {
+        //data:['访问统计']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: {$str1}
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            name:'访问统计',
+            type:'line',
+            stack: '总量',
+            itemStyle :
+            {  
+                normal : {  
+                    color:'#03A9F4', 
+                    lineStyle:{  
+                        color:'#03A9F4'  
+                    }  
+                }  
+            },  
+            data:{$val1}
+        }
+    ]
+};
+myChart.setOption(option);
+</script>
+</div>
+
+{php}
+}
+{/php}
+<style>.col-lg-12{ background: #fff; }</style>
+
+</div>
+</div>

@@ -1,0 +1,97 @@
+	<div class="all_center_box">
+		<form action="/user/savecart" method="post" class="form-horizontal">
+		<div class="ddjs_box wf100">
+			<div class="box1 wf100"><span>项目清单</span></div>
+			<div class="box2 wf100">
+				<ul>
+					{php}
+					$mtb=M('info');
+					$allmoney=0;
+					$allnum=0;
+					{/php}
+					{volist name='list' id='ky'}
+					{php}
+					$vo=$mtb->where("id='".$ky['pid']."'")->field('id,cntitle,img,s1,s3,s5,tag')->find();
+					$allmoney+=$vo['s1']*$ky['num'];
+					$allnum+=$ky['num'];
+					{/php}					
+					<li>
+						<div class="imgs"><a href="{$vo.id|idlname}"><img src="{$vo.img}" alt="{$vo.cntitle}"></a></div>
+						<div class="info_box">
+							<h4>{$vo.cntitle}</h4>
+							<h5>
+								{$vo.tag}<br>
+								准备时长：{$vo.s5}min<br>
+								服务时长：{$vo.s3}min
+							</h5>
+							<div class="fl">￥{$vo.s1}/次</div>
+							<div class="fr">x{$ky.num}</div>
+						</div>
+					</li>
+					{/volist}
+				</ul>
+			</div>
+
+			<div class="box1 wf100"><span>订单备注</span></div>
+			<div class="box4 wf100">
+				<div class="w90"><textarea name="bz" maxlength="200" placeholder="请给卖家留言，限200字~"></textarea></div>
+			</div>
+			<div class="box1 wf100"><span>结算信息</span></div>
+			<div class="box3 wf100">
+				<ul>
+					<li>
+						<div class="pull-left">项目金额</div>
+						<div class="pull-right">￥{$allmoney}</div>
+					</li>
+				</ul>
+			</div>
+			<div class="box1 wf100"><span>积分兑换</span></div>
+			<div class="box3 wf100">
+				<ul>
+					<li>
+						<div class="pull-left">积分    可用{$user.jf}积分,抵{:$user['jf']/10}元</div>
+						<div class="pull-right"><input {eq name='user.jf' value='0'}readonly{else/}checked{/eq} type="checkbox" class="xzcheck" name="jf" value="1"></div>
+					</li>
+				</ul>
+			</div>
+			{php}
+			$mtb=M('user_yh');
+			$dtime=strtotime(date('Y-m-d'));
+			$where="uid='$user_id' and audit='0' and del='0' and usemoney<='$allmoney' and endtime>='$dtime'";
+			$list=$mtb->where($where)->order("money desc")->select();
+			{/php}
+			{if condition="$list"}
+			<div class="box1 wf100"><span>优惠券</span></div>
+			<div class="box3 wf100">
+				<ul>
+					{volist name='list' id='vo'}
+					<li>
+						<div class="pull-left">优惠金额{$vo.money}元   订单金额大于{$vo.usemoney}元使用</div>
+						<div class="pull-right"><input {eq name='i' value='1'}checked{/eq} type="radio" class="xzcheck" name="yhq" value="{$vo.id}"></div>
+					</li>
+					{/volist}
+				</ul>
+			</div>
+			{/if}
+
+			<div class="box5 wf100" style="padding-bottom: 80px">
+				<div class="w90"><input type="submit" class="btn btn-block" value="立即支付"></div>
+			</div>
+		</div>
+		</form>
+	</div>
+
+	<!--开关js-->
+	<link rel="stylesheet" href="/Comm/css/bootstrap-switch.css">
+	<script type="text/javascript" src="/Comm/js/bootstrap-switch.js"></script>
+	<script>
+		$(function(){
+			$('.xzcheck').bootstrapSwitch({ 
+				onText:"&nbsp;&nbsp;&nbsp;&nbsp;",  
+				offText:"&nbsp;&nbsp;&nbsp;&nbsp;",   
+				size:"mini",  
+				onColor:"success"
+			})
+		})
+	</script>
+	

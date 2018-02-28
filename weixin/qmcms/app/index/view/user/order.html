@@ -1,0 +1,56 @@
+	<div class="all_center_box">
+		<div class="my_dd_box wf100">
+			<div class="top_box wf100">
+				<form action="/user/order" method="get">
+					<input type="search" name="k" class="form-control" placeholder="搜索订单号">
+				</form>
+			</div>
+			<div class="lower_box wf100">
+				<ul>
+					{php}
+						$mtb=M('order_goods');
+						$mtb2=M('info');
+					{/php}
+					{volist name='list' id='vo'}
+					<li>
+						<div class="box1 wf100">
+							<span>订单号：{$vo.orderid}</span>
+							{eq name='vo.paytime' value='0'}
+							<i class="red"><a style="color:#f00;" href="/user/paymoney/{$vo.orderid}.html">立即支付</a></i>
+							{else/}
+							<i style="color:#8BDF4E">已支付</i>
+							{/eq}
+						</div>
+						{php}
+							$arr=$mtb->where("orderid='".$vo['orderid']."'")->select();
+						{/php}
+						{volist name='arr' id='ky'}
+						{php}
+							$vos=$mtb2->where("id='".$ky['pid']."'")->field('tag,s3,s5')->find();
+							$synum=$ky['num']-$ky['snum'];
+						{/php}
+						<div class="box2 wf100">
+							<div class="imgs"><a href="{$ky.pid|idlname}"><img src="{$ky.img}" alt="{$ky.cntitle}"></a></div>
+							<div class="info_box">
+								<h4><span>{$ky.cntitle}</span><i>{$ky.time|date='Y-m-d',###}</i></h4>
+								<h5>
+									{$vos.tag}<br>
+									准备时长：{$vos.s5}min<br>
+									服务时长：{$vos.s3}min
+								</h5>
+								<div class="fl">￥{$ky.price}/次</div>
+								<div class="fr">总次数：x{$ky.num}</div>
+							</div>
+						</div>
+						<div class="box3 wf100">
+							<p>已使用次数：{$synum}</p>
+							<p>剩余次数：{$ky.snum}</p>
+						</div>
+						{/volist}
+					</li>
+					{/volist}
+				</ul>
+			</div>
+		</div>
+		
+	</div>

@@ -1,0 +1,71 @@
+{php}
+$tb1=$tbq."lm";
+$tb2=$tbq."info";
+$mtb1=\think\Db::name('lm');
+$fidpath=$mtb1->where("id='$lm'")->value('fidpath').",".$lm;
+$farray=explode(',',$fidpath);
+$sql="select fid,fidpath,(select count(id) from $tb1 where ty!='4' and del='0' and fid=".$lm.") as lmnum from $tb1 where ty!='4' and id=".$lm."";
+if ($lm==0)
+{
+$sql="select fid,fidpath,(select count(id) from $tb1 where ty!='4' and del='0' and fid=".$lm.") as lmnum from $tb1 where ty!='4'";
+if ($admin['Grade']!=9)
+{
+$sql="select fid,fidpath,(select count(id) from $tb1 where ty!='4' and fid='".$lm."' and del='0' and id<'95') as lmnum from $tb1 where ty!='4'";
+}
+}
+$lsrs=\think\Db::query($sql);
+$lsrs=$lsrs[0];
+if ($lsrs)
+{
+  $lmnum=$lsrs['lmnum'];
+  $Tempnav="";
+  $str="";
+  if ($lmnum>0)
+  {
+    $fidpath=$lsrs['fidpath'].",".$lm."";
+  }
+  else
+  {
+    $fidpath=$lsrs['fidpath'];
+  }
+  $fidarr=explode(",",$fidpath);
+  $nums=count($fidarr);
+    if ($lm==0)
+    {
+      $nums=2;
+    }
+  for ($i=1;$i<$nums;$i++)
+  {
+    $nfid=(int)$fidarr[$i];
+    $sqlc="select cntitle from $tb1 where ty!=4 and id='$nfid'";
+    $tit=shows($sqlc);
+    if ($tit=='')
+    {
+      $tit='全部文档';
+    }
+  $Tempnav.="<table class='curve_mid' style='line-height:150%;' border='0' cellpadding='0' cellspacing='0'><tr><td>　<strong><a href='".$mname.".qm?lm=".$fidarr[$i]."'>".$tit."</a></strong>：";
+    $cql="select id,cntitle from $tb1 where ty!=4 and fid='$nfid' and del='0' order by `sort` asc";
+    if ($admin['Grade']!=9 && $fidarr[$i]==0)
+    {
+    $cql="select id,cntitle from $tb1 where ty!=4 and fid=".$nfid." and del='0' and id<'95' order by `sort` asc";
+    }
+    $arrs=\think\Db::query($cql); 
+    foreach ($arrs as $lrs)
+    {
+      $Tempnav.="<a href='".$mname.".qm?lm=".$lrs['id']."'>";
+      if ($lm==$lrs['id'] || in_array($lrs['id'],$farray))
+      {
+        $Tempnav.="<span class=red>".$lrs['cntitle']."</span>";
+      }
+      else
+      {
+        $Tempnav.=$lrs['cntitle'];
+      }
+      $Tempnav.="</a>";
+      $Tempnav.=" | ";
+    }
+  $Tempnav.="</td></tr></table>";
+  }
+}
+echo $Tempnav;
+{/php}

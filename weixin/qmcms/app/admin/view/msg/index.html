@@ -1,0 +1,140 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 留言管理</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head">
+          <strong><i class="icon-list"></i></strong><small>留言管理</small>
+        </h2>
+<script type="text/javascript">
+function selsearch()
+{
+  var desc=$("input[name=desc]:checked").val();
+  var order=$("#Order").val();
+  $.cookie("msg_order",order);
+  $.cookie("msg_desc",desc);
+  location.href="?key="+$("#key").val();
+  return false;
+}
+</script>
+
+<table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td>
+    <form onsubmit="return selsearch()">　		
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" style=" width:170px;" class="form-control wat" />
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="id">按编号</option>
+            <option value="addtime">按时间</option>
+            <option value="z1">姓名</option>
+            <option value="z2">电话</option>
+            <option value="z4">活动名称</option>
+          </select>      
+        <input type="radio" id="BDasc" name="desc" value="asc" onclick="selsearch()" /> <label for="BDasc">升序</label>
+           <input type="radio" id="BDdesc" name="desc" value="desc" onclick="selsearch()" /> <label for="BDdesc">降序</label>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+</table>
+
+<table class="table table-hover table-bordered curve_mid">
+  <tr class="no">
+  	<th></th>
+    <th>ID</th>
+    <th align="center">姓名</th>
+    <th align="center">手机</th>
+    <th align="center">留言</th>
+    <th align="center">提交时间</th>
+    <th align="center">操作</th>
+  </tr>
+  <tbody>
+    <style>
+    .zt1{ color: #6BD700; }
+    .zt2{ color: #f00; }
+    .zt3{ color: #000; }
+    </style>
+    {volist name='lists2' id='vo'}
+    {php}
+        switch ($vo['flag'])
+        {
+          case 1:
+            $zt='<font class="zt1">已完成</font>';
+            break;
+          case 92:
+            $zt='<font class="zt2">未完成</font>';
+            break;
+          case 3:
+            $zt='<font class="zt3">进行中</font>';
+            break;
+          default:
+            $zt='<font class="zt2">未完成</font>';
+            break;  
+        }
+    {/php}
+		<tr>
+		  <td><input name="Id" id="ID_{$vo.id}" type="checkbox" value="{$vo.id}" class="checkid" /></td>
+		  <td align="center">{$vo.id}</td>
+		  <td align="center">{$vo.z1}[{$zt}] {eq name='vo.state' value='0'}<span class="red">[未审核]</span>{/eq}</td>
+		  <td align="center">{$vo.z2}</td>
+      <td align="center">{$vo.z4}[id={$vo.z3}]</td>
+		  <td align="center">{$vo.addtime}</td>	 
+      <td align="center"><a href="{$mname}/view.qm?id={$vo.id}">查看</a></td> 
+		</tr>
+    {/volist}
+	</tbody>
+</table>
+
+<table class="table table-hover table-bordered curve_mid">
+    <tr class="no">
+    	<td width=40%> {$page}{$selectpg}</td>
+      <td align="left">
+      <label class="foot-label"><input type="checkbox" name="checkall" value="0"> 全选</label>      
+      <?php
+      $qx1=qmcheck('edit',2); 
+      $qx2=qmcheck('del',2);
+      ?>
+      <eq name='qx1' value='1'>
+        <button class="btn btn-primary" onclick="shen1()">审核通过</button>
+        <button class="btn btn-primary" onclick="shen2()">审核失败</button>
+        <script>
+        function sheng(ty)
+        {
+          var T=$("input[name=Id]:checked");
+          var size=T.size();
+          if(size<1){alert("请选择要操作的信息!");return false;}
+          var selarr = new Array([size]);
+          T.each(function(i){
+            selarr[i]=T.eq(i).val();
+          });
+          var idstr=selarr.join();
+          window.loading("程序处理中...");
+          $.ajax({
+             type: "POST",
+             url: t_do,
+             data: "action=g"+ty+"&idstr="+escape(idstr),
+             success: function(msg){
+               window.showalert(msg,0,1,3,function(){location.reload();});
+             }
+          });
+        }
+        </script>
+<!--         <button class="btn btn-primary" onclick="sheng(1)">已完成</button>
+<button class="btn btn-primary" onclick="sheng(3)">进行中</button>
+<button class="btn btn-primary" onclick="sheng(5)">未完成</button> -->
+      </eq>
+        <eq name='qx2' value='1'>
+        <button class="btn btnd" onclick="delseled()">刪除</button>
+        </eq>
+      </td>
+    </tr>
+</table>
+</div>
+</div>

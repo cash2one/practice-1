@@ -1,0 +1,54 @@
+	<div class="all_center_box">
+		<div class="fwyy_box wf100">
+			<div class="box1 wf100">
+				{php}
+				$menu=lmlist($blm,3);
+				{/php}
+				{volist name='menu' id='ky'}
+				<a href="{:htmlname($ky['id'])}" {if condition="$fid eq $ky['id']"}class="active"{/if}>{$ky.cntitle}</a>
+				{/volist}
+			</div>
+		</div>
+		<div class="page_banner wf100"><img src="{$lmimg}" alt="{:cntitle($fid)}"></div>
+		<div class="mrys_box wf100">
+			<div class="box1 wf100">
+				<div class="w90">
+					<img src="/Comm/images/ico_7.png" alt="">
+					<div class="pull-left">
+						<div class="bd">
+							<ul>
+								{php}
+								$arr=arclist($fid,5);
+								{/php}
+								{volist name='arr' id='vo'}
+								<li><a href="{$vo.id|idlname}">{$vo.cntitle}</a></li>
+								{/volist}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box2 wf100">
+				<ul>
+					{volist name='lists' id='vo'}
+					{php}
+					if ($vo['img']=='')
+					{
+						$vo['img']=$mrimg;
+					}
+					$vo['content']=stripslashes($vo['content']);
+					{/php}
+					<li>
+						<div class="top_box wf100">
+							<a href="{$vo.id|idlname}">
+							<span>{$vo.cntitle}</span>
+							<p>{eq name='vo.z1' value=''}{$vo.content|msubstr=###,0,100}...{else/}{$vo.z1}{/eq}</p>
+							</a>
+						</div>
+					</li>
+					{/volist}
+				</ul>
+			</div>
+			
+		</div>
+	</div>	

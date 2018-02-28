@@ -1,0 +1,104 @@
+
+  <script type="text/javascript">
+    t_do='{$mname}/role_doact.qm';
+  </script>
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+    	<li style="float:right"><b><a href="{$mname}/role_add">添加角色</a></b></li>
+      <li style="float:right"><b><a class='red' href="{$mname}">管理员管理　</a></b></li>
+      <li><i class="icon-coffee"></i> 管理员角色管理</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>管理员角色管理</small></h2>
+        <script type="text/javascript">
+        function selsearch()
+        {
+          var desc=$("input[name=desc]:checked").val();
+          var order=$("#Order").val();
+          $.cookie("role_order",order);
+          $.cookie("role_desc",desc);
+          location.href="{$mname}/role_index.qm?key="+$("#key").val();
+          return false;
+        }
+        </script>
+<table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="7">
+    <form onsubmit="return selsearch()">　
+		
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" style=" width:170px;" class="form-control wat" />
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="id">按编号</option>
+            <option value="title">角色名称</option>
+            <option value="audit">审核状态</option>
+          </select>               
+         
+        <input type="radio" id="BDasc" name="desc" value="asc" onclick="selsearch()" /> <label for="BDasc">升序</label>
+           <input type="radio" id="BDdesc" name="desc" value="desc" onclick="selsearch()" /> <label for="BDdesc">降序</label>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+  <tr class="no">
+  	<th></th>
+    <th>ID</th>
+    <th align="center"><div style=" min-width:88px;">角色名称</div></th>
+    <th align="center"><div style=" min-width:98px;">是否审核</div></th>
+    <th align="center"><div style=" min-width:118px;">模块权限</div></th>
+    <th align="center"><div style=" min-width:118px;">操作权限</div></th>
+    <th align="center"><div style=" min-width:58px;">操作</div></th>
+  </tr>
+  <tbody>
+      {php}
+        $mtb1=\think\Db::name('admin_check');
+        $arr1=$mtb1->where('audit=1 and del=0')->select();
+        foreach ($arr1 as $ky)
+        {
+          $adminc[$ky['id']]=$ky['cntitle'];
+        }
+      {/php}
+    {volist name='lists' id='vo'}
+		<tr>
+		  <td><input name="Id" id="ID_{$vo.id}" type="checkbox" value="{$vo.id}" class="checkid" /></td>
+		  <td align="center">{$vo.id}</td>
+		  <td align="center">{$vo.title}</td>
+		  <td align="center">
+        {eq name='vo.audit' value='0'}
+        <span class="red">未审核</span>
+        {else/}
+        已审核
+        {/eq}
+      </td>
+      <td align="center">
+      {php}
+        $arr1=explode(',',$vo['flag1']);
+        $arr2=explode(',',$vo['flag2']);
+      {/php}
+      {volist name='arr1' id='ky'}{$adminc[$ky]}　{/volist}
+      </td>
+		  <td align="center">{volist name='arr2' id='ky'}{$adminc[$ky]}　{/volist}</td>	 
+      <td align="center"><a href="{$mname}/role_add.qm?id={$vo.id}">查看</a></td> 
+		</tr>
+    {/volist}
+	</tbody>
+    <tr class="no">
+    	<td> </td>
+      <td colspan="6" align="left">
+      <label class="foot-label"><input type="checkbox" name="checkall" value="0"> 全选</label>
+        <button class="btn btn-primary" onclick="shen1()">审核通过</button>
+        <button class="btn btn-primary" onclick="shen2()">审核失败</button>
+        <button class="btn btnd" onclick="delseled()">刪除</button>
+      </td>
+    </tr>
+    <tr class="no">
+    <td colspan="7" align="center" class="page"> {$page}</td>
+    </tr>
+</table>
+</div></div>

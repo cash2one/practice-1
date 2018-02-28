@@ -1,0 +1,54 @@
+	<div class="all_center_box">
+		<div class="fwyy_box wf100">
+			<div class="box1 wf100">
+				<a href="{:htmlname(23)}" {if condition="$fid eq 23"}class="active"{/if}>服务预约</a>
+				<a href="{:htmlname(24)}" {if condition="$fid eq 24"}class="active"{/if}>技师预约</a>
+				<a href="{:htmlname(25)}">预约记录</a>
+			</div>
+			<form action="{:htmlname($fid)}" method="get">
+			<div class="box2 wf100"><input name="k" type="search" class="text" placeholder="搜索 洁面、推背、肩颈..."></div>
+			</form>
+			<div class="box3 wf100">
+				<ul>
+					{php}
+					$where="uid='$user_id' and ty='1' and snum>'0' and del='0' and paytime>'0'";
+					if ($keys!='')
+					{
+						$where.=" and cntitle '%$keys%'";
+					}
+					$mtb2=M('info');
+					$mtb3=M('order_yuyue');
+					$list=M('order_goods')->where($where)->field('id,orderid,pid,cntitle,img,time,snum')->order('id desc')->select();
+					{/php}
+					{volist name='list' id='vos'}
+					{php}
+						$vo=$mtb2->where("id='".$vos['pid']."'")->field('tag')->find();
+						/*预约这里 如果已经预约了 但是没有服务则*/
+						$vo3=$mtb3->where("pid='".$vos['pid']."' and orderid='".$vos['orderid']."' and audit='1'")->find();
+					{/php}
+					<li>
+						<div class="imgs wf100">
+							<img src="{$vos.img}" alt="{$vos.cntitle}">							
+							<div class="name">{$vos.cntitle}</div>
+						</div>
+						<div class="info_box wf100">
+							<span>订单号：{$vos.orderid}</span>
+							<a>{$vos.time|date='m-d',###}</a>
+						</div>
+						<div class="info_box wf100">
+							<!-- <span>服务项目：{$vo.tag}</span> -->
+							<span>剩余次数：{$vos.snum}</span>
+							{if condition="$vos['snum'] gt 0"}
+							<a href="/user/yyfw?id={$vos.id}">申请预约</a>
+							{else/}
+							<!-- <a href="/user/yyfw2?id={$vos.id}&edid={$vo3.id}" style="background:#16A05C;color:#fff;">已预约</a> -->
+							{/if}
+						</div>
+					</li>
+					{/volist}
+				</ul>
+			</div>
+			
+		
+		</div>
+	</div>		

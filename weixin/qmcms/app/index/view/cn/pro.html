@@ -1,0 +1,34 @@
+	<div class="all_center_box">
+		<div class="fwyy_box wf100">
+			<div class="box1 wf100">
+				{php}
+				$menu=lmlist($blm,3);
+				{/php}
+				{volist name='menu' id='ky'}
+				<a href="{:htmlname($ky['id'])}" {if condition="$fid eq $ky['id']"}class="active"{/if}>{$ky.cntitle}</a>
+				{/volist}
+			</div>
+		</div>
+		
+		<div class="ypjd_box wf100">
+			<ul>
+
+				{volist name='lists' id='vo'}
+				{php}
+				if ($vo['img']=='')
+				{
+					$vo['img']='/Comm/images/img_6.png';
+				}
+				$vo['content']=stripslashes($vo['content']);
+				{/php}
+				<li>
+					<div class="imgs wf100"><a href="{$vo.id|idlname}"><img src="{$vo.img}" alt="{$vo.cntitle}"><i>&rarr;</i></a></div>
+					<div class="info_box wf100">
+						项目名称：{$vo.cntitle}<br>
+						项目简介：{eq name='vo.z1' value=''}{$vo.content|msubstr=###,0,60}...{else/}{$vo.z1}{/eq}
+					</div>
+				</li>
+				{/volist}
+			</ul>
+		</div>
+	</div>		

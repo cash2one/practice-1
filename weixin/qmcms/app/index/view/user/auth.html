@@ -1,0 +1,110 @@
+	<div class="reg_box">
+		<form action="/user/saveauth" class="form-horizontal" method="post">
+		<div class="w90">
+			<div class="box1 wf100"><img src="/Comm/images/welcome.png" alt=""></div>
+			<div class="box2 wf100">
+				<input type="text" id="tel" name="phone" datatype="m" nm='手机号' class="text" placeholder="请输入您的手机号">
+				<input type="button" ty='1' class="yzm dosmsg" value="获取验证码" tips="请输入手机验证码" tots="serror" yzid="tel">
+				<input type="text" id='ycode' name="tcode" datatype="*4-6" nm="验证码" class="text" placeholder="请输入验证码">
+				<font id="serror"></font>
+				<input type="submit" class="btns" value="绑定">
+
+			</div>
+			<div class="box3">手机验证代表您已同意<a href="{:htmlname(20)}" target="_blank">{:cntitle(20)}</a></div>
+		</div>
+		</form>
+	</div>
+	
+
+
+<style>
+.Validform_wrong { display: none !important;}
+</style>
+<script>
+function check_cnname(str){if (str.search(/^[\u0391-\uFFE5]+$/)==-1){return false;}else{return true;}}
+function check_tel(str) {if (str.search(/^((\(\d{2,3}\))|(\d{3}\-))?(\(0\d{2,3}\)|0\d{2,3}-)?[1-9]\d{6,7}(\-\d{1,4})?$|^((\(\d{2,3}\))|(\d{3}\-))?1\d{10}$/) == -1){return false;}else{return true;}}
+function check_num(str){if (str.search(/^((\(\d{2,3}\))|(\d{3}\-))?1\d{10}$/)==-1 && str!="") {return false;}else{return true;}}
+function check_time(str){if (str.search(/^(\d{4})\-(\d{2})\-(\d{2})$/)==-1){return false;}else{return true;}}
+function check_chinese(str){if (str.search(/^([\u4E00-\uFA29]|[\uE7C7-\uE7F3])*$/)==-1){return false;}else{return true;}}
+function int()
+{	
+	$(".int").keyup(function(){
+		if(event.keyCode!=9&&event.keyCode!=37&&event.keyCode!=39){
+			var t=$(this).val();
+			var ms=t.replace(/\D/g,'');
+			if (ms=="0"){ms=""}
+			$(this).val(ms);
+		}
+	});
+}
+dourl="/user/sms";
+var objsms;
+var zms=60;
+var zmsm=zms;
+$(".dosmsg").click(function(){
+	var objs=$(this);
+	objsms=objs;
+	var tots=objs.attr("tots");
+	var totel=objs.attr("yzid");
+	var obj1=$("#"+tots);
+	var obj2=$("#"+totel);
+	var u=obj2.val();
+	var ty=objs.attr("ty");
+	var u2=u.substr(0,3)+"****"+u.substr(7);
+	var objsms2=$("#ycode");
+	var yzm=$("#ycode").val();
+	var truename=$("#truename").val();
+	if (truename==""){$("#truename").focus();return false;}	
+	if (u==""){obj2.focus();return false;}	
+	if (check_tel(u)==false){obj1.html("手机号错误");obj2.focus();return false;}
+	if (zms!=zmsm){return false;}
+	$.ajax({
+		type:"POST",
+		url:dourl,
+		data: "tel="+u,
+		success:function(msg){
+			console.log(msg);
+			switch (msg)
+			{
+				case "1":
+				obj1.show().html("验证码已发送至："+u2+"");
+				objs.val("发送成功");
+				objs.addClass("btn-disable");
+				if (zms==zmsm){zdsmsx(objs);}return false;
+					break;	
+				case "gg":
+						layer.msg('验证码错误');
+					break;
+				case "bb":
+						layer.msg('手机号不存在');
+					break;
+				case "手机号已存在":	
+				case "cc":
+						layer.msg('该号码已注册');
+					break;
+				default:
+					layer.msg('短信发送失败');
+					break;	
+			}
+		}
+	});	
+	return false;
+});
+function zdsmsx(obj)
+{
+	obj.val(zms+"秒后重新发送");
+	if (zms==0){obj.removeClass("btn-disable");obj.val("重新获取");zms=zmsm;clearInterval(miaozd);}
+	miaozd=setInterval("zsmsx()",1000);
+}
+
+function zsmsx()
+{
+	zms--;var obj2=objsms;
+	obj2.val(zms+"秒后重新发送");
+	if (zms==0){clearInterval(miaozd);obj2.removeClass("btn-disable");obj2.val("重新获取");zms=zmsm;}
+}
+</script>
+
+<style>
+.head_box,.foot_menu{ display: none; }
+</style>

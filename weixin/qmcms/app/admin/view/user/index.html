@@ -1,0 +1,130 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 会员管理</li>
+        <li><a href="{$mname}">会员管理</a></li>
+    </ol>
+    <div class="wrap">
+<!--         <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>会员信息管理</small></h2> -->
+
+<script type="text/javascript">
+function selsearch()
+{
+  var desc=$("input[name=desc]:checked").val();
+  var order=$("#Order").val();
+  var audit=$("#audit:checked").val();
+  if (audit==undefined){audit=""}
+  $.cookie("user_order",order);
+  $.cookie("user_desc",desc);
+  var time1=$("#time1").val();
+  var time2=$("#time2").val();
+  $.cookie("user_time1",time1);
+  $.cookie("user_time2",time2);
+  location.href="{$mname}.qm?key="+$("#key").val()+"&audit="+audit;
+  return false;
+}
+</script>
+<div class="table-responsive">
+  <table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td colspan="10">
+    <form onsubmit="return selsearch()">　
+         关键字:&nbsp;
+          <input id="key" value="{$keys}" class="form-control wat" style=" width:120px;" />
+          日期范围<input type="text" style=" width:120px;" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="time1" value="{$time1}"  class="form-control wat" />-<input type="text" style=" width:120px;" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="time2" value="{$time2}"  class="form-control wat" />
+         排序:
+          <select id="Order" onchange="selsearch()" class="form-control wat">
+            <option value="user_id">编号</option>
+            <option value="time">时间</option>
+            <option value="phone">手机号</option>
+            <option value="truename">姓名</option>
+            <option value="nc">昵称</option>
+            <option value="address">地址</option>
+            <option value="class">用户级别</option>
+          </select>
+        <input type="radio" id="BDasc" name="desc" value="asc" onclick="selsearch()" /> <label for="BDasc">升序</label>
+           <input type="radio" id="BDdesc" name="desc" value="desc" onclick="selsearch()" /> <label for="BDdesc">降序</label>
+          <script type="text/javascript">
+          $("#Order").val("{$order}");
+          $("#BD{$desc}").attr("checked","checked");
+          </script>
+           <input class="btn btn-primary" type="submit" value="搜索" />
+           </form>
+       </td>
+  </tr>
+  <tr class="no">
+  	<th></th>
+    <th>ID</th>
+    <th align="center" width="70">级别</th>
+    <th align="center">头像</th>
+    <th align="center">昵称</th>
+    <th align="center">姓名</th>
+    <th align="center">手机号</th>    
+    <th align="center">地址</th> 
+    <th align="center">时间</th>
+    <th align="center"><div style=" width:58px;">操作</div></th>
+  </tr>
+  <tbody>
+    {php}
+    $mtba=M('attr');
+    $varr=$mtba->where("fid='0' and del='0'")->field('id,cntitle')->select();
+    $class[1]='普通用户';
+    foreach ($varr as $ky)
+    {
+      $class[$ky['id']]=$ky['cntitle'];
+    }
+    {/php}
+    {volist name='list' id='vo'}
+		<tr>
+		  <td><input name="Id" id="ID_{$vo.user_id}" class="checkid" type="checkbox" value="{$vo.user_id}"  /></td>
+		  <td width="60" align="center">{$vo.user_id}</td>
+      <td width="60" align="center">{$class[$vo['class']]}</td>
+      <td align="center">
+        <a href="{$vo.photo}" target="_blank"><img src="{$vo.photo}" height="40" /></a>
+      </td>
+      <td align="center">
+        {$vo.nc}{eq name='vo.state' value='0'}<span class='red'>[未审核]</span>{/eq}
+        {eq name='vo.saomiao' value='1'}<span class='red'>[扫描权限]</span>{/eq}
+      </td>
+      <td align="center">{$vo.truename}</td>
+      <td align="center">{$vo.phone}</td>    
+      <td align="center">{$vo.area} {$vo.address}</td> 
+      <td align="center">{$vo.time|date='Y-m-d H:i',###}</td>
+		  <td align="center">          
+        <a href="{$mname}/add.qm?id={$vo.user_id}">查看详细</a>
+        {if condition="$vo['phone'] neq ''"}
+        <div><a class="red" href="{$modname}/yuyue.qm?key={$vo.phone}">TA的预约</a></div>
+        <a class="red" href="{$modname}/order.qm?key={$vo.phone}">TA的订单</a><br/>
+        <a class="red" href="{$modname}/order/add2.qm?uid={$vo.user_id}">添加订单</a>
+        {/if}
+      </td>
+		</tr>
+    {/volist}
+	</tbody>
+    <tr class="no">
+    	<td> </td>
+      <td colspan="7" align="left">
+      <label class="foot-label"><input type="checkbox" name="checkall" value="0"> 全选</label>
+      {php}
+      $qx1=qmcheck('edit',2); 
+      $qx2=qmcheck('del',2);
+      {/php}
+      {eq name='qx1' value='1'}     
+        <button class="btn btn-primary" onclick="shen1()">审核通过</button>
+        <button class="btn btn-primary" onclick="shen2()">审核失败</button>
+        <button class="btn btn-primary" onclick="shen3()">设置扫描权限</button>
+        <button class="btn btn-primary" onclick="shen4()">取消扫描权限</button>
+      	<button class="btn btn-primary" onclick="movedoc()">设置分组</button>{/eq}
+        {eq name='qx2' value='1'}
+        <button class="btn btnd" onclick="delseled()">刪除</button>
+        {/eq}
+      </td>
+    </tr>
+    <tr class="no">
+    <td colspan="11" align="center" class="page"> {$page}{$selectpg}</td>
+    </tr>
+</table>
+</div>
+</div>
+
+</div></div>

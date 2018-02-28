@@ -1,0 +1,96 @@
+{__NOLAYOUT__}<!DOCTYPE html>
+<html style="font-size: 79.15px;" class="ng-scope"><head>
+    <meta charset="utf-8">
+    <title>微信安全支付-{$title}</title>
+    <meta name="keywords" content="{$keywords}" />
+    <meta name="description" content="{$description}" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <script  src="/Comm/js/jquery.min.js"></script>
+    <script type="text/javascript">
+	function jsApiCall()
+	{
+		WeixinJSBridge.invoke(
+			'getBrandWCPayRequest',
+			{$jsApiParameters;},
+			function(res){
+				WeixinJSBridge.log(res.err_msg);
+				if (res.err_msg=='get_brand_wcpay_request:ok')
+				{	
+					setTimeout("location.href='/user/order';",2000);
+				}
+				if (res.err_msg=='get_brand_wcpay_request:false')
+				{
+					setTimeout("history.go(-2);",1500);
+				}
+			}
+		);
+	}
+	function callpay()
+	{
+		if (typeof WeixinJSBridge == "undefined"){
+		    if( document.addEventListener ){
+		        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+		    }else if (document.attachEvent){
+		        document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+		        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+		    }
+		}else{
+		    jsApiCall();
+		}
+	}	
+	window.onload = function(){
+		if (typeof WeixinJSBridge == "undefined"){
+		    if( document.addEventListener ){
+		        document.addEventListener('WeixinJSBridgeReady', editAddress, false);
+		    }else if (document.attachEvent){
+		        document.attachEvent('WeixinJSBridgeReady', editAddress); 
+		        document.attachEvent('onWeixinJSBridgeReady', editAddress);
+		    }}else{}
+	};	
+	</script>
+</head>
+<body>
+<style>
+.w_wxpay{ font-family:"微软雅黑"; font-size:14px;}
+.w_wxpay .title{ text-align:center; padding:15px 0; line-height:24px; font-size:15px; color:#000;}
+.w_wxpay .money{ text-align:center; padding:0 0 18px 0; font-size:24px; color:#000;}
+.w_wxpay .line{ height:2px; background:#E6E6E6; width:100%; clear:both;}
+.w_wxpay .sm{ padding:6px 3% 10px 3%;}
+.w_wxpay .sm p span{ float:left;  color:#666;}
+.w_wxpay .sm p{ clear:both; color:333;text-align:right;}
+.w_wxpay .pay{ padding:20px 0;}
+.w_wxpay .pay a{ display:block; width:95%; margin:0 auto; height:42px; line-height:42px; color:#fff; font-size:15px; background:#45C018; border-radius:8px; text-align:center; font-weight:bold;}
+.gohome{ position:fixed; bottom:2px; width:100%; text-align:center;height:32px;}
+.gohome a{display:block; width:40%; margin:0 auto; height:32px; line-height:32px; color:#fff; font-size:13px; background:#00AAEE; border-radius:5px;text-align:center; font-weight:bold;}
+a{ text-decoration:none;}
+</style>
+
+<div class="w_wxpay">
+    <div class="title">
+        {$sysfig.cfg_name}-订单：{$ddorderid}
+    </div>
+    <div class="money">
+        ¥ <span class="price">{:($money/100)}元</span>
+    </div>
+    <div class="line"></div>    
+    <div class="sm">
+    	<p><span>收款方</span>{$sysfig.cfg_name}</p>
+        <p><span>商　品</span>订单：{$ddorderid}</p>
+    </div>
+    <div class="line"></div>
+    <div class="pay">
+    	<a href="#no" onclick="return callpay();">立即支付</a>
+    </div>
+</div>
+
+<div class="gohome">
+	<a href="/" class="button">返回首页</a>
+</div>
+
+<script type="text/javascript">
+callpay();
+</script>
+</body>
+</html>

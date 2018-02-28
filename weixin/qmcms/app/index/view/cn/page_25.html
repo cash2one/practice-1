@@ -1,0 +1,101 @@
+
+	<div class="all_center_box">
+		<div class="fwyy_box wf100">
+			<div class="box1 wf100">
+				<a href="{:htmlname(23)}" {if condition="$fid eq 23"}class="active"{/if}>服务预约</a>
+				<a href="{:htmlname(24)}" {if condition="$fid eq 24"}class="active"{/if}>技师预约</a>
+				<a href="{:htmlname(25)}" {if condition="$fid eq 25"}class="active"{/if}>预约记录</a>
+			</div>
+			<form action="" method="get">
+			<div class="box2 wf100"><input type="search" name="k" required class="text" placeholder="搜索 预约日期、服务项目"></div>
+			</form>
+			<div class="box8 wf100">
+				<ul>
+					{php}
+					$times=strtotime(date('Y-m-d'))-7*24*3600;
+					$mtb=M('order_yuyue');
+					$mtb2=M('info');
+					$where="uid='$user_id' and audit='0' and del='0' and yytime>'$times'";
+					$where="uid='$user_id' and del='0' and yytime>'$times'";
+					$request=\think\Request::instance();
+					$key=$request->get('k');
+			        $key=str_replace('%','',$key);
+			        $key=str_replace('"','',$key);
+			        $key=str_replace(' ','',$key);
+			        $key=str_replace("'","",$key);
+			        $timex=strtotime('2017-10-01');
+			        $timed=strtotime($key);
+			        if ($key!='')
+			       	{
+				        if ($timed>$timex)
+				        {
+				        	$time1=strtotime(date('Y-m-d',$timed));
+				        	$time2=$time1+24*3600;
+				        	$where.=" and yytime>='$time1' and yytime<'$time2'";
+				        	$list=$mtb->where($where)->order('yytime asc')->limit(100)->select();
+				        }
+				        else
+				        {
+				        	$where.=" and (cntitle like '%$key%' or yy_teacher_name like '%$key%')";
+				        	$list=$mtb->where($where)->order('yytime asc')->limit(300)->select();
+				        }
+				    }
+				    else
+				    {
+						$list=$mtb->where($where)->order('yytime asc')->limit(500)->select();
+					}
+					$address=lmdid(8,'bz1');
+					{/php}
+					{volist name='list' id='vo'}
+					{php}
+						$vos=$mtb2->where("id='".$vo['pid']."'")->field("img,bz4,s3")->find();
+					{/php}
+					<li>
+						<!-- <div class="time wf100">{$vo.yytime|date='Y-m-d H:i',###}</div> -->
+						<div class="imgs wf100"><img src="{$vos.img}" alt="{$vo.cntitle}"></div>
+						{if condition="$vo['orderid'] neq ''"}
+						<div class="nr wf100">
+							<span>预约日期：{$vo.yytime|date='Y-m-d H:i',###}</span>
+						</div>
+						<div class="nr wf100">
+							<span>预约项目：{$vo.cntitle}</span>
+							{if condition="$vos['s3'] neq ''"}
+							<i>服务时长：{$vos.s3}min</i>
+							{/if}
+						</div>
+						<div class="nr wf100">
+							<span>预约技师：{$vo.yy_teacher_name}</span>
+						</div>
+						{else/}
+						<div class="nr wf100">
+							<span>预约技师：{$vo.cntitle}</span>
+							{if condition="$vos['bz4'] neq ''"}
+							<i>联系电话：{$vos.bz4}</i>
+							{/if}
+						</div>
+						{/if}
+						<div class="nr wf100">预约场地：{$address}</div>
+						<div class="info_box wf100">
+						{eq name='vo.audit' value='-1'}<a class="red" style="background: #f00">已取消</a>{/eq}
+						{eq name='vo.audit' value='1'}<a class="lv" style="background: #008000">已服务</a>{/eq}
+						{eq name='vo.audit' value='0'}
+						<a href="/user/yyfw2?edid={$vo.id}">查看详情</a>
+						{/eq}
+						</div>
+					</li>
+					{/volist}
+				</ul>
+			</div>
+		
+		</div>
+	</div>		
+<style>
+.box8 ul li .info_box{ background: #fff; padding: 8px 10px; }
+.box8 ul li .info_box a {
+    float: right;
+    background: #f16385;
+    color: #fff;
+    border-radius: 5px;
+    padding: 3px 8px;
+}
+</style>

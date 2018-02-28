@@ -1,0 +1,41 @@
+{include file='user:title' /}
+{php}
+$lmimg=info_ty(0,$fid,'img');
+if ($lmimg=='')
+{
+    $lmimg=info_ty(0,$blm,'img');
+}
+if ($lmimg=='')
+{
+    $lmimg=adf(5,'img');
+}
+$mrimg=adf(6,'img');
+$htitle='用户中心';
+if ($utyname!='')
+{
+	$htitle=$utyname;
+}
+{/php}
+	<div class="head_box">
+		<a href="tel:{$sysfig.cfg_f1}">
+			<img src="/Comm/images/ico_17.png" class="phone" alt=""><font>{$sysfig.cfg_f1}</font>
+		</a>
+		<img src="/Comm/images/ico_19.png" class="head_btn" onClick="$('.head_menu').fadeIn();" alt=""></i>
+	</div>
+	<div class="head_menu">
+		<div class="box_info">
+			<div class="fp-tableCell">
+				<span onClick="$('.head_menu').fadeOut();"><img src="/Comm/images/ico_18.png" alt=""></span>
+				<div class="wf100">
+					<a href="/">{:cntitle(3)}</a>
+					<a href="{:htmlname(13)}">{:cntitle(13)}</a>
+					<a href="{:htmlname(9)}">{:cntitle(9)}</a>
+					<a href="{:htmlname(4)}">{:cntitle(4)}</a>
+					<a href="{:htmlname(1)}">{:cntitle(1)}</a>
+					<a href="{:htmlname(2)}">{:cntitle(2)}</a>
+					<a href="{:htmlname(8)}">{:cntitle(8)}</a>
+					<a href="/user/index">会员中心</a>
+				</div>
+			</div>
+		</div>
+	</div>

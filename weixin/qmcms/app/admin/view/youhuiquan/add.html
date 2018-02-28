@@ -1,0 +1,62 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 优惠券管理</li>
+        <li><a href="{$mname}">优惠券管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head">
+            <strong><i class="icon-edit"></i></strong>
+            <small>{$actionType}优惠券</small>
+        </h2>    
+{php}$lm=(int)$idx;{/php}
+
+<div class="table-responsive">
+<form  action="{$mname}/save.qm" onsubmit="return save()" class="form-horizontal" method="post">
+<input type="hidden" name="id" value="{$vo.id}" />
+<input type="hidden" name="from" value="{$from}" />
+<table class="curve_mid" border="0" cellpadding="2" cellspacing="2">
+   
+  <td align="right">　属性：</td>
+  <td><input name="audit" id="audit" type="checkbox" value="1"{eq name="vo.audit" value='1'}  checked="checked" {else/}{/eq} />显示</td>
+  </tr>
+    <tr>
+      <td align="right">　优惠券名称：</td>
+      <td><input required="required" class="form-control b50" id="cntitle" name="cntitle" value="{$vo.cntitle}" /> <span class="red">*</span></td>
+    </tr>
+
+ 
+    <tr>
+    <td align="right">　消费金额：</td>
+    <td><input class="form-control b50" required name="maxmoney" value="{$vo.maxmoney}"  /> </td>
+    </tr>
+    <tr>
+    <td align="right">　抵扣金额：</td>
+    <td><input class="form-control b50" required name="dkmoney" value="{$vo.dkmoney}"  /> </td>
+    </tr>
+    <tr>
+    <td align="right">　开始日期：</td>
+    <td><input class="form-control b50" required name="time_start" value="{$vo.time_start|date='Y-m-d',###}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" readonly="readonly" /> </td>
+    </tr>
+    <tr>
+    <td align="right">　截止日期：</td>
+    <td><input class="form-control b50" required name="time_end" value="{$vo.time_end|date='Y-m-d',###}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly="readonly" /> </td>
+    </tr> 
+
+    <tr class="no">
+      <td colspan="2" align="center">
+        <button id="btn_sub" type="submit" class="btn btn-primary"><i class="icon-ok"></i>保 存</button>　　<button type="button" class="btn btn-default" onClick="history.go(-1);"><i class="icon-reply"></i>返 回</button></td>
+    </tr>
+
+</table>
+</form>
+<script type="text/javascript">
+$(window).load(function(){});
+function save()
+{
+  var cntitle=$("#cntitle").val();
+  if(cntitle=="" || cntitle==null){ return false;}
+}
+</script>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>

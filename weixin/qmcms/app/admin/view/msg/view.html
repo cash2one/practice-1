@@ -1,0 +1,34 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> <a href="{$mname}">活动报名管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-edit"></i></strong><small>{$actionType}活动报名管理</small></h2>
+<form action="{$mname}/save.qm" onsubmit="return save()" class="form-horizontal">
+<input type="hidden" name="id" value="{$vo.id}" /><br>
+<input type="hidden" name="from" value="{$from}" />
+<table class="table table-hover table-bordered curve_mid">
+  <tr>
+    <td align="right" width="10%">　姓名：</td>
+    <td width="90%" style="text-align:left">{$vo.z1}</td>
+  </tr>
+  <tr>
+    <td align="right" width="10%">　手机：</td>
+    <td width="90%" style="text-align:left">{$vo.z2}</td>
+  </tr>
+  <tr>
+    <td align="right" width="10%">　活动名称：</td>
+    <td width="90%" style="text-align:left">{$vo.z4}</td>
+  </tr>
+  
+  <tr class="no">
+    <td colspan="2" align="center">
+    <button id="btn_sub" type="submit" class="btn btn-primary hide"><i class="icon-ok"></i>保 存</button>　　
+     <button type="button" class="btn btn-default" onClick="history.go(-1);"><i class="icon-reply"></i>返 回</button></td>
+  </tr>
+</table>
+</form>
+</div></div>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>

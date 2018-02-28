@@ -1,0 +1,20 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 网站配置</li>
+        <li>网站信息</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-edit"></i></strong><small>编辑</small></h2>
+        <form action="/admin/system/save.qm" class="form-horizontal form-edit" method="post">
+          {$systemoption}
+        <div class="form-group">
+          <label for="inputStatus" class="col-md-2 control-label"> </label>
+          <div class="col-md-4">
+            <button type="submit" class="btn btn-primary" id="btn_sub"><i class="icon-ok"></i> 保存</button>
+          </div>
+        </div>
+        </form> 
+        <script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+        <script src="__PUBLIC__/validform/js/validform.js"></script>
+    </div>
+</div>

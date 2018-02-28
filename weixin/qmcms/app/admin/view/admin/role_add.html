@@ -1,0 +1,54 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li style="float:right"><b><a class='red' href="{$mname}">管理员管理　</a></b></li>
+        <li><i class="icon-coffee"></i> <a href="{$mname}/role_index">管理员角色管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-edit"></i></strong><small>{$actionType}管理员角色</small></h2>
+<form action="{$mname}/role_save.qm" class="form-horizontal" method="post">
+<input type="hidden" name="id" value="{$vo.id}" /><br>
+<table class="table table-hover table-bordered curve_mid">
+  <tr>
+      <td style="vertical-align:middle;"><span class="red"></span>　角色名称：</td>
+      <td colspan="2" style="text-align:left">
+      <input class="form-control b50" name="title" value="{$vo['title']}" datatype="*2-50" />
+      </td>
+	</tr>
+  <tr>
+      <td><span class="red"></span>　模块权限：</td>
+      <td colspan="2" style="text-align:left">
+      <div style="width:80%; line-height:25px;">
+      {php}
+        $mtb1=\think\Db::name('admin_check');
+        $flag1arr=explode(',',$vo['flag1']);
+        $flag2arr=explode(',',$vo['flag2']);
+        $arr1=$mtb1->where("`type`='1' and audit='1' and del='0'")->select();
+        $arr2=$mtb1->where("`type`='2' and audit='1' and del='0'")->select();
+      {/php}
+      {volist name='arr1' id='ky'}
+        <input type="checkbox" name="flag1[]" value="{$ky.id}" {if condition="in_array($ky['id'],$flag1arr)"}checked{/if}> {$ky.cntitle} 
+      {/volist}
+      </div>
+      </td>
+  </tr>
+  <tr>
+      <td><span class="red"></span>　操作权限：</td>
+      <td colspan="2" style="text-align:left">
+      <div style="width:80%; line-height:25px;">
+      {volist name='arr2' id='ky'}
+        <input type="checkbox" name="flag2[]" value="{$ky.id}" {if condition="in_array($ky['id'],$flag2arr)"}checked{/if}> {$ky.cntitle} 
+      {/volist}
+      </div>
+      </td>
+  </tr>
+
+  <tr class="no">
+      <td colspan="3" align="center">
+      <button id="btn_sub" type="submit" class="btn btn-primary"><i class="icon-ok"></i>保 存</button>　　
+       <button type="button" class="btn btn-default" onClick="history.go(-1);"><i class="icon-reply"></i>返 回</button></td>
+  </tr>
+</table>
+</form>
+</div></div>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>

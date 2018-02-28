@@ -1,0 +1,163 @@
+	<div class="all_center_box">
+		<div class="banner_box wf100" id="home_banner">
+			<div class="home_soso">
+				<form action="{:htmlname(13)}" method="get">
+					<input type="search" name="k" required class="form-control" placeholder="关键字查找您需要的服务">
+				</form>
+			</div>	
+			<div class="bd">
+				<ul>
+					{php}$arr=arclist(15,9);{/php}
+					{volist name='arr' id='vo'}
+					<li><img src="{$vo.img}" alt="{$vo.cntitle}"></li>
+					{/volist}
+				</ul>
+			</div>
+			<div class="hd hidden"><ul></ul></div>
+		</div>
+		<script>
+		TouchSlide({ slideCell:"#home_banner",titCell:".hd ul", mainCell:".bd ul", effect:"leftLoop",autoPage:true,autoPlay:true,interTime:5000,delayTime:800});
+		</script>
+		
+		<div class="home_box1 wf100">
+			<ul>
+				<li><a href="{:adf(2,'url')}"><img src="{:adf(2,'img')}" alt="{:adf(2,'ids_bz1')}"></a></li>
+				<li><a href="{:adf(3,'url')}"><img src="{:adf(3,'img')}" alt="{:adf(3,'ids_bz1')}"></a></li>
+				<li><a href="{:adf(4,'url')}"><img src="{:adf(4,'img')}" alt="{:adf(4,'ids_bz1')}"></a></li>
+				<li><a href="{:adf(5,'url')}"><img src="{:adf(5,'img')}" alt="{:adf(5,'ids_bz1')}"></a></li>
+			</ul>
+		</div>
+		<div class="home_box2 wf100">
+			<a href="/user/kaquan"><img src="/Comm/images/zt_1.png" alt="优惠券"></a>
+		</div>
+		<div class="all_title_box wf100"><img src="/Comm/images/bt_rqtc.png" alt="人气套餐"></div>
+		<div class="home_box3 wf100" id="home_box3">
+			<div class="bd">
+				{php}
+					$arr1=arclist(13,12,'id,cntitle,img,s2',11);
+					$arr2=arclist(13,15,'id,cntitle,img,s1,s3,s5,tag',12);
+					$arr3=arclist(13,9,'id,cntitle,img,s1,s3,s5,tag',13);
+					$arr4=arclist(13,12,'id,cntitle,img,s1,s3,s5,tag',14);
+				{/php}
+				{volist name='arr1' id='vo'}
+				{php}
+				$mod=$i%3;
+				if ($mod==1)
+				{
+					echo '<ul>';
+				}
+				{/php}			
+				<li>
+					<h5>{$vo.cntitle}</h5>
+					<div class="imgs"><img src="{$vo.img}" alt="{$vo.cntitle}"></div>
+					<div class="btns">
+						<a href="javascript:void(0)" class="clr1 qbuy" toid="{$vo.id}">立即购买</a>
+						<a href="{$vo.id|idlname}" class="clr2">&nbsp;</a>
+					</div>
+				</li>
+				{php}
+				$mod=$i%3;
+				if ($mod==0)
+				{
+					echo '</ul>';
+				}
+				{/php}	
+				{/volist}
+				{php}
+				if ($mod!=0)
+				{
+					echo '</ul>';
+				}
+				{/php}	
+
+			</div>
+			<div class="hd hidden"><ul></ul></div>
+		</div>	
+		<script>TouchSlide({slideCell:"#home_box3",titCell:".hd ul",effect:"leftLoop",autoPage:true,autoPlay:true,interTime:5000,delayTime:1000});</script>
+		
+		<div class="all_title_box wf100"><img src="/Comm/images/bt_mryy.png" alt="美容养颜"></div>
+		<div class="home_box4 wf100" id="home_box4">
+			<div class="bd">
+				<ul>
+					{volist name='arr2' id='vo'}
+					<li>
+						<img src="{$vo.img}" alt="{$vo.cntitle}">
+						<div class="info_box">
+							<h4>{$vo.cntitle}</h4>
+							<h5>{$vo.tag}</h5>
+							<p>准备时长：{$vo.s5}min<br>服务时长：{$vo.s3}min</p>
+							<span>￥{$vo.s1}/次</span>
+							<div>
+								<a href="#no" class="clr1 qbuy" toid="{$vo.id}">立即购买</a>
+								<a href="{$vo.id|idlname}" class="clr2">&nbsp;</a>
+							</div>
+						</div>
+					</li>
+					{/volist}
+				</ul>
+			</div>
+			<div class="hd"><ul></ul></div>
+		</div>
+		<script>TouchSlide({slideCell:"#home_box4",titCell:".hd ul", mainCell:".bd ul",effect:"leftLoop",autoPage:true,autoPlay:true,interTime:5000,delayTime:1000});</script>
+		
+		<div class="all_title_box wf100"><img src="/Comm/images/bt_ysmt.png" alt="养身美体"></div>
+		<div class="home_box4 wf100" id="home_box5">
+			<div class="bd">
+				<ul>
+					{volist name='arr3' id='vo'}
+					<li class="pull-left">
+						<img src="{$vo.img}" alt="{$vo.cntitle}">
+						<div class="info_box">
+							<h4>{$vo.cntitle}</h4>
+							<h5>{$vo.tag}</h5>
+							<p>准备时长：{$vo.s5}min<br>服务时长：{$vo.s3}min</p>
+							<span>￥{$vo.s1}/次</span>
+							<div>
+								<a href="" class="clr1 qbuy" toid="{$vo.id}">立即购买</a>
+								<a href="{$vo.id|idlname}" class="clr2">&nbsp;</a>
+							</div>
+						</div>
+					</li>
+					{/volist}
+				</ul>
+			</div>
+			<div class="hd"><ul></ul></div>
+		</div>
+		<script>TouchSlide({slideCell:"#home_box5",titCell:".hd ul", mainCell:".bd ul",effect:"leftLoop",autoPage:true,autoPlay:true,interTime:5000,delayTime:1000});</script>
+		
+		<div class="all_title_box wf100"><img src="/Comm/images/bt_zxhd.png" alt="最新活动"></div>
+		<div class="home_box5 wf100">
+			<div class="w90">
+				<ul>
+					{volist name='arr4' id='vo'}
+					<li>
+						<div class="pull-left">
+							<a href="{$vo.id|idlname}"><img src="{$vo.img}" alt="{$vo.cntitle}"></a>
+						</div>
+						<div class="pull-right">
+							<h4 class="wf100">{$vo.cntitle}</h4>
+							<div class="box1 wf100">
+								<p>准备时长：{$vo.s5}min<br>服务时长：{$vo.s3}min</p>
+								<span>￥{$vo.s1}/次</span>
+							</div>
+							<div class="box2 wf100">
+								<a href="" class="clr1">立即购买</a>
+								<a href="{$vo.id|idlname}" class="clr2">&nbsp;</a>
+							</div>
+						</div>
+					</li>
+					{/volist}
+				</ul>
+			</div>
+		</div>
+		
+<!-- 		<div class="fanye_box wf100">
+	<ul>
+		<li class="active"><a href="">1</a></li>
+		<li><a href="">2</a></li>
+		<li><a href="">3</a></li>
+		<li><a href="">4</a></li>
+		<li><a href="">5</a></li>
+	</ul>
+</div> -->
+	</div>		
