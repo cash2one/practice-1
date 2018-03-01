@@ -1,0 +1,136 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 网站栏目</li>
+        <li><a href="{$mname}">栏目管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-edit"></i></strong><small>{$action}栏目</small></h2>
+        
+<form action="{$mname}/save.qm" class="form-horizontal" method="post">
+<input type="hidden" name="id" value="{$vo.id}" />
+<table class="curve_mid" border="0" cellpadding="2" cellspacing="2">
+<tr class="hide">
+    <td width="123">　上级目录：</td>
+    <td><select id="lm" name="fid" class="form-control" >
+		<option value="0">根目录</option>
+        {$lmoption}
+      </select> <span class="red">*</span>
+	  <script type="text/javascript">
+	  $("#lm option[value={$vo['fid']}]").attr("selected","selected");
+	  </script>
+	</td>
+  </tr>
+    <tr{eq name='id' value='0'}{else/} style=" display:none"{/eq}>
+    <td>　栏目属性：</td>
+    <td>
+    <input type="checkbox" name="kdel" id="kdel" value="1"{eq name="vo.kdel" value='1'}  checked="checked" {/eq} /><label for="kdel">不可删除</label> (保存后不可更改)
+     </td>
+  </tr>
+   <tr class="hides">
+    <td class="red" width="123">　展示类型：</td>
+    <td><input type="radio" name="tys" value="1" id="ty1" onclick="$('#urls').hide();" /><label for="ty1">新闻列表</label> 
+    <input type="radio" name="tys" value="2" id="ty2" onclick="$('#urls').hide();" /><label for="ty2">图片列表</label>  
+ <input type="radio" name="tys" value="3" id="ty3" onclick="$('#urls').hide();" /><label for="ty3">文章</label> 
+    <input type="radio" name="tys" value="4" id="ty4" onclick="$('#urls').show();" /><label onclick="$('#urls').show();" for="ty4">外链</label> 
+	<script type="text/javascript">$("#ty{$ty}").attr("checked","checked");</script>
+  栏目排序:<input size="10" class="form-control w30_" id="sort" name="sort" value="{$vo['sort']}" /> <span class="red">*</span> （由低 -> 高）
+    </td>
+  </tr>       
+   <tr>
+    <td class="red"><div style="width:103px;">　栏目名称：</div></td>
+    <td ><input required="required" class="form-control b30"  id="cntitle" name="cntitle" value="{$vo['cntitle']}" size="35" /> 显示<input type="checkbox" name="isshow" value="1" {eq name="vo.isshow" value='1'}  checked="checked" {/eq}> <span class="red">*</span></td>
+      </tr>
+   <tr>
+    <td class="redx">　英文名称：</td>
+    <td><input class="form-control b30" name="entitle" value="{$vo['entitle']}" size="35" /></td>
+  </tr>       
+
+  <tr>
+      <td>　banner图：</td>
+      <td>
+      <input class="form-control b30"  type="text" id="url1" name="img" value="{$vo['img']}" size="40" /> <input type="button" id="image1" class="btn btn-primary" value="上传" /> <span class="red">1920*220px</span></td>
+  </tr>
+
+  {if condition="$vo['id'] lt 6"}
+  <tr class="hides">
+    <td class="redx">　栏目图：</td>
+    <td><input class="form-control b30" id="Additional" name="Additional" value="{$vo['Additional']}" size="35" /> <input type="button" id="zs2" class="btn btn-primary" value="上传" /> <span class="red">247*188px</span></td> 
+  </tr>
+  {/if}
+
+  
+  <tr>
+    <td>　网站url：</td>
+    <td><input class="form-control b30"  name="urlpath" value="{$vo['urlpath']}" size="60" /> <span class="red">*</span></td>
+  </tr>  
+
+  <tr id="urlsx" class="hide">
+    <td id="url" align="left">　外链地址：</td>
+    <td><input class="form-control b50"  id="urls2" name="url" value="{$vo['url']}" size="60" /></td>
+  </tr>
+  
+  <tr>
+    <td>　网站标题：</td>
+    <td><input class="form-control b80"  name="title" value="{$vo['title']}" size="60" /></td>
+  </tr>  
+  <tr>
+    <td>　关 键 字：</td>
+    <td><input class="form-control b80"  name="keywords" value="{$vo['keywords']}" size="60" /></td>
+  </tr>
+  <tr>
+    <td>　描述：</td>
+    <td>
+      <textarea class="form-control b80" name="description" cols="70" rows="5">{$vo['description']}</textarea>
+	</td>
+  </tr>
+  
+  <tr class="no">
+  <td></td>
+    <td>
+    <button id="btn_sub" type="submit" class="btn btn-primary"><i class="icon-ok"></i>保 存</button>　
+    <button type="button" class="btn btn-default" onclick="location.href='?m=lm&lm={$fid}';"><i class="icon-reply"></i>返 回</button></td>
+    </tr>
+</table>
+</form>
+<link rel="stylesheet" href="__PUBLIC__/qm/themes/default/default.css" />
+		<script src="__PUBLIC__/qm/kindeditor.js"></script>
+		<script src="__PUBLIC__/qm/lang/zh_CN.js"></script>
+		<script>
+			KindEditor.ready(function(K) {
+				var editor = K.editor({
+					allowFileManager : true
+				});
+				K('#image1').click(function() {
+					editor.loadPlugin('image', function() {
+						editor.plugin.imageDialog({
+							imageUrl : K('#url1').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#url1').val(url);
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+				K('#zs2').click(function() {
+					editor.loadPlugin('image', function() {
+						editor.plugin.imageDialog({
+							imageUrl : K('#Additional').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#Additional').val(url);
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+			});
+		</script>
+<script type="text/javascript">
+{eq name='ty' value='4'}{else/}$('#urls').hide(0);{/eq}
+$(function(){
+	$("#isshow{$vo['isshow']}").attr("checked",true);
+  	$("#ty{$vo['ty']}").attr("checked",true);
+});
+</script>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>

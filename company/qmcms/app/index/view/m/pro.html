@@ -1,0 +1,30 @@
+  <div class="nav_top">
+    <h3> <span>{:cntitle($blm)}>></span>
+      <div class="more"> 更多分类 </div>
+    </h3>
+    <div class="pro_sidebar">
+      <ul id="ContentPlaceHolder1_proType1_prolist" class="sidebar">
+        {php}
+          $menu=lmlist($blm);
+        {/php}
+        {volist name='menu' id='vo'}
+        <li class="li">
+          <dl>
+            <a href="{$vo.id|htmlname}">{$vo.cntitle}</a>
+          </dl>
+        </li>
+        {/volist}
+      </ul>
+    </div>
+  </div>
+  <div class="product_list">
+    <ul>
+      {volist name='lists' id='vo'}  
+      <li><a href="{$vo.id|idlname}"><img src="{$vo.img}" border="0"><span>{$vo.cntitle}</span></a></li>
+      {/volist}
+      <div class="clear"> </div>
+    </ul>
+    <div style="text-align: center; clear: both;font-size:17px;" class="pages">{$page}</div>
+  </div>
+
+

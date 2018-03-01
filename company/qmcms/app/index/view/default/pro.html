@@ -1,0 +1,83 @@
+<div id="c_main_bg">
+<div id="c_main" class="wapper clearfix">
+
+{include file="default:left" /}
+
+<div id="c_content" class="fr">
+  <div id="c_contenttit" class="clearfix"><span class="fr"> 当前位置： <a href="/"> 首页</a>{$path}</span></div>
+  
+
+    {switch name='blm'}
+    {case value='2'}
+      <div id="c_contentcon">
+
+          {eq name='fid' value='2'}
+          {volist name='zlm' id='vo'}
+          <ul>
+            <li style="background-color:#35b1e4; border-radius:15px; line-height:30px; padding-left:15px; margin-bottom:10px;;"><a href="{:htmlname($vo['id'])}" style="font-size:16px; color:#000e9b; ; line-height:35px; font-family:microsoft yahei;">{:cntitle($vo['id'])}</a></li>
+          </ul>
+          <ul class="home_ulpro clearfix">
+            {php}$list=arclist($vo['id'],4);{/php}
+            {volist name='list' id='vo'}  
+            <li><a href="{$vo.id|idlname}">
+              <div class="img"><img src="{$vo.img}" width="172" height="130"><span class="line line01"></span><span class="line line02"></span><span class="line line03"></span><span class="line line04"></span></div>
+              <div class="tit"> <span class="cn">{$vo.cntitle}</span> </div>
+              </a></li>
+            {/volist}
+          </ul>
+          {/volist}
+
+          {else/}
+          <ul>
+            <li style="background-color:#35b1e4; border-radius:15px; line-height:30px; padding-left:15px; margin-bottom:10px;;"><a href="{:htmlname($fid)}" style="font-size:16px; color:#000e9b; ; line-height:35px; font-family:microsoft yahei;">{:cntitle($fid)}</a></li>
+          </ul>
+          <ul class="home_ulpro clearfix">
+            {volist name='lists' id='vo'}  
+            <li><a href="{$vo.id|idlname}">
+              <div class="img"><img src="{$vo.img}" width="172" height="130"><span class="line line01"></span><span class="line line02"></span><span class="line line03"></span><span class="line line04"></span></div>
+              <div class="tit"> <span class="cn">{$vo.cntitle}</span> </div>
+              </a></li>
+            {/volist}
+          </ul>
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tbody>
+              <tr>
+                <td height="60" align="center">
+                  <div class="digg4">{$page}</div></td>
+              </tr>
+            </tbody>
+          </table>
+          {/eq}
+        </div>
+
+    {/case}
+    {default/}
+    <div id="c_contentcon">        
+        <div class="c_system wrapper">
+          <ul class="hal clearfix">
+            {volist name='lists' id='vo'}  
+            <li>
+              <a href="{$vo.id|idlname}">
+                <div class="img"><img src="{$vo.img}"></div>
+                <span class="name">{$vo.cntitle}</span>
+              </a>
+            </li>
+            {/volist}
+          </ul>
+        </div>
+        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tbody>
+            <tr>
+              <td height="60" align="center">
+                <div class="digg4">{$page}</div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    {/switch}
+
+    </div> 
+
+
+</div>          
+</div>

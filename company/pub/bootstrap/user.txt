@@ -1,0 +1,17 @@
+<!--“Ù¿÷js∫Õcss-->
+<link rel="stylesheet" href="/pub/bootstrap/css/bootstrap-select.min.css">
+<script src="/pub/bootstrap/js/bootstrap-select.js"></script>
+
+
+∂‡—°
+<select class="form-control wat selectpicker" multiple data-live-search="true" name="name[]" required>
+<option value='1'>≤‚ ‘</option>
+<option value='2'>≤‚ ‘</option>
+</select>
+
+
+
+<select class="form-control wat selectpicker" data-live-search="true" name="name[]" toid="s_city" required>
+<option value='1'>≤‚ ‘</option>
+<option value='2'>≤‚ ‘</option>
+</select>

@@ -1,0 +1,125 @@
+<?php
+//权限验证
+$qx_system=qmcheck('system',4); 
+$qx_lists=qmcheck('lists',4);
+$qx_lm=qmcheck('lm',4);
+$qx_attr=qmcheck('attr',4);    
+$qx_dbak=qmcheck('dbak',4);
+$qx_ad=qmcheck('ad',4);
+$qx_msg=qmcheck('msg',4);
+$qx_msg2=qmcheck('msg2',4);
+$qx_msg=0;
+?><!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="/favicon.ico">
+  <title>{$sysfig.cfg_name}_全美V7系统</title>
+  <link href="__PUBLIC__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="__PUBLIC__/sys/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_dhfqarty7dn53ik9.css">
+  <link rel="stylesheet" href="__PUBLIC__/sys/icheck/css/blue.css">
+  <link rel="stylesheet" href="__PUBLIC__/validform/css/validform.css">
+  <link rel="stylesheet" href="__PUBLIC__/sys/css/common.css">
+  <link href="__PUBLIC__/sys/css/tc.css?v2016" rel="stylesheet" type="text/css">
+  <script src="__PUBLIC__/bootstrap/js/jquery.min.js"></script>
+  <script src="__PUBLIC__/bootstrap/js/bootstrap.min.js"></script>
+  <script src="__PUBLIC__/sys/js/upload.js"></script>
+  <script src="__PUBLIC__/datepicker/WdatePicker.js"></script>
+	<script type="text/javascript">
+    var t_root='__ROOT__';
+    var t_app='{$modname} ';
+    var t_url='__URL__';
+    var t_action='{$action}';
+    var t_do='{$t_do}';
+    var t_attr='{$t_attr}';
+    </script>
+  <script src="__PUBLIC__/sys/js/fbase.js"></script>
+  <script src="__PUBLIC__/sys/js/main.js"></script>
+  <script src="__PUBLIC__/sys/js/b.js"></script>
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="navbar-header col-sm-2 col-md-2">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://www.quanmeicm.net/?v7" target="_blank" title="{$sysfig.cfg_name}系统">{$sysfig.cfg_name}系统 </a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-left" id="menu_flm">
+          <li class="visible-md visible-lg">
+          <a href="#no" title="点击隐藏菜单" id="main-menu-toggle"><i class="fa icon-th-large" style="font-size:18px"></i></a>
+          </li> 
+
+        <li>
+        <a href="/?V=7" target="_blank"><i class="icon-globe"></i> <span class="mg-lf">浏览网站</span></a>
+        </li>
+        <li class="{eq name='menu_flm' value=''}active{/eq}"><a href="{$modname}/index.qm"><i class="icon-home"></i> <span class="mg-lf">系统主页</span></a></li>
+          {eq name='qx_lm' value='1'}<li class="{eq name='menu_flm' value='2'}active{/eq}"><a href="{$modname}/lm.qm"><i class="icon-sitemap"></i> <span class="mg-lf">管理</span></a></li>{/eq}
+          {eq name='qx_lists' value='1'}
+          <li class="{eq name='menu_flm' value='3'}active{/eq}"><a href="{$modname}/lists.qm"><i class="icon-th"></i> <span class="mg-lf">内容</span></a></li>{/eq}
+          {eq name='qx_ad' value='1'}<li class="{eq name='menu_flm' value='6'}active{/eq}">
+          <a href="{$modname}/ad.qm"><i class="icon-camera-retro"></i> <span class="mg-lf">广告</span></a>
+          </li>{/eq} 
+          {eq name='qx_msg' value='1'}<li class="{eq name='menu_flm' value='5'}active{/eq}">
+          <a href="{$modname}/msg.qm"><i class="icon-comment"></i> <span class="mg-lf">留言</span></a>
+        </li>{/eq}
+          {eq name='qx_dbak' value='1'}<li class="{eq name='menu_flm' value='7'}active{/eq}">
+          <a href="{$modname}/dbak.qm"><span class="mg-lf">备份</span></a>
+          </li>{/eq}
+                  
+          <li class="last"></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user-md"></i> 账号<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              {eq name='admin.id' value='1'}
+              <li><a href="{$modname}/admin.qm"><i class="icon-user"></i>&nbsp;&nbsp; 帐户管理</a></li>
+              {/eq}
+              <li><a href="{$modname}/admin/edit.qm"><i class="icon-wrench"></i>&nbsp;&nbsp; 帐户设置</a></li>
+              <li class="divider"></li>
+              <li><a href="{$modname}/index/doexit.qm"><i class="icon-off"></i>&nbsp;&nbsp; 退出</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>  
+  </div>
+</div>
+<div class="container-fluid full">
+  <div class="row full">
+    <div class="col-sm-2 col-md-2 sidebar" id="sidebar">
+      <ul class="nav nav-first-sidebar">
+        {eq name='qx_system' value='1'}<li class="{eq name='menu_flm' value='1'}active{/eq}"><a href="{$modname}/system.qm"><i class="icon-wrench mg-lf"></i> <span class="mg-lf">网站设置</span></a></li>{/eq}
+        <!--{eq name='qx_attr' value='1'}<li class="{eq name='menu_flm' value='11'}active{/eq}"><a href="{$modname}/attr.qm"><i class="icon-sitemap mg-lf"></i> <span class="mg-lf">属性管理</span></a></li>{/eq}-->
+        {eq name='qx_lm' value='1'}<li class="{eq name='menu_flm' value='2'}active{/eq}"><a href="{$modname}/lm.qm"><i class="icon-sitemap mg-lf"></i> <span class="mg-lf">栏目管理</span></a></li>{/eq}        
+        {eq name='qx_lists' value='1'}<li class="{eq name='menu_flm' value='3'}active{/eq}"><a href="{$modname}/lists.qm"><i class="icon-th mg-lf"></i> <span class="mg-lf">网站内容</span></a></li>{/eq}
+        {eq name='qx_ad' value='1'}<li class="{eq name='menu_flm' value='6'}active{/eq}">
+        <a href="{$modname}/ad.qm"><i class="icon-camera-retro mg-lf"></i> <span class="mg-lf">广告管理</span></a>
+        </li>{/eq}
+        {eq name='qx_msg' value='1'}<li class="{eq name='menu_flm' value='5'}active{/eq}">
+        <a href="{$modname}/msg.qm"><i class="icon-comment mg-lf"></i> <span class="mg-lf">留言管理</span></a>
+        </li>{/eq}      
+        {eq name='qx_dbak' value='1'}<li class="{eq name='menu_flm' value='7'}active{/eq}"><a href="{$modname}/dbak.qm"><i class="icon-cloud-upload mg-lf"></i> <span class="mg-lf">数据备份</span></a></li>{/eq}
+        <li class="{eq name='menu_flm' value='97'}active{/eq}"><a href="{$modname}/html.qm"><i class="icon-asterisk mg-lf"></i> <span class="mg-lf">更新缓存</span></a></li>
+        <li class=""><a href="http://wpa.qq.com/msgrd?v=3&uin=370832937&site=qq&menu=yes" target="_blank"><i class="icon iconfont icon-QQ mg-lf"></i> <span class="mg-lf">售后咨询</span></a></li>
+      </ul>
+      <div class="nav-bottom-sidebar">
+      <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=370832937&site=qqmenu=yes" class="to-clear"><i class="icon-phone-sign"></i> 售后服务电话028-84449577</a>
+      </div>
+    </div>

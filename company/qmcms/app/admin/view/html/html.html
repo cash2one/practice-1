@@ -1,0 +1,95 @@
+{__NOLAYOUT__}<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>生成HTML-{$sysfig.cfg_name}_</title>
+<meta name="apple-touch-fullscreen" content="YES">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" id="viewport" />
+<link rel="icon" href="/favicon.ico">
+<script src="/pub/bootstrap/js/jquery.min.js"></script>
+</head>
+<body>
+<style>
+    .htmli{ padding:10px 25px;}
+    .html{ display: inline-block; display: block;}
+    .show{  display: none;width: auto;}
+    .jingdu{ color: #f00;}
+    .tbox{position:fixed;width:100%;height:100%;top:0;background:#2E363F;
+        filter:alpha(opacity=70);  
+      -moz-opacity:0.7;  
+      -khtml-opacity: 0.7;  
+      opacity: 0.7;  
+    }
+    .timeer{ position:fixed;width:300px; left:50%; margin-left:-150px;text-align:center; top: 40%; padding:15px 0;background:#000;color:#fff; z-index: 3;}
+    #ing{ color: #f00; font-weight: bold;opacity: 0.7;}
+
+</style>
+<div class="htmli">
+{volist name='array' id='ky'}
+<div class="html">{$ky}</div>
+{/volist}
+</div>
+
+<div class="tbox"></div>
+<div class="timeer">
+    <span id='ing'></span>
+    <span id="times"></span>
+    <span id="jingdu"></span>
+</div>
+
+<script>
+var timeer=10;
+var f=0;
+var timef=0;
+var obj=$(".html");
+var count=obj.length;
+var inter;
+var inter2;
+var s2=0;
+
+inter =setInterval(function(){
+    timef++;$('#times').text('耗时:'+timef+'秒');
+    var jd=(f/count);
+    jd=Math.ceil(jd*10000);
+    jd=jd/100;
+    $('#jingdu').text('进度:'+jd+'%　'+f+'/'+count);
+    if (f>=count){clearInterval(inter);obj.eq(count-1).addClass('show');$('#ing').html('生成完成');}
+},1000);
+
+inter2 =setInterval(function(){
+    var s1=$('.show').length;
+    if (s2==s1)
+    {
+        clearInterval(inter);obj.eq(count-1).addClass('show');$('#ing').html('生成完成');
+        clearInterval(inter2);
+    } 
+},5000);
+
+function ehtm(s)
+{
+    s2=$('.show').length;
+    /*ajax对象必须是200状态 */
+    var url=obj.eq(s).html();
+    $.ajax({
+       type: "get",url: url,data: "",
+       success: function(msg){
+        f++; obj.eq(s).addClass('show');
+        return 1;
+       }
+    });
+}
+
+for (i=0;i<=count;i++){ehtm(i);}
+
+function dohtm()
+{
+    var url=obj2.eq(f).attr("href");var rst=ehtm(f);
+    if (rst=='1'){f++;}
+}
+
+</script>
+
+</body>
+</html>

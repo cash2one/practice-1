@@ -1,0 +1,86 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> <a href="{$mname}">网站管理员</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-edit"></i></strong><small>{$actionType}管理员</small></h2>
+<form action="{$mname}/save.qm" class="form-horizontal" method="post">
+<input type="hidden" name="id" value="{$vo.id}" /><br>
+
+<table class="table table-hover table-bordered curve_mid">
+	  <tr>
+      <td width="180" align="right"><span class="red">*</span>用 户 名:</td>
+      <td width="300" style="text-align:left">
+			<input id="username" class="form-control wat" name="username" required="required" value="{$vo['username']}" />
+			</td>
+      <td>用户名由字母及数字组成</td>
+    </tr>
+	  <tr><td align="right"><span class="red">*</span> 密码:</td>
+		    <td style="text-align:left"><input class="form-control wat" id="password" name="password" type="password" /></td>
+		    <td>用户名由字母及数字组成</td>
+		</tr>  
+    <tr>
+      <td align="right"><span class="red">*</span>　管理员名称：</td>
+      <td colspan="2" style="text-align:left">
+      <input id="username" class="form-control wat" name="cityname" required="required" value="{$vo['cityname']}" />
+      </td>
+	</tr>
+  <tr>
+      <td align="right"><span class="red"></span>　联系人：</td>
+      <td colspan="2" style="text-align:left">
+      <input id="truename" class="form-control wat" name="truename" value="{$vo['truename']}" />
+      </td>
+	</tr>
+  <tr>
+      <td align="right"><span class="red"></span>　联系电话：</td>
+      <td colspan="2" style="text-align:left">
+      <input id="tel" class="form-control wat" name="tel" value="{$vo['tel']}" />
+      </td>
+	</tr>
+
+  <tr>
+      <td align="right"><span class="red"></span>　模块权限：</td>
+      <td colspan="2" style="text-align:left">
+      <div style="width:80%; line-height:25px;">
+      {php}
+        $mtb1=\think\Db::name('admin_check');
+        $flag1arr=explode(',',$vo['flag1']);
+        $flag2arr=explode(',',$vo['flag2']);
+        $arr1=$mtb1->where("`type`='1' and audit='1' and del='0'")->select();
+        $arr2=$mtb1->where("`type`='2' and audit='1' and del='0'")->select();
+      {/php}
+      {volist name='arr1' id='ky'}
+        <input type="checkbox" name="flag1[]" value="{$ky.id}" {if condition="in_array($ky['id'],$flag1arr)"}checked{/if}> {$ky.cntitle} 
+      {/volist}
+      </div>
+      </td>
+  </tr>
+  <tr>
+      <td align="right"><span class="red"></span>　操作权限：</td>
+      <td colspan="2" style="text-align:left">
+      <div style="width:80%; line-height:25px;">
+      {volist name='arr2' id='ky'}
+        <input type="checkbox" name="flag2[]" value="{$ky.id}" {if condition="in_array($ky['id'],$flag2arr)"}checked{/if}> {$ky.cntitle} 
+      {/volist}
+      </div>
+      </td>
+  </tr>
+
+
+  <tr class="hide">
+      <td align="right"><span class="red"></span>　联系地址：</td>
+      <td colspan="2" style="text-align:left">
+      <input id="address" class="form-control b80" name="address" value="{$vo['address']}" />
+      </td>
+	</tr>
+
+  <tr class="no">
+      <td colspan="3" align="center">
+      <button id="btn_sub" type="submit" class="btn btn-primary"><i class="icon-ok"></i>保 存</button>　　
+       <button type="button" class="btn btn-default" onClick="history.go(-1);"><i class="icon-reply"></i>返 回</button></td>
+  </tr>
+</table>
+</form>
+</div></div>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>

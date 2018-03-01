@@ -1,0 +1,89 @@
+﻿*{padding:0px; margin:0px;}
+html {_overflow-y:scroll;}
+/*****！！页面通用css样式定义开始******/
+/* body的css定义:这里定义页面上下左右边距，页面背景颜色，滚动条颜色样式 */
+body{
+    font-family: Arial, Tahoma,"微软雅黑";    /*文字字体定义 */
+	font-size: 12px;    /*文字大小定义 */
+	color: #5a5a5a; /*文字颜色定义 */
+	}
+
+/* 网站超链接css通用设置 */
+a{text-decoration: none;} /* 链接无下划线,有为underline */ 
+a:link {color: #333333;} /* 未访问的链接 */
+a:visited {color: #333333;} /* 已访问的链接 */
+a:hover{color: #eb1315;	text-decoration: none;} /* 鼠标在链接上 */ 
+a:active {color: #333333;} /* 点击激活链接 */
+
+
+h1,h2,h3,h4,h5,h6{font-size:12px;font-weight:normal;}
+img{border: 0px;}
+.clear{clear:both; line-height:0; height:0; font-size:0px;}
+.clear:after{content: "."; display: block; height: 0; clear: both; visibility: hidden; }/*清除浮动*/
+
+/*表格样式定义 */ 
+checkbox{border: 0px;}/*选择框样式定义 */ 
+.input{ border:1px solid #CCCCCC; height:20px;line-height:20px} 
+
+li{
+list-style-type:none;
+}
+*{
+	box-sizing:border-box;
+}
+
+/*banner*/
+.flexslider{
+	background:#70ccf0;
+}
+.flexslider img{
+	width:100%;
+	float:left;
+}
+.ui-btn-inner{
+	display:none;
+}
+.flexslider{
+	position:relative;
+}
+.flexslider img{
+	width:100%;
+}
+.flex-direction-nav{
+	width:100%;
+	height:20px;
+	position:absolute;
+	bottom:10px;
+}
+.flex-prev,.flex-next{
+	width:20px;
+	height:14px;
+}
+.flex-prev{
+	float:left;
+	margin-left:7px;
+	background:url(../images/pre.png) no-repeat 0 0;
+}
+.flex-next{
+	float:right;
+	margin-right:7px;
+	background:url(../images/next.png) no-repeat right 0;
+}
+.flex-control-nav{
+	display:none;
+}
+/*banner END*/
+@media screen and (max-width:768px){
+	.text_content img{
+		max-width:100%;
+		display:block;
+		margin:0 auto;
+	}
+}
+
+.text_content img{ height: auto !important; }
+.qhide{ display: none; }
+
+img{ max-width: 100%; }
+.cont article{ padding: 10px; }
+.cont article img{ height: auto; }

@@ -1,0 +1,101 @@
+<div class="fl" id="c_leftside">
+
+<SCRIPT language=javascript1.2>
+function showsubmenu(sid)
+{
+whichEl = eval("submenu" + sid);
+if (whichEl.style.display == "none")
+{
+eval("submenu" + sid + ".style.display=\"\";");
+}
+else
+{
+eval("submenu" + sid + ".style.display=\"none\";");
+}
+}
+</SCRIPT>
+{php}
+$topid=$blm;
+$zlm=lmlist($topid,99);
+if (!$zlm)
+{
+  $topid=2;
+  $zlm=lmlist($topid,99);
+}
+{/php}
+
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:#000e9b 3px solid;">
+<tbody>
+
+<tr>
+<td height="70" valign="middle" bgcolor="#000e9b" class="biaoti" style="padding-left:25px; padding-top:6px;border-bottom:#e0e0e0 1px solid;"><font color="#FFF" style="font-size:24px; line-height:30px;">{:cntitle($topid)}</font><br>
+  <font color="#FFF" style="font-size:11px; font-family:Arial,Verdana, Helvetica, sans-serif line-height:180%; font-weight:normal;">{:entitle($topid)}</font></td>
+</tr>
+{eq name='topid' value='2'}
+{volist name='zlm' id='vo'}
+<tr>
+<td height="35" class="biaotid" bgcolor="#f7f7f9" style="padding-left:25px;" {eq name='topid' value='2'}id="menuTitle1" onClick="showsubmenu({$vo.id})"{/eq}><a href="{:htmlname($vo['id'])}" style="font-weight:bold; font-family:microsoft yahei;font-size:14px;font-weight:bold;" class="fu">{$vo.cntitle}</a></td>
+</tr>
+{eq name='topid' value='2'}
+{php}
+$arr2=arclist($vo['id'],10);
+if ($arr2)
+{
+{/php}
+<tr>
+<td id='submenu{$vo.id}' {if condition="$vo['id'] neq $fid"}style="display:none"{/if}>
+{volist name='arr2' id='vo2'}
+<table width="100%">
+<tr>
+<td height="29" class="biaotid" style="padding-left:25px; border-bottom:#e0e0e0 1px solid;"><img src="/Comm/Images/fdat.gif" width="11" height="11"><a style="font-family:microsoft yahei;font-size:14px;" href="{$vo2.id|idlname}"> {$vo2.cntitle}</a> </td>
+</tr>
+</table>
+{/volist}
+</td>
+</tr>
+{php}
+}
+{/php}
+{/eq}
+{/volist}
+{else/}
+    <tr>
+      <td height="35" class="biaotid" bgcolor="#f7f7f9">
+        <ul class="sidenavul">
+        {volist name='zlm' id='vo'}                      
+        <li id="innav01" {if condition="$vo['id'] eq $fid"}class='onsss'{/if}><a href="{$vo.id|htmlname}">{$vo.cntitle}</a>{if condition="$vo['id'] neq $fid"}<div id="lanPos" style="top: 0px;"><em></em></div>{/if}</li>
+        {/volist}                    
+        </ul>                
+        <script type="text/javascript" src="/Comm/js/jquery.home.js"></script>
+        </td>
+    </tr>
+{/eq}
+</tbody>
+
+
+
+<tr>
+<td></td>
+</tr>
+</tbody></table>
+<br>
+<a href="{:htmlname(5)}" class="zixun">联系我们</a>
+<br>
+<table width="240" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+<tbody><tr>
+<td width="50" rowspan="2"><img src="/Comm/images/400dianhua.png" alt="" width="40"></td>
+<td align="left" valign="top" class="biaotib"><font color="#666" style="font-size:13px">全国服务热线电话
+  HOTLINE</font></td>
+</tr>
+<tr>
+<td align="left"><font style="font-size:24px; line-height:120%; font-weight:bold; font-family:Georgia, &#39;Times New Roman&#39;, Times, serif;" color="#000e9b">{$sysfig.cfg_f1}</font></td>
+</tr>
+</tbody></table>
+<br/>
+<br/>
+<br/>
+<br/>
+
+</div>

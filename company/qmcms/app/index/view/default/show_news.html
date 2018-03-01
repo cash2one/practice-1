@@ -1,0 +1,23 @@
+<div id="c_main_bg">
+<div id="c_main" class="wapper clearfix">
+
+{include file="default:left" /}
+
+<div id="c_content" class="fr">
+  <div id="c_contenttit" class="clearfix"><span class="fr"> 当前位置： <a href="/"> 首页</a>{$path}</span></div>
+
+    <div class="cont" id="c_contentcon">
+           
+      <div style="border-bottom:1px solid #ccc;font-size:18px;font-family:microsoft yahei;padding:10px;margin-bottom:10px; font-weight:bold;text-align:center;">{$arc.cntitle}</div>
+
+      <article style="text-align: left;">{$arc.content}</article>
+      　
+    </div>
+
+</div>
+</div>          
+</div>
+
+
+<font class="qhide" id='hits'>{$arc.hit}</font>
+<script>$('#hits').empty().load('/hit/?id={$arc.id}');</script>

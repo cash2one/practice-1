@@ -1,0 +1,35 @@
+<div id="c_main_bg">
+<div id="c_main" class="wapper clearfix">
+
+{include file="default:left" /}
+
+<div id="c_content" class="fr">
+  <div id="c_contenttit" class="clearfix"><span class="fr"> 当前位置： <a href="/"> 首页</a>{$path}</div>
+  <div id="c_contentcon">
+      {volist name='lists' id='vo'}  
+      <ul class="pro">
+        <li><a href="{$vo.id|idlname}" class="clearfix"><img src="{$vo.img}" class="aa">
+        <h3>{$vo.cntitle}</h3>
+        <em>Publisher:{$vo.bz9} | {$vo.addtime}</em>
+        <span>{$vo.content|msubstr=###,0,100}…</span>
+        </a>
+        </li>
+      </ul>
+      {/volist}
+                
+      <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tbody><tr>
+        <td height="60" align="center">
+          <div class="digg4 page">
+          {$page}
+          </div>
+        </td>
+        </tr>
+      </tbody>
+      </table>
+      
+        </div>
+        
+    </div>        
+</div>          
+</div>

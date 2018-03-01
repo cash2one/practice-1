@@ -1,0 +1,80 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> <a href="{$mname}">广告管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-edit"></i></strong><small>{$action}广告</small></h2>
+        
+<form id="ddds" action="{$mname}/save.qm" onsubmit="return save()" class="form-horizontal">
+<input type="hidden" name="id" value="{$vo.id}" />
+<input type="hidden" name="from" value="{$from}" />
+<table class="curve_mid" border="0" cellpadding="2" cellspacing="2">		
+		  <tr>
+            <td width="180" align="right">广告标题:</td>
+            <td><input required="required" id="cntitle" name="cntitle" type="text" class="form-control b50" size="40" value="{$vo['cntitle']}" />
+			</td>
+        </tr>
+		<tbody id="T_img">
+		  <tr>
+            <td align="right">图片地址:</td>
+		    <td><input class="form-control b50" type="text" name="img" id="url1" value="{$vo['img']}" /> <input class="btn btn-primary" type="button" id="image1" value="选择图片" /></td>
+		  </tr>
+		  <tr>
+            <td align="right">链接地址:</td>
+		    <td><input id="url" name="url" type="text" class="form-control b50" size="40" value="{$vo['url']}" /></td>
+		  </tr>
+		  <tr>
+            <td align="right">广告名称:</td>
+		    <td><input id="A_alt" name="ids_bz1" value="{$vo['ids_bz1']}" size="40" class="form-control b50" />
+       			alt或title</td>
+		  </tr>
+		  </tbody>
+
+		 <tr>
+            <td align="right">广告宽度:</td>
+		    <td><input id="width" type="text" name="width" class="form-control w30_" size="40"  value="{$vo['width']}"/> </td>
+    </tr>
+		 <tr>
+            <td align="right">广告高度:</td>
+	       <td><input id="height" type="text" name="height" class="form-control w30_" size="40" value="{$vo['height']}"/> </td>
+		  </tr>
+          <tr class="no">
+		  <td></td>
+            <td><button id="btn_sub" type="submit" class="btn btn-primary"><i class="icon-ok"></i>保 存</button>
+             <button type="button" onclick="history.go(-1);" class="btn btn-default"><i class="icon-reply"></i>返 回</button></td>
+          </tr>
+</table>
+</form>
+<link rel="stylesheet" href="__PUBLIC__/qm/themes/default/default.css" />
+<link rel="stylesheet" href="__PUBLIC__/qm/plugins/code/prettify.css" />
+<script charset="utf-8" src="__PUBLIC__/qm/kindeditor.js"></script>
+<script charset="utf-8" src="__PUBLIC__/qm/lang/zh_CN.js"></script>
+<script charset="utf-8" src="__PUBLIC__/qm/plugins/code/prettify.js"></script>
+<script>
+    KindEditor.ready(function(K) {
+        var editor = K.editor({
+            allowFileManager : true
+        });
+        K('#image1').click(function() {
+            editor.loadPlugin('image', function() {
+                editor.plugin.imageDialog({
+                    imageUrl : K('#url1').val(),
+                    clickFn : function(url, title, width, height, border, align) {
+                        K('#url1').val(url);
+                        editor.hideDialog();
+                    }
+                });
+            });
+        });				
+    });
+function save()
+{
+var cntitle=$("#cntitle").val();
+var img=$("#url1").val();
+if(cntitle=="" || cntitle==null){return false;}
+if (img==""){return false;}
+}
+</script>
+
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>

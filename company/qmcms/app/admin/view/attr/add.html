@@ -1,0 +1,78 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 属性分类</li>
+        <li><a href="{$mname}">属性分类管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-edit"></i></strong><small>{$action}属性</small></h2>
+        
+<form action="{$mname}/save.qm" class="form-horizontal" method="post">
+<input type="hidden" name="id" value="{$vo.id}" />
+  
+<table class="curve_mid" border="0" cellpadding="2" cellspacing="2">
+<tr class="hides">
+    <td width="103">　上级目录：</td>
+    <td><select id="lm" name="fid" class="form-control wat" >
+    <option value="0">根目录</option>
+        {$lmoption}
+    </select> <span class="red">*</span>
+    <script type="text/javascript">
+    $("#lm option[value={$vo['id']}").remove();
+    </script>
+  </td>
+</tr>
+  <tr{eq name='id' value='0'}{else/} style=" display:none"{/eq}>
+    <td width="123">　属性：</td>
+    <td>
+    <span style="display:none"><input type="radio" checked="checked" value="1" name="isshow" id="isshow1" /><label for="isshow1">显示</label><input type="radio" name="isshow" value="0" id="isshow0" /><label for="isshow0">隐藏</label></span><input type="checkbox" name="kdel" id="kdel" value="1"{eq name="kdel" value='1'}  checked="checked" {else/}{/eq} /><label for="kdel">不可删除</label> (保存后不可更改)
+     </td>
+  </tr>
+    
+   <tr>
+    <td class="red"><div style="width:103px;">　名称：</div></td>
+    <td ><input required="required" class="form-control b30"  id="cntitle" name="cntitle" value="{$vo['cntitle']}" size="35" /> <span class="red">*</span>
+      排序:<input size="10" class="form-control w30_" id="sort" name="sort" value="{$vo['sort']}" /> <span class="red">*</span> （由低 -> 高）</td>
+      </tr>
+  <tr class="hide">
+      <td>　属性图：</td>
+      <td>
+      <input class="form-control b30"  type="text" id="url1" name="img" value="{$vo['img']}" size="40" /> <input type="button" id="image1" class="btn btn-primary" value="上传" /></td>
+    </tr>
+  <tr class="no">
+  <td></td>
+    <td>
+    <button id="btn_sub" type="submit" class="btn btn-primary"><i class="icon-ok"></i>保 存</button>　
+    <button type="button" class="btn btn-default" onclick="location.href='{$mname}?lm={$fid}';"><i class="icon-reply"></i>返 回</button></td>
+    </tr>
+</table>
+</form>
+<link rel="stylesheet" href="__PUBLIC__/sys/ggj/themes/default/default.css" />
+		<script src="__PUBLIC__/sys/ggj/kindeditor.js"></script>
+		<script src="__PUBLIC__/sys/ggj/lang/zh_CN.js"></script>
+		<script>
+			KindEditor.ready(function(K) {
+				var editor = K.editor({
+					allowFileManager : true
+				});
+				K('#image1').click(function() {
+					editor.loadPlugin('image', function() {
+						editor.plugin.imageDialog({
+							imageUrl : K('#url1').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#url1').val(url);
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+
+			});
+		</script>
+<script type="text/javascript">
+$(function(){
+	$("#isshow{$vo['isshow']}").attr("checked",true);
+});
+</script>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>

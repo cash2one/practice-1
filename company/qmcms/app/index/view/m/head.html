@@ -1,0 +1,68 @@
+{php}
+$lmimg=info_ty(0,$fid,'img');
+if ($lmimg=='')
+{
+    $lmimg=info_ty(0,$blm,'img');
+}
+if ($lmimg=='')
+{
+    $lmimg=adf(3,'img');
+}
+{/php}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<script type="text/javascript" src="/Comm/m/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/Comm/m/js/jquery.carouFredSel-5.2.3.js"></script>
+<script type="text/javascript" src="/Comm/m/js/common.js"></script>
+<link href="/Comm/m/css/common.css" rel="stylesheet" type="text/css">
+<link href="/Comm/m/css/mycss.css" rel="stylesheet">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"; charset="utf-8">
+<title>{$title}</title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<link rel="icon" href="/favicon.ico">
+{$sysfig.cfg_head}
+</head>
+<body>
+<div class="header">
+  <div class="logo">
+    <div class="box">
+      <div class="tel"> <a href="tel:{$sysfig.cfg_f1}">咨询热线：<em class="blue">{$sysfig.cfg_f1}</em></a></div>
+    </div>
+  </div>
+
+  <div class="flexslider">
+    <div class="flex-viewport" style="overflow: hidden; position: relative;">
+      <ul class="slides" style="width: 800%; transition-duration: 0s; transform: translate3d(-3166px, 0px, 0px);">
+      {php}
+      $arra=arclist(32,9,'id,cntitle,img,url');
+      {/php}
+      {volist name='arra' id='vo'}
+      <li class="clone" aria-hidden="true" style="float: left; display: block;">{if condition="$vo['url'] neq ''"}<a href="{$vo.url}">{/if}<img src="{$vo.img}" title="{$vo.cntitle}" alt="{$vo.cntitle}" />{if condition="$vo['url'] neq ''"}</a>{/if}</li>
+      {/volist}
+      </ul>
+    </div>
+  </div>
+  <div class="nav">
+    <ul>
+      <li><a href="/" target="_self"><span> <img src="/Comm/m/images/n1.png"></span>首 页</a></li>
+      <li><a href="{:htmlname(1)}" target="_self"><span> <img src="/Comm/m/images/n2.png"></span>{:cntitle(1)}</a></li>
+      <li><a href="{:htmlname(2)}" target="_self"><span> <img src="/Comm/m/images/n3.png"></span>{:cntitle(2)}</a></li>
+      <li><a href="{:htmlname(3)}" target="_self"><span> <img src="/Comm/m/images/n4.png"></span>{:cntitle(3)}</a></li>
+      <li><a href="{:htmlname(4)}" target="_self"><span> <img src="/Comm/m/images/n5.png"></span>{:cntitle(4)}</a></li>
+      <li><a href="{:htmlname(5)}" target="_self"><span> <img src="/Comm/m/images/n6.png"></span>{:cntitle(5)}</a></li>
+      <div class="clear"> </div>
+    </ul>
+  </div>
+</div>
+
+<div class="content">
+
+{eq name='index' value='yes'}
+
+
+{else/}
+
+{/eq}

@@ -1,0 +1,427 @@
+{php}
+$lmimg=info_ty(0,$fid,'img');
+if ($lmimg=='')
+{
+    $lmimg=info_ty(0,$blm,'img');
+}
+if ($lmimg=='')
+{
+    $lmimg=adf(3,'img');
+}
+{/php}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"; charset="utf-8">
+<title>{$title}</title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<link rel="icon" href="/favicon.ico">
+{$sysfig.cfg_head}
+<link href="/Comm/css/lightbox.css" rel="stylesheet">
+<link href="/Comm/css/css.css" rel="stylesheet" type="text/css">
+<!-- base.css | 元素还原基础样式 -->
+<link rel="stylesheet" type="text/css" href="/Comm/css/base.css">
+<!-- main.css | 页面主体样式 -->
+<link rel="stylesheet" type="text/css" href="/Comm/css/main.css">
+<link rel="stylesheet" type="text/css" href="/Comm/css/css(1).css">
+<!-- js -->
+<script type="text/javascript" src="/Comm/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/Comm/js/jquery.SuperSlide.2.1.1(1).js"></script>
+<script src="/Comm/js/lightbox.min.js"></script>
+<!-- gotop -->
+<link href="/Comm/css/gotop.css" rel="stylesheet" type="text/css" />
+<script>
+  $(function(){
+    $(window).scroll(function(){
+      if($(window).scrollTop()>100){
+        $("#side-bar .gotop").fadeIn(); 
+      }
+      else{
+        $("#side-bar .gotop").hide();
+      }
+    });
+    $("#side-bar .gotop").click(function(){
+      $('html,body').animate({'scrollTop':0},500);
+    });
+  });
+</script>
+<style type="text/css">
+.js { width: 90%; margin: 10px auto 0 auto; }
+.js p { padding: 5px 0; font-weight: bold; overflow: hidden; }
+.js p span { float: right; }
+.js p span a { color: #f00; text-decoration: underline; }
+.js textarea { height: 50px; width: 98%; padding: 5px; border: 1px solid #ccc; border-top: 2px solid #aaa; border-left: 2px solid #aaa; }
+.douban { width: 349px; overflow: hidden; }
+.douban .hd { height: 22px; line-height: 22px; overflow: hidden; }
+.douban .hd h2 { float: left; font: 15px Arial, Helvetica, sans-serif; color: #072; margin: 0 0 12px 0; }
+.douban .hd h2 a { color: #37A; font-size: 12px; margin-left: 10px; }
+.douban .hd .next, .douban .hd .prev { float: right; display: block; width: 18px; height: 18px; background: url(/Comm/images/left_right.gif)no-repeat -6px -7px; overflow: hidden; margin-right: 6px; cursor: pointer; }
+.douban .hd .next { background-position: -34px -7px; }
+.douban .hd .prevStop { background-position: -6px -40px; cursor: default; }
+.douban .hd .nextStop { background-position: -34px -40px; cursor: default; }
+.douban .hd ul { float: right; margin: 6px 6px 0 0; zoom: 1; }
+.douban .hd ul li { float: left; cursor: pointer; display: block; width: 8px; height: 8px; margin-right: 4px; _display: inline; background: url(/Comm/images/switch_dot_small.jpg) no-repeat 0 0; }
+.douban .hd ul li.on { background-position: -12px 0; }
+.douban .bd { padding: 12px 0 0 0; }
+.douban .bd ul { overflow: hidden; zoom: 1; }
+.douban .bd ul li { float: left; width: 341px; }
+</style>
+<!-- 图片滚动 -->
+<style type="text/css">
+.slideGroup { width: 1100px; text-align: left; }
+.slideGroup .parHd { height: 30px; line-height: 30px; background: #f4f4f4; padding: 0 0px; border-bottom: 1px solid #ddd; position: relative; }
+.slideGroup .parHd ul { float: left; position: absolute; left: 20px; top: -1px; height: 32px; }
+.slideGroup .parHd ul li { float: left; padding: 0 15px; cursor: pointer; }
+.slideGroup .parHd ul li.on { height: 30px; background: #fff; border: 1px solid #ddd; border-bottom: 2px solid #fff; }
+.slideGroup .slideBox { overflow: hidden; zoom: 1; padding: 10px 0 10px 60px; position: relative; }
+.slideGroup .sPrev, .slideGroup .sNext { position: absolute; left: 5px; top: 50px; display: block; width: 30px; height: 94px; background: #ffffff url(/Comm/images/prev.gif) center center no-repeat; border-right: #e7e4df 1px solid; border-bottom: #c8c2b5 1px solid; border-top: #e7e4df 1px solid; border-left: #c8c2b5 1px solid; }
+.slideGroup .sNext { left: auto; right: 5px; background: #ffffff url(/Comm/images/nexts.gif) center center no-repeat; border-right: #c8c2b5 1px solid; border-bottom: #c8c2b5 1px solid; border-top: #e7e4df 1px solid; border-left: #e7e4df 1px solid; }
+.slideGroup .sPrev:hover, .slideGroup .sNext:hover { border-color: #fff; }
+.slideGroup .parBd ul { overflow: hidden; zoom: 1; }
+.slideGroup .parBd ul li { margin: 0 2px; float: left; _display: inline; overflow: hidden; text-align: center; border-right: #c8c2b5 1px solid; border-bottom: #c8c2b5 1px solid; border-top: #e7e4df 1px solid; border-left: #e7e4df 1px solid; }
+.slideGroup .parBd ul li .pic { text-align: center; }
+.slideGroup .parBd ul li .pic img { width: 130px; height: 160px; display: block; padding: 2px; }
+.slideGroup .parBd ul li .pic a:hover img { border-color: #db1d05; }
+.slideGroup .parBd ul li .title a { line-height: 24px; display: block; width: 134px; background: #f7f7f9; color: #666666; }
+.slideGroup .parBd ul li .title a:hover { line-height: 24px; display: block; width: 134px; background: #24a72d; color: #ffffff; text-decoration: none; }
+</style>
+
+<!-- 荣誉图片滚动 -->
+<style type="text/css">
+/* 本例子css */
+.slideGroupa { width: 300px; text-align: left; }
+.picScroll-left { width: 300px; overflow: hidden; position: relative; }
+.slideGroupa .parHd { height: 30px; line-height: 30px; background: #f4f4f4; padding: 0 20px; position: relative; }
+.slideGroupa .parHd ul { float: left; position: absolute; left: 20px; top: -1px; height: 32px; }
+.slideGroupa .parHd ul li { float: left; padding: 0 15px; cursor: pointer; }
+.slideGroup .parHd ul li.on { height: 30px; background: #fff; border-bottom: 2px solid #fff; }
+.slideGroupa .slideBox { overflow: hidden; zoom: 1; padding: 10px 0 10px 0px; position: relative; }
+.slideGroupa .sPrev, .slideGroupa .sNext { position: absolute; left: 5px; top: 60px; display: block; width: 30px; height: 94px; background: url(/Comm/images/icoLeft.gif) center center no-repeat #0c599d; }
+.slideGroupa .sNext { left: auto; right: 5px; background: url(/Comm/images/icoRight.gif) center center no-repeat #0c599d; }
+.slideGroupa .sPrev:hover, .slideGroupa .sNext:hover { border-color: #f60; }
+.slideGroupa .parBd ul { overflow: hidden; zoom: 1; }
+.slideGroupa .parBd ul li { margin: 0 5px; float: left; _display: inline; overflow: hidden; text-align: center; }
+.slideGroupa .parBd ul li .pic { text-align: center; }
+.slideGroupa .parBd ul li .pic img { width: 220px; height: 227px; display: block; }
+.slideGroupa .parBd ul li .pic a:hover img { border-color: #999; }
+.slideGroupa .parBd ul li .title { line-height: 18px; padding-top: 10px; padding-bottom: 10px; }
+.slideGroupa .parBd ul li .title a:hover { text-decoration: none; }
+</style>
+<style type="text/css">
+/* 文字问答本例子css */
+.txtMarquee-top { width: 620px; height: 200px; overflow: hidden; position: relative; }
+.txtMarquee-top .hd { overflow: hidden; height: 30px; background: #f4f4f4; padding: 0 0px; }
+.txtMarquee-top .bd { padding: 0px; }
+.txtMarquee-top .infoList li { line-height: 160%; font-size: 12px; padding-top: 5px; padding-bottom: 5px; }
+.txtMarquee-top .infoList li .date { float: right; color: #999; }
+</style>
+<style type="text/css">
+/* 图片替换 本例子css */
+.slideBoxb { width: 300px; height: 200px; overflow: hidden; position: relative; border: 1px solid #ddd; }
+.slideBoxb .hd { height: 15px; overflow: hidden; position: absolute; right: 5px; bottom: 23px; z-index: 1; }
+.slideBoxb .hd ul { overflow: hidden; zoom: 1; float: left; }
+.slideBoxb .hd ul li { float: left; margin-right: 2px; width: 15px; height: 15px; line-height: 14px; text-align: center; background: #fff; cursor: pointer; }
+.slideBoxb .hd ul li.on { background: #000e9b; color: #fff; }
+.slideBoxb .bd { position: relative; height: 100%; z-index: 0; }
+.slideBoxb .bd li { zoom: 1; vertical-align: middle; }
+.slideBoxb .bd img { width: 300px; height: 200px; display: block; }
+/* 图片替换 本例子css */
+.slideBoxa { width: 330px; height: 270px; overflow: hidden; position: relative; border: 1px solid #ddd; }
+.slideBoxa .hd { height: 15px; overflow: hidden; position: absolute; right: 5px; bottom: 5px; z-index: 1; }
+.slideBoxa .hd ul { overflow: hidden; zoom: 1; float: left; }
+.slideBoxa .hd ul li { float: left; margin-right: 2px; width: 15px; height: 15px; line-height: 14px; text-align: center; background: #fff; cursor: pointer; }
+.slideBoxa .hd ul li.on { background: #24a72d; color: #fff; }
+.slideBoxa .bd { position: relative; height: 100%; z-index: 0; }
+.slideBoxa .bd li { zoom: 1; vertical-align: middle; }
+.slideBoxa .bd img { width: 330px; height: 270px; display: block; }
+</style>
+<style type="text/css"></style>
+</head>
+<body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" align="center">
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td style="background:#f7f7f9; border-bottom:#cccccc 1px solid;"><table width="1000" border="0" cellspacing="0" cellpadding="0" style="margin:0 auto;">
+          <tbody>
+            <tr>
+              <td height="34" class="zhengwen"><div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+                <script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script></td>
+              <td align="right" class="zhengwen"> <a href='/'>百芳岁首页</a> &nbsp;&nbsp; <img src="/Comm/images/coll.gif" alt="" width="10" height="16" align="absmiddle"> <a href="#addf" id="addf">收藏本站</a>
+                | <img src="/Comm/images/map.gif" alt="" width="14" height="14" align="absmiddle"> <a href="{:htmlname(1)}">{:cntitle(1)}</a> 
+                <script language="JavaScript" type="text/javascript">
+function AddFavorite() {
+    var sURL=location.href;
+    var sTitle=document.title;
+    try {
+        window.external.addFavorite(sURL, sTitle);
+    } catch (e) {
+        try {
+            window.sidebar.addPanel(sTitle, sURL, "");
+        } catch (e) {
+            alert("加入收藏失败，请使用Ctrl+D进行添加");
+        }
+    }
+    return false;
+}
+$('#addf').click(function(){return AddFavorite();});
+function initArray()
+{
+for(i=0;i<initArray.arguments.length;i++)
+this[i]=initArray.arguments[i];
+}
+var isnMonths=new initArray("1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月");
+var isnDays=new initArray("星期日","星期一","星期二","星期三","星期四","星期五","星期六","星期日");
+today=new Date();
+hrs=today.getHours();
+min=today.getMinutes();
+sec=today.getSeconds();
+clckh=""+((hrs>12)?hrs-12:hrs);
+clckm=((min<10)?"0":"")+min;clcks=((sec<10)?"0":"")+sec;
+clck=(hrs>=12)?"下午":"上午";
+var stnr="";
+var ns="0123456789";
+var a="";
+function getFullYear(d)
+{
+yr=d.getYear();if(yr<1000)
+yr+=1900;return yr;}  
+//下面各行分别是一种风格，把不需要的删掉即可
+document.write("友情提示: "+getFullYear(today)+"年 "+isnMonths[today.getMonth()]+""+today.getDate()+"日 "+isnDays[today.getDay()]+"");
+                </script> 
+                <img src="/Comm/images/address.gif" alt="" width="15" height="15" align="absmiddle"> <a href="{:htmlname(6)}">联系我们</a> </td>
+            </tr>
+          </tbody>
+        </table></td>
+    </tr>
+  </tbody>
+</table>
+<style>
+    #nava a.menu {font-size:15px;font-family:microsoft yahei;text-align:center;display:block;height:40px;line-height:40px; }
+    #nava a.menu:hover,#nav .on a.menu{background:url(/Comm/images/menu_bgx.jpg) no-repeat center center; color:#fcfc0b;}
+    #nava .nLi { position:relative; z-index:9999; }
+    #nava .nLi .sub { position:absolute; background: #fff; text-align: center;top:40px; left:-15px; padding:15px;border-bottom-left-radius:10px; border-bottom-right-radius:10px; box-shadow:0 5px 5px #fff; width:687px; display:none;}
+    #nava .nLi .sub ul.abc {float:left; width:440px; margin:0px; }
+    #nava .nLi .sub ul.abc li {  list-style-type:none; width:145px; float:left; }
+    #nava .nLi .sub ul.abc li a { color: #333; display: block; height:35px; line-height: 35px; background-color:#eee; margin-right:5px; margin-bottom:5px;}
+    #nava .nLi .sub ul.abc li a:hover { background: #000e9b; color:#fff; text-decoration: none; }
+</style>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td><table width="1000" border="0" cellspacing="0" cellpadding="0" style="margin:0 auto;">
+          <tbody>
+            <tr>
+              <td width="600" height="100" class="zhengwen"><a href="/"><img src="{:adf(1,'img')}" width="597" height="56" alt="" border="0"></a></td>
+              <td width="400" align="right" class="zhengwen"><table width="240" border="0" cellspacing="0" cellpadding="0">
+                  <tbody>
+                    <tr>
+                      <td width="45" rowspan="2"><span style="width:45px; float:left;"><img src="/Comm/images/tell.png" alt="" width="35" height="35"></span></td>
+                      <td height="18" align="right" valign="top" class="biaotib"><font color="#666666" style="font-size:13px">全国服务热线电话 HOTLINE</font></td>
+                    </tr>
+                    <tr>
+                      <td align="right"><font style="font-size:24px; font-weight:bold; font-family:Verdana, Arial, Geneva, sans-serif" color="#000e9b">{$sysfig.cfg_f1}</font></td>
+                    </tr>
+                  </tbody>
+                </table></td>
+            </tr>
+          </tbody>
+        </table></td>
+    </tr>
+  </tbody>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" id="nava">
+  <tbody>
+    <tr>
+      <td style="width:100%; float:left;height:44px;background:#24a72d url(/Comm/images/menubgs.jpg) repeat center top;"><div class="nav_bar">
+          <ul class="nav clearfix">
+            <!-- 单一菜单 | end -->
+            <li class="s"><img src="/Comm/images/bcie.gif" width="2" height="20" align="absmiddle"></li>
+            <li class="m on">
+              <h3><a href="/" style="width:112px;">首页</a></h3>
+            </li>
+
+            <li class="s"><img src="/Comm/images/bcie.gif" width="2" height="20" align="absmiddle"></li>
+            <li class="m nLi">
+              <h3> <a href="{:htmlname(1)}" style="width:148px;"> {:cntitle(1)}</a> </h3>
+              {php}
+              $arr=lmlist(1);
+              $arr2=lmlist(2);
+              $arr3=lmlist(3);
+              $arr4=lmlist(4);
+              $arr5=lmlist(5);
+              {/php}
+              {if condition="$arr"}
+              <div class="sub clearfix">
+                <div style="float:right; width:246px;"><img src="{:info_ty(0,1,'Additional')}"></div>
+                <ul class="abc">
+                  {volist name='arr' id='vo'}
+                  <li><a href="{$vo.id|htmlname}">{$vo.cntitle}</a></li>
+                  {/volist}
+                </ul>
+              </div>
+              {/if}
+            </li>
+
+            <li class="s"><img src="/Comm/images/bcie.gif" width="2" height="20" align="absmiddle"></li>
+            <li class="m nLi">
+              <h3><a href="{:htmlname(2)}" style="width:148px;">{:cntitle(2)}</a></h3>
+              {if condition="$arr2"}
+              <div class="sub clearfix">
+                <div style="float:right; width:246px;"><img src="{:info_ty(0,2,'Additional')}"></div>
+                <ul class="abc">
+                  {volist name='arr2' id='vo'}
+                  <li><a href="{$vo.id|htmlname}">{$vo.cntitle}</a></li>
+                  {/volist}
+                </ul>
+              </div>
+              {/if}
+            </li>
+            <li class="s"><img src="/Comm/images/bcie.gif" width="2" height="20" align="absmiddle"></li>
+            <li class="m nLi">
+              <h3><a href="{:htmlname(3)}" style="width:148px;">{:cntitle(3)}</a></h3>
+              {if condition="$arr3"}
+              <div class="sub clearfix" style="width:587px;">
+                <div style="float:right; width:146px;"><img src="{:info_ty(0,3,'Additional')}"></div>
+                <ul class="abc">
+                  {volist name='arr3' id='vo'}
+                  <li style="overflow:hidden;"><a href="{$vo.id|htmlname}">{$vo.cntitle}</a></li>
+                  {/volist}
+                </ul>
+              </div>
+              {/if}
+            </li>
+            <li class="s"><img src="/Comm/images/bcie.gif" width="2" height="20" align="absmiddle"></li>
+            <li class="m">
+              <h3><a href="{:htmlname(4)}" style="width:138px;"> {:cntitle(4)}</a></h3>
+              {if condition="$arr4"}
+              <div class="sub clearfix">
+                <div style="float:right; width:246px;"><img src="{:info_ty(0,4,'Additional')}"></div>
+                <ul class="abc">
+                  {volist name='arr4' id='vo'}
+                  <li><a href="{$vo.id|htmlname}">{$vo.cntitle}</a></li>
+                  {/volist}
+                </ul>
+              </div>
+              {/if}
+            </li>
+            <li class="s"><img src="/Comm/images/bcie.gif" width="2" height="20" align="absmiddle"></li>
+            <li class="m">
+              <h3><a href="{:htmlname(5)}" style="width:148px;">{:cntitle(5)}</a></h3>
+              {if condition="$arr5"}
+              <div class="sub clearfix">
+                <div style="float:right; width:246px;"><img src="{:info_ty(0,5,'Additional')}"></div>
+                <ul class="abc">
+                  {volist name='arr5' id='vo'}
+                  <li><a href="{$vo.id|htmlname}">{$vo.cntitle}</a></li>
+                  {/volist}
+                </ul>
+              </div>
+              {/if}
+            </li>
+            <li class="s"><img src="/Comm/images/bcie.gif" width="2" height="20" align="absmiddle"></li>
+            <li class="block" style="left: -1px;"></li>
+            <!-- 滑动块 -->
+          </ul>
+        </div></td>
+    </tr>
+  </tbody>
+</table>
+<script>jQuery("#nava").slide({ type:"menu", titCell:".nLi", targetCell:".sub",effect:"slideDown",delayTime:300,triggerTime:0,defaultPlay:false,returnDefault:true});</script> 
+
+{eq name='index' value='yes'}
+<link media="all" rel="stylesheet" type="text/css" href="/Comm/css/web_page.css">
+<script type="text/javascript" src="/Comm/js/jcarousellite_1.0.1.js"></script>
+<div class="banner">
+  <div class="show">
+    <ul>
+      {php}
+      $arra=arclist(25,9,'id,cntitle,img,url');
+      {/php}
+      {volist name='arra' id='vo'}
+      <li>{if condition="$vo['url'] neq ''"}<a href="{$vo.url}">{/if}<img src="{$vo.img}" title="{$vo.cntitle}" alt="{$vo.cntitle}" />{if condition="$vo['url'] neq ''"}</a>{/if}</li>
+      {/volist}
+    </ul>
+  </div>
+  <div class="png hot">
+    <div class="wrapper rel">
+      <div class="list"> <span class="tit">热点产品</span> <a href="#1" class="prev all_bg" title=""></a> <a href="#1" class="box_btn all_bg" title=""></a> <a href="#1" class="next all_bg" title=""></a>
+        <div>
+          <ul>
+            {php}
+            $arr=arclist(2,5,'id,cntitle',10);
+            {/php}
+            {volist name='arr' id='vo'}
+            <li><a href="{$vo.id|idlname}" target="_blank">{$vo.cntitle}</a></li>
+            {/volist}
+          </ul>
+        </div>
+      </div>
+      <div class="focus png">
+      {volist name='arra' id='vo'}
+      <a href="#345{$vo.id}" {eq name='i' value='1'}class="on"{/eq}></a> 
+      {/volist}
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+</div>
+<div id="qznserverdomain" style="height:0px;"> </div>
+<script "type=text/javascript">
+ $('.boxgrid.slideright').mouseover(function(){
+  $(".cover", this).stop().animate({width:'312px'},{queue:false,duration:300});
+  $('.boxgrid.slideright').animate({width:'312px'},{queue:false,duration:300});
+});
+$('.boxgrid.slideright').mouseout(function(){
+  $(".cover", this).stop().animate({width:'45px'},{queue:false,duration:300});
+  $('.boxgrid.slideright').animate({width:'45px'},{queue:false,duration:300});
+});
+$(window).scroll(function (){
+  var offsetTop = $(window).scrollTop() + 0 +"px";
+  $("#Float").animate({top : offsetTop },{ queue:false , duration:500 });
+}); 
+
+function Showtit(i) {
+  $("#zp"+i).slideDown("fast");
+}
+function Hiddentit(i) {
+  $("#zp"+i).slideUp("fast");
+}       
+$(function(){
+  $('.banner .show ul li:eq(0)').show();
+  $(".hot .list div").jCarouselLite({btnNext: ".hot .list .next",btnPrev: ".hot .list .prev",auto:5000,speed:300,vertical:true,visible:1});
+  var speed = 10000,iNum = 0;
+  for(i=0;i<$('.banner .show ul li').length;i++){
+    if(i==0){$('.tab').append('<a href=\"#1\" class=\"on\">1</a>');}
+    else{$('.tab').append('<a href=\"#1\">'+(i+1)+'</a>');}
+    }
+  $('.banner .focus a').bind('click',function(){
+      var aIndex = $('.banner .focus a').index(this);
+      $('.on').removeClass('on');
+      $(this).addClass('on');
+      $('.banner .show ul li').fadeOut().eq(aIndex).fadeIn();
+      iNum = aIndex;
+      })
+  var autoPlay = function(){
+    iNum++;
+    if(iNum == $('.banner .show ul li').length){iNum=0;}
+    $('.on').removeClass('on');
+    $('.banner .focus  a').eq(iNum).addClass('on');
+    $('.banner .show ul li').fadeOut().eq(iNum).fadeIn(1000);   
+    };
+  var timer = setInterval(autoPlay,speed);
+  $('.banner .show,.banner .focus').hover(function(){clearInterval(timer);},function(){timer = setInterval(autoPlay,speed);});
+  });//banner轮换效果
+  $(".banner .close-btn").bind("click",function(){
+    $(".news-show").animate({top:500})
+  });
+  $(".box_btn").bind("click",function(){
+    $(".news-show").animate({top:298});
+});
+</script>
+{else/}
+<div class="bannerx" style="background-image:url({$lmimg})"></div> 
+{/eq}

@@ -1,0 +1,108 @@
+  <div class="in_pro_s">
+    <div class="in_p_s_list">
+      <ul>
+        <li><a href="{:htmlname(2)}"><img src="/Comm/m/images/ico_2.png"><span>{:cntitle(2)}</span></a></li>
+        <li><a href="{:htmlname(3)}"><img src="/Comm/m/images/ico_3.png"><span>{:cntitle(3)}</span></a></li>
+        <li><a href="{:htmlname(4)}"><img src="/Comm/m/images/ico_1.png"><span>{:cntitle(4)}</span></a></li>
+        <div class="clear"> </div>
+      </ul>
+    </div>
+  </div>
+  <script type="text/javascript">
+        $(function () {
+            $(".workList").carouFredSel({
+                direction: 'left',
+                circular: true,
+                infinite: true,
+                items: 2,
+                align: false,
+                auto: true,
+                prev: '#case_progress_prev',
+                next: '#case_progress_next'
+            });
+        });
+    </script>
+  <div class="in_pro">
+    <div class="top"> {:cntitle(2)}<span>{:entitle(2)}</span><a href="{:htmlname(2)}"><img src="/Comm/m/images/in_pro_more_bg.png"></a></div>
+    <div class="in_pro_lists">
+      <div class="workListWrap">
+        <div class="ctrlArea">
+          <div class="yyleft"> </div>
+          <a id="case_progress_prev" class="left" href="javascript:(void)" alt="向左" style="display: block;"></a><a id="case_progress_next" class="right" href="javascript:(void)" alt="向右" style="display: block;"></a>
+          <div class="yyright"> </div>
+        </div>
+        <div class="caroufredsel_wrapper" style="float: none; position: relative; top: auto; right: auto; bottom: auto; left: auto; width: 300px; height: 275px; margin: 0px 0px 0px 5px; overflow: hidden;">
+          <div id="ContentPlaceHolder1_prlsdaafgad" class="workList" style="float: none; position: absolute; top: 0px; left: 0px; margin: 0px; width: 1500px; height: 275px;"> 
+            {php}
+            $arr=arclist(2,12);
+            {/php}
+            {volist name='arr' id='vo'}
+            {php}
+            $mod=$i%2;
+            if ($mod==1)
+            {
+              echo '<span class="workItem">';
+            }
+            {/php} 
+            <a href="{$vo.id|idlname}"><img src="{$vo.img}" alt="{$vo.cntitle}"><p></p></a>
+            {php}
+            if ($mod==0)
+            {
+              echo '</span>';
+            }
+            {/php}
+            {/volist}
+            {php}
+            if ($mod!=0)
+            {
+              echo '</span>';
+            }
+            {/php}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="in_about">
+    <div class="top"> <a href="{:htmlname(1)}">更多>></a></div>
+    <div class="box"> <img src="{:lmdid(33,'img')}">
+      <p> &nbsp;{:lmdid(33,'content')}</p>
+    </div>
+  </div>
+  <div class="in_pro">
+    <div class="top"> {:cntitle(4)}<span>{:entitle(4)}</span><a href="{:htmlname(4)}"><img src="/Comm/m/images/in_pro_more_bg.png"></a></div>
+    <div class="in_tec_list">
+      <ul>
+        {php}
+        $arr=arclist(4,4);
+        {/php}
+        {volist name='arr' id='vo'}
+        <li><a href="{$vo.id|idlname}"><span>>></span>{$vo.cntitle}</a></li>
+        {/volist}
+        <div class="clear"> </div>
+      </ul>
+    </div>
+  </div>
+  <div class="in_pro">
+    <div class="top">{:cntitle(34)}<span>{:entitle(34)}</span></div>
+    <div class="scope_box">
+      <h3>本公司为您提供以下污水处理设备</h3>
+      <ul>
+        {php}
+        $str='生活污水处理设备、医疗污水处理设备、农村污水处理设备、化工污水处理设备、酒厂污水处理设备、印染污水处理设备、沙石污水处理设备、洗涤污水处理设备、酸洗污水处理设备、含油污水处理设备、煤矿污水处理设备、餐饮污水处理设备、机械污水处理设备、养殖污水处理设备、磷化污水处理设备、屠宰污水处理设备、景区污水处理设备、各类废气处理设备';
+        $arr=arclist(34,20);
+        $arr=explode('、',$str);
+        {/php}
+        {volist name='arr' id='vo'}
+        <li><a href="#n">{$vo}</a></li>
+        {/volist}
+      </ul>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="bdrx_box">
+    <span>地址：{$sysfig.cfg_f6}</span>
+    <div>{$sysfig.cfg_f2}</div>
+    <a href="tel:{$sysfig.cfg_f2}" title="">拨打热线</a>
+  </div>
+  

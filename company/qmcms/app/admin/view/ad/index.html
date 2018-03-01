@@ -1,0 +1,27 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+    	<li style="float:right"><b><a href="{$mname}/add.qm">添加广告</a></b></li>
+        <li><i class="icon-coffee"></i> 广告管理</li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head"><strong><i class="icon-list"></i></strong><small>广告列表</small></h2>
+        
+        <table class="table table-hover table-bordered curve_mid">
+          <tr class="no">
+          	<th>广告标题</th>
+            <th>广告名称</th>
+            <th>广告展示</th>
+            <th>操作</th>
+          </tr>
+          {volist name='lists' id='vo'}
+          <tr align="center">
+            <td align="center">{$vo['cntitle']}</td>
+            <td>{$vo['ids_bz1']}</td>
+            <td><a href="{$vo['img']}" target="_blank" title="广告图预览">广告图预览</a></td>
+            <td><a href="{$mname}/add.qm?id={$vo['id']}">修改</a> </td>
+          </tr>
+          {/volist}
+          <tr class="no">
+        <td colspan="5" align="center">{$page}</td></tr>
+        </table>

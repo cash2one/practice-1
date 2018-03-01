@@ -1,0 +1,21 @@
+{switch name='fid'}
+{case value='5'}
+{include file="default:contact" /}
+{/case}
+
+{default/}
+<div id="c_main_bg">
+<div id="c_main" class="wapper clearfix">
+
+{include file="default:left" /}
+
+<div id="c_content" class="fr">
+  <div id="c_contenttit" class="clearfix"><span class="fr"> 当前位置： <a href="/"> 首页</a>{$path}</span></div>
+  <div id="c_contentcon">
+      {$arc.content}
+  </div>        
+</div>
+</div>          
+</div>
+
+{/switch}

@@ -1,0 +1,51 @@
+<IfModule mod_rewrite.c>
+    Options +FollowSymlinks -Multiviews
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^image/(.*).jpg$ /pub/qm/p/image/$1.jpg [QSA,PT,L]
+    RewriteRule ^image/(.*).png$ /pub/qm/p/image/$1.png [QSA,PT,L]
+    RewriteRule ^image/(.*).jpeg$ /pub/qm/p/image/$1.jpeg [QSA,PT,L]
+    RewriteRule ^image/(.*).gif$ /pub/qm/p/image/$1.gif [QSA,PT,L]
+    RewriteRule ^image/(.*).pdf$ /pub/qm/p/image/$1.pdf [QSA,PT,L]
+    RewriteRule ^image/(.*)$ /pub/qm/p/image/$1 [QSA,PT,L]
+
+    RewriteRule ^(.*).pdf$ $1.pdf [QSA,PT,L]
+    RewriteRule ^(.*).txt$ $1.txt [QSA,PT,L]
+    RewriteRule ^(.*).css$ $1.css [QSA,PT,L]
+    RewriteRule ^(.*).js$ $1.js [QSA,PT,L]
+    RewriteRule ^(.*).ico$ $1.ico [QSA,PT,L]
+    RewriteRule ^(.*).jpeg$ $1.jpeg [QSA,PT,L]
+    RewriteRule ^(.*).gif$ $1.gif [QSA,PT,L]
+    RewriteRule ^(.*).jpg$ $1.jpg [QSA,PT,L]
+    RewriteRule ^(.*).png$ $1.png [QSA,PT,L]
+    RewriteRule ^(.*).jpeg$ $1.jpeg [QSA,PT,L]
+    RewriteRule ^(.*).ttf$ $1.ttf [QSA,PT,L]
+    RewriteRule ^(.*).woff$ $1.woff [QSA,PT,L]
+    RewriteRule ^(.*).woff2$ $1.woff2 [QSA,PT,L]
+
+    RewriteRule ^view-(.*).html$ index.php/index/index/view?id=$1 [QSA,PT,L]
+    RewriteRule ^pub/qm/(.*).html$ pub/qm/$1.html [QSA,PT,L]
+    RewriteRule ^pub/qm/(.*).php$ pub/qm/$1.php [QSA,PT,L]
+    RewriteRule ^pub/(.*)$ pub/$1 [QSA,PT,L]
+    RewriteRule ^comm/(.*)$ comm/$1 [QSA,PT,L]
+    RewriteRule ^qmcms/databak/dbak.php$ qmcms/databak/dbak.php [QSA,PT,L]
+
+    RewriteRule ^admin/(.*)$ index.php/admin/$1 [QSA,PT,L]    
+    RewriteRule ^qm.login$ index.php/admin/login [QSA,PT,L]
+    RewriteRule ^api/(.*)$ index.php/api/$1 [QSA,PT,L]
+    RewriteRule ^zan/?(.*)$ index.php/index/index/zan [QSA,PT,L]
+    RewriteRule ^msg2/?(.*)$ index.php/index/index/msg9 [QSA,PT,L]
+    RewriteRule ^msg/?(.*)$ index.php/index/index/msg8 [QSA,PT,L]
+    RewriteRule ^hit/?(.*)$ index.php/index/index/hit [QSA,PT,L]
+    RewriteRule ^baidu/?(.*)$ index.php/index/index/baidu [QSA,PT,L]
+    RewriteRule ^index.html$ index.php/index/index [QSA,PT,L]
+    RewriteRule ^/$ index.php/index/index [QSA,PT,L]
+    RewriteRule ^whome/(.*)$ index.php/index/$1 [QSA,PT,L]
+
+    RewriteRule ^(.*)(\w+).html$ index.php/index/index [QSA,PT,L]
+    RewriteRule ^(.*)/$ index.php/index/index [QSA,PT,L]
+    RewriteRule ^(\w+)$ index.php/index/index [QSA,PT,L]
+    RewriteRule ^(\w+)/(.*)$ index.php/index/index [QSA,PT,L]
+
+</IfModule>

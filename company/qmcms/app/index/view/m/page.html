@@ -1,0 +1,15 @@
+{switch name='fid'}
+{case value='5'}
+{include file="m:contact" /}
+{/case}
+
+{default/}
+	<div class="page_content">
+		<h3 class="nav_top"> <span>{:cntitle($fid)}>></span></h3>
+		<div class="text_content">
+			{$arc.content}
+			<p style="text-align: center;"></p>
+		</div>
+	</div>
+
+{/switch}

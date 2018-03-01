@@ -1,0 +1,69 @@
+{$sysfig.cfg_body}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td bgcolor="#000e9b"><table width="1000" border="0" cellspacing="0" cellpadding="0" style="margin:0 auto;">
+          <tbody>
+            <tr>
+              <td width="1000" height="50">
+                {php}
+                $arr=array(1,2,3,4,5);
+                {/php}
+                {volist name='arr' id='vo'}
+                {eq name='i' value='1'}{else/} |{/eq}<a href="{$vo|htmlname}" style="color:#ccc">{$vo|cntitle}</a></font>
+                {/volist}
+              </td>
+              <td width="1000" align="right"><font color="#666">|</font><img src="/Comm/images/tops.gif" width="17" height="13" align="absmiddle"><a href="#"><font color="#CCC">返回顶部</font></a></td>
+            </tr>
+          </tbody>
+        </table></td>
+    </tr>
+    <tr>
+      <td bgcolor="#eeeeee"><table width="1000" border="0" cellspacing="0" cellpadding="0" style="margin:0 auto;">
+          <tbody>
+            <tr>
+              <td height="50" colspan="4">&nbsp;</td>
+            </tr>
+            <tr>
+              <td width="222" valign="top"><img src="{:adf(1,'img')}" width="370" height="35"></td>
+              <td width="50" rowspan="3" class="zhengwen" style="color:#666; line-height:160%;">&nbsp;</td>
+              <td width="431" rowspan="3" class="zhengwen" style="color:#666; line-height:160%;">{$sysfig.cfg_copyright|nl2br}</td>
+              <td width="347" rowspan="3" align="right" valign="top" class="zhengwen" style="color:#CCC"><font color="#666">{$sysfig.cfg_copyright2|nl2br}</td>
+            </tr>
+            <tr>
+              <td height="30" valign="top">&nbsp;</td>
+            </tr>
+            <tr>
+              <td valign="top"><table width="240" border="0" cellspacing="0" cellpadding="0">
+                  <tbody>
+                    <tr>
+                      <td width="45" rowspan="2"><span style="width:45px; float:left;"><img src="/Comm/images/tell.png" alt="" width="30" height="30"></span></td>
+                      <td align="left" valign="top" class="biaotib"><font color="#666" style="font-size:13px">全国服务热线电话
+                        HOTLINE</font></td>
+                    </tr>
+                    <tr>
+                      <td align="left"><font style="font-size:24px; line-height:120%; font-weight:bold; font-family:Verdana, Arial, Geneva, sans-serif" color="#000e9b">{$sysfig.cfg_f2}</font></td>
+                    </tr>
+                  </tbody>
+                </table></td>
+            </tr>
+            <tr>
+              <td colspan="4">&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="4">&nbsp;</td>
+            </tr>
+          </tbody>
+        </table></td>
+    </tr>
+  </tbody>
+</table>
+<style>
+.side-bar a.qr i {
+    background-image: url({:adf(2,'img')});
+}
+</style>
+<ul id="side-bar" class="side-pannel side-bar">
+  <a href="javascript:;" class="gotop" style="display:none;"><s class="g-icon-top"></s></a> <a href="javascript:;" class="qr"><s class="g-icon-qr1"></s><i></i></a> <a href="http://wpa.qq.com/msgrd?v=3&uin={$sysfig.cfg_f4}&site=qq&menu=yes" target="_blank" class="text"><s class="g-icon-qq1"></s><span>在线咨询</span></a>
+</ul>
+</body></html>

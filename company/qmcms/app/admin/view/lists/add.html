@@ -1,0 +1,260 @@
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <ol class="breadcrumb">
+        <li><i class="icon-coffee"></i> 网站内容</li>
+        <li><a href="{$mname}">内容管理</a></li>
+    </ol>
+    <div class="wrap">
+        <h2 class="wrap-head">
+            <strong><i class="icon-edit"></i></strong>
+            <small>{$actionType}网站信息</small>
+        </h2>    
+{php}$lm=(int)$idx;{/php}
+{include file="lists:cat" /}
+<div class="table-responsive">
+<style type="text/css">ul,li{ list-style:none; padding:0; margin:0;}.fileup a{ color:#005995; font-size:12px;}.fileup a:hover{ color:#f00;}.fileup li{ float:left; margin:2px;padding:0 4px;border:1px solid #ddd; text-align:center; padding:2px; height:110px; overflow:hidden;}.seoxx{ display:none;}.fileup li a{display: none;}.fileup div{ width:110px; overflow:hidden; padding:4px 0 0 0;}.fileup li .rt{ display: inline-block; float: none;}.fileup img{ width:80px; height:80px;}</style>
+<link rel="stylesheet" href="__PUBLIC__/qm/themes/default/default.css" />
+<link rel="stylesheet" href="__PUBLIC__/qm/plugins/code/prettify.css" />
+<script charset="utf-8" src="__PUBLIC__/qm/kindeditor.js"></script>
+<script charset="utf-8" src="__PUBLIC__/qm/lang/zh_CN.js"></script>
+<script charset="utf-8" src="__PUBLIC__/qm/plugins/code/prettify.js"></script>
+<script type="text/javascript">
+function selectlm()
+{
+	var ilm=$("#fid").val();
+	window.location.href='{$mname}/add?fid='+ilm;
+}
+function yulan()
+{
+	var u=$("#Img").val();
+	if (u!=""){$("#yulan").attr("href",u);}else{alert("没有图片");return false;}
+}
+</script>
+<form  action="{$mname}/save.qm" onsubmit="return save()" class="form-horizontal" method="post">
+<input type="hidden" name="id" value="{$vo.id}" />
+<input type="hidden" name="from" value="{$from}" />
+<table class="curve_mid" border="0" cellpadding="2" cellspacing="2">
+    <tr>
+      <td width="100" align="right">　所属栏目：</td>
+      <td><select class="form-control wat" name="fid" id="fid"{eq name="act" value='add'}  onchange="selectlm()"{else/}{/eq}>
+	  		<option value="">选择栏目</option>
+			{$lmoption}
+      	</select> <span>作者：<input class="form-control wat" id="bz9" value="{$vo['bz9']}" name="bz9" size="10" />　来源：<input class="form-control wat" name="bz10" id="bz10" value="{$vo['bz10']}" size="10" /></span>
+		</td>
+    </tr>
+	<tr>
+	<td align="right">　文档属性：</td>
+	<td><input id="Sort" name="sort" class="form-control w30" value="{$vo['sort']}" size="5" maxlength="10" /> 排序(由低→高)
+     <input name="audit" id="audit" type="checkbox" value="1"{eq name="vo.audit" value='1'}  checked="checked" {else/}{/eq} />显示 {$getflagoption}
+     <input name="settop" id="Ssettop" type="checkbox" value="1"{eq name="vo.settop" value='1'}  checked="checked" {else/}{/eq} />置顶</td>
+	</tr>
+      <tr>
+      	<td align="right">　发布时间：</td>
+        <td><input class="form-control w180 Wdate" name="Time" id="Time" value="{$vo['addtime']}" size="15"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'%y-%M-%d'})" readonly="readonly"/> 
+		浏览量 <input class="form-control w30_" id="hit" name="hit" value="{$vo['hit']}" size="5" />
+        {eq name='adminx' value='991'}
+        颜色 <input class="form-control w90_" id="color" name="color" value="{$vo['color']}" size="10" /> <select class="form-control wat" onchange="$('#color').val($(this).val())">
+        <option value="">自动</option>
+         {$getcoloroption}
+        </select>{/eq}
+        </td>
+    </tr>
+    <tr>
+      <td align="right">　文档标题：</td>
+      <td><input required="required" class="form-control b50" id="cntitle" name="cntitle" value="{$vo.cntitle}" size="80" /> <span class="red">*</span></td>
+    </tr>
+
+    <tr>
+      <td align="right">　缩 略 图：</td>
+      <td align="left" valign="top" class="demo1">
+      <div class="fileupqm" ty="1" obj=".demo1" selects="#Img"></div>
+      <input class="form-control b50" id="Img" name="img" value="{$vo['img']}" size="30" /> 
+      <span class='qmbtn'>
+      <input class="btn btn-primary" type="button" xonclick="oneup('Img')" value="上传图片" />
+      <input type="file" name="file" value="" accept="image/*" />
+      </span>
+      </td>
+    </tr>
+
+    <?php
+    if ($vo['fid']==911)
+    {
+    ?>
+    <tr class="hides">
+      <td align="right">　时间：</td>
+      <td><input class="form-control b50" id="bz1" name="bz1" value="{$vo.bz1}" size="80" /> </td>
+    </tr>
+    <tr class="hides">
+      <td align="right">　内容简介：</td>
+      <td><textarea class="form-control b50" name="bz2" style="line-height:80px;line-height:20px;">{$vo.bz2}</textarea></td>
+    </tr>
+    <?php
+    }
+    ?>
+
+    
+    <?php
+    if ($blm==994)
+    {
+    ?>
+    <tr>
+      <td align="right">　视频地址：</td>
+      <td class="demo4">
+      <div class="fileupqm" ty="4" obj=".demo4" selects="#bz3"></div>
+      <input class="form-control b50" id="bz3" name="bz3" value="{$vo['bz3']}" size="30" /> 
+      <span class='qmbtn'>
+      <input class="btn btn-primary" type="button" value="上传视频" />
+      <input type="file" name="file" value="" accept="video/mp4" />
+      </span>
+      </td>
+    </tr>
+	
+    <?php
+    }
+    if ($vo['fid']==995)
+    {
+    ?>
+    <tr>
+      <td align="right">　上传文档：</td>
+      <td class="demo5">
+      <div class="fileupqm" ty="5" obj=".demo5" selects="#bz4"></div>
+      <input class="form-control b50" id="bz4" name="bz4" value="{$vo['bz4']}" size="30" /> 
+      <span class='qmbtn'>
+      <input class="btn btn-primary" type="button" value="上传文档" />
+      <input type="file" name="file" value="" accept="*" />
+      </span>
+      </td>
+    </tr>
+    <?php
+    }
+    if ($fid==25 || $fid==35)
+    {
+    ?>
+	<tr>
+      <td align="right">　链接地址：</td>
+      <td><input name="url" class="form-control b50" value="{$vo['url']}" size="30" /></td>
+    </tr>
+    <?php
+    }
+	
+    if ($blm==938 || $fid==25 || $fid==35)
+    {
+    }
+    else
+    {
+    ?>
+    <tr {eq name="blm" value='999'} class="hide"{else/}{/eq}>
+      <td align="right">　seo信息：</td>
+      <td><a href="#no" onclick="$('.seoxx').toggle();">seo信息添加</a></td>
+    </tr>    
+    <tr class="seoxx">
+      <td align="right">　网站标题：</td>
+      <td><input class="form-control b80" name="title" value="{$vo['title']}" size="80"  /></td>
+    </tr>	
+    <tr class="seoxx">
+      <td align="right">　关 键 字：</td>
+      <td><input class="form-control b80" name="keywords" value="{$vo['keywords']}" size="80"  /></td>
+    </tr>
+    <tr class="seoxx">
+      <td align="right">　页面摘要：</td>
+      <td><input class="form-control b80" name="description" value="{$vo['description']}" size="80" /></td>
+    </tr>
+	<?php    
+    }
+    if ($blm==992)
+    {
+    ?>    
+     <tr>
+        <td align="right" valign="top">图集：</td>
+        <td valign="top" style="padding-top:10px; padding-bottom:10px; background:#fff;">
+        <table border="0" cellpadding="0" style="background:#fff;" cellspacing="3" align="left" width="98%">
+          <tr><td><div><ul class="fileup" id="fileup23" title="支持拖动排序">
+<?php
+$bz1=$vo['z3'];
+if($bz1!="" && $bz1!="0")
+{
+$upfiles=$bz1;
+$temp="";
+$sarr=explode(",",$upfiles);
+$num=count($sarr);
+for ($i=0;$i<$num;$i++)
+{
+  if ($sarr[$i]!="")
+  {
+      $temp.='<li><img src="'.$sarr[$i].'" /><div><a href="#no" class="rt">删除图片</a></div><input type="hidden" name="z3[]" value="'.$sarr[$i].'"></li>';
+  }
+}
+echo $temp;
+}
+?>
+</ul></div></td>
+          </tr>
+          <tr class="demo23"  toid="fileup23">
+            <td>
+              <div class="fileupqm" ty="22" obj=".demo23" selects="z3"></div>
+              <span class='qmbtn'>
+              <input class="btn btn-primary" type="button" value="上传图片" />
+              <input type="file" multiple name="file" value="" accept="image/*">
+              </span>
+            </td>
+            </tr>
+        </table></td>
+      </tr>
+	<?php
+    }
+    if ($blm!=9920 && $fid!=25 && $fid!=35)
+    {
+    ?>
+	  <tr><td align="right">详细信息：</td><td align="left" height="410" > 
+<textarea name="content" class="form-control" id="content" style="height:400px;visibility:hidden;">{$vo.content|stripslashes}</textarea>
+	<script type="text/javascript">
+		KindEditor.ready(function(K) {
+			K2=K;
+			var editor1 = K.create('textarea[name="content"]', {
+				cssPath : '__PUBLIC__/qm/plugins/code/prettify.css',
+				uploadJson : '__PUBLIC__/qm/php/upload_json.php',
+				fileManagerJson : '__PUBLIC__/qm/php/file_manager_json.php',
+				allowFileManager : true,
+				filterMode : false,
+				afterBlur: function () { this.sync(); },
+				afterCreate : function() {}
+			});
+		});
+</script>
+    </td></tr>
+	<?php
+    }
+    ?>
+    <tr class="no">
+      <td colspan="2" align="center">
+        <button id="btn_sub" type="submit" class="btn btn-primary"><i class="icon-ok"></i>保 存</button>　　<button type="button" class="btn btn-default" onClick="history.go(-1);"><i class="icon-reply"></i>返 回</button></td>
+    </tr>
+</table>
+</form>
+<style type="text/css">.fileup a{ color:#000; font-size:12px;}.fileup a:hover{ color:#f00;}
+	.fileup div{ width:110px; overflow:hidden; padding:4px 0 0 0;}.rt{ float:right;}.fileup img{ width:80px; height:80px;}</style> 
+<script type="text/javascript" src="__PUBLIC__/sys/js/lists.js"></script>
+<script src="__PUBLIC__/sys/js/jquery-ui.min.js"></script>
+<script type="text/javascript">
+$(function(){$( "ul.fileup" ).sortable();});
+/*删除图片*/
+$("body").delegate(".fileup li a","click",function(){
+  $(this).parent().parent().remove();return false;
+});
+
+$('.seoxx').toggle();
+$('.seoxx').hide();
+$(window).load(function(){
+});
+function save()
+{
+  var fid=$("#fid").val();
+  var Sort=$("#Sort").val();
+  var cntitle=$("#cntitle").val();
+  if(fid=="" || fid==null){ return false;}
+  if(Sort=="" || Sort==null){return false;}
+  if(cntitle=="" || cntitle==null){ return false;}
+}
+</script>
+<script src="__PUBLIC__/validform/js/validform_v5.3.2.js"></script>
+<script src="__PUBLIC__/validform/js/validform.js"></script>
